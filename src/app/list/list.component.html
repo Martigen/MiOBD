@@ -1,0 +1,58 @@
+
+<section >
+<nav>
+
+  <h1>
+    HotelsAndHostels
+  </h1>
+  <hr><br>
+<input type="text" [(ngModel)]="city" placeholder="City" class="form-control"><br>
+<label class="container d-inline" >
+  Hotel <input type="checkbox" [(ngModel)]="hotel" > <span class="checkmark"></span> 
+  </label>
+<label class="container d-inline" >
+Hostel <input type="checkbox" [(ngModel)]="hostel" > <span class="checkmark"></span> 
+</label><br><br>
+<ng5-slider [(value)]="minPrice" [(highValue)]="maxPrice" [options]="optionsPrice"></ng5-slider>  <br><br>
+
+
+<label class="container">
+  VIP <input type="checkbox" [(ngModel)]="vip" > <span class="checkmark"></span> 
+  </label>
+
+<ng5-slider [(value)]="minBeds" [(highValue)]="maxBeds" [options]="optionsBeds"></ng5-slider>  <br><br>
+<button (click)="SearchButton()" class="btn btn-primary btn-block" >Search</button><br><br>
+</nav>
+
+  <article>
+    <table class="table  table-striped" matSort (matSortChange)="sortData($event)">
+      <thead style="background:dodgerblue;" class="text-white">
+        <tr>
+          <th scope="col">Type</th>
+          <th scope="col" mat-sort-header="name" >Name</th>
+          <th scope="col" mat-sort-header="city" >City</th>
+          <th scope="col" mat-sort-header="avgScore">Score</th>
+          <th scope="col" mat-sort-header="RoomBeeds" >Room Beeds</th>
+          <th scope="col" mat-sort-header="RoomSize">Room Size</th>
+          <th scope="col" mat-sort-header="RoomVip">Room Vip</th>
+          <th scope="col" mat-sort-header="RoomPrice">Room Price</th>
+          <th scope="col" mat-sort-header="extras" >Extras</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of HaH; let i = index">
+   
+          <td>{{item.type}}</td>
+          <td>{{item.name}}</td>
+          <td>{{item.city}}</td>
+          <td>{{item.avgScore}}</td>
+          <td>{{item.RoomBeds}}</td>
+          <td>{{item.RoomSize}}</td>
+          <td>{{item.RoomVip}}</td>
+          <td>{{item.RoomPrice}}</td>
+          <td>{{item.extras}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </article>
+</section>
