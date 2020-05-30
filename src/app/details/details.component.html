@@ -1,0 +1,79 @@
+<div class="container-fluid">
+    <div class="row">
+        <div>
+        <img [src]=image width="600" height="444"><br>
+<div *ngFor="let img of room.images" class="inline">
+    <img [src]=img width="120" height="88" (click)="loadImg(img)">
+    
+</div>
+</div>
+<div  style="width:60%;">
+
+    <form class="border">
+        <div class="form-group row" >
+            <label for="name" class="col-sm-2 col-form-label">Hotel Name:</label>
+            <div >
+                <p id="name">{{room.name}}</p>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="score" class="col-sm-2 col-form-label">Avg Score:</label>
+            <div >
+                <p id="score">{{room.avgScore}}</p>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="region" class="col-sm-2 col-form-label">Region:</label>
+            <div >
+                <p id="region">{{room.region}}</p>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="city" class="col-sm-2 col-form-label">City:</label>
+            <div >
+                <p id="city">{{room.city}}</p>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="street" class="col-sm-2 col-form-label">Street:</label>
+            <div >
+                <p id="street">{{room.street}}</p>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="RoomSize" class="col-sm-2 col-form-label">Room Size:</label>
+            <div >
+                <p id="RoomSize">{{room.RoomSize}}</p>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="RoomBeds" class="col-sm-2 col-form-label">Room Beds:</label>
+            <div >
+                <p id="RoomBeds">{{room.RoomBeds}}</p>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="RoomPrice" class="col-sm-2 col-form-label">Room Price:</label>
+            <div >
+                <p id="RoomPrice">{{room.RoomPrice}}</p>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="RoomVip" class="col-sm-2 col-form-label">Room Vip:</label>
+            <div >
+                <input id="RoomVip" type="checkbox" [(ngModel)]="room.RoomVip" [ngModelOptions]="{standalone: true}" onclick="return false;"> <span class="checkmark"></span> 
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="extras" class="col-sm-2 col-form-label">Extras:</label>
+            <div >
+                <p id="extras">{{room.extras}}</p>
+            </div>
+        </div>
+        
+    </form>
+</div>
+</div>
+<input class="btn btn-warning" onclick='javascript:window.history.back()' value='Back' type='button' />
+</div>
+

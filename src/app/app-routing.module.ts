@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { ListComponent } from './list/list.component';
+import { DetailsComponent } from './details/details.component';
+import { HomeComponent } from './home/home.component';
 
 
 
@@ -8,15 +10,19 @@ const routes: Routes = [
   
   { path: 'search', 
   component: ListComponent },
+  { path: 'detail', 
+  component: DetailsComponent },
   {
     path: '',
-    redirectTo: 'home',
-    pathMatch: 'full'
+
+    pathMatch: 'full',
+    component: HomeComponent
   },
   {
     path: '**',
-    redirectTo: 'home',
-    pathMatch: 'full'
+  
+    pathMatch: 'full',
+    component: HomeComponent
   }
 ];
 

@@ -9,11 +9,17 @@ import { HttpClientModule } from '@angular/common/http';
 import { MatSortModule } from '@angular/material/sort';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { Ng5SliderModule } from 'ng5-slider';
+import { DetailsComponent } from './details/details.component';
+import { HomeComponent } from './home/home.component';
+
+
 
 @NgModule({
   declarations: [
     AppComponent,
-    ListComponent
+    ListComponent,
+    DetailsComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
@@ -22,7 +28,8 @@ import { Ng5SliderModule } from 'ng5-slider';
     HttpClientModule,
     MatSortModule,
     BrowserAnimationsModule,
-    Ng5SliderModule
+    Ng5SliderModule,
+ 
   ],
   providers: [ApiService],
   bootstrap: [AppComponent]

@@ -3,41 +3,47 @@ const Schema = mongoose.Schema;
 
 // Define collection and schema
 let HotelsAndHostels = new Schema({
-    type: {
-        type: String
-     },
-   name: {
+   Type: {
       type: String
    },
-   address: [{
-       city:{
-        type: String
-     }, 
-      street:{
-        type: String
-     }  
-   }],
-   scoress: {
+   Name: {
+      type: String
+   },
+   Region: {
+      type: String
+   },
+   Address: {
+      City: {
+         type: String
+      },
+      Street: {
+         type: String
+      }
+   },
+   Scoress: {
       type: [Number]
    },
-   rooms: [{
-    number:{
-     type: Number
-  }, 
-   size:{
-     type: Number
-  },
-  numberOfBeds:{
-    type: Number
- },
- price:{
-    type: Number
- },
- vip:{
-    type: Boolean
- }     
-}],
-   extras: [{
+   Rooms: [{
+      Number: {
+         type: Number
+      },
+      Size: {
+         type: Number
+      },
+      NumberOfBeds: {
+         type: Number
+      },
+      Price: {
+         type: Number
+      },
+      Vip: {
+         type: Boolean
+      }
+   }],
+   Extras: [{
+      type: String
+   }],
+   Images: [{
       type: String
    }],
 }, {
