@@ -1,6 +1,6 @@
-<div class="container-fluid">
+<div class="container-fluid" *ngIf="room">
     <div class="row">
-        <div>
+        <div >
         <img [src]=image width="600" height="444"><br>
 <div *ngFor="let img of room.images" class="inline">
     <img [src]=img width="120" height="88" (click)="loadImg(img)">

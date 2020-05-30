@@ -18,7 +18,7 @@ mongoose.connect(dbConfig.db, {
 )
 
 // Setting up port with express js
-const employeeRoute = require('../routes/HaH.route')
+const hahRoute = require('../routes/HaH.route')
 const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
@@ -27,7 +27,19 @@ app.use(bodyParser.urlencoded({
 app.use(cors()); 
 app.use(express.static(path.join(__dirname, 'dist/mean-stack-crud-app')));
 app.use('/', express.static(path.join(__dirname, 'dist/mean-stack-crud-app')));
-app.use('/api', employeeRoute)
+app.use('/api', hahRoute)
+
+
+// Setting up port with express js
+const UsersRoute = require('../routes/Users.route')
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+   extended: false
+}));
+app.use(cors()); 
+app.use(express.static(path.join(__dirname, 'dist/mean-stack-crud-app')));
+app.use('/user', express.static(path.join(__dirname, 'dist/mean-stack-crud-app')));
+app.use('/users', UsersRoute)
 
 // Create port
 const port = process.env.PORT || 4000;
