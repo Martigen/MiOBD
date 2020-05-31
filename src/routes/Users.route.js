@@ -27,6 +27,18 @@ UsersRoute.route('/').get((req, res) => {
   })
 })
 
+//Get User By Email And Passowrd
+UsersRoute.route('/EM').post((req, res) => {
+  Users.find({email : req.body.email,password : req.body.pass},(error, data) => {
+    if (error) {
+      return next(error)
+    } else {
+      res.json(data)
+    }
+  })
+})
+
+
 // Get single Users
 UsersRoute.route('/read/:id').get((req, res) => {
   Users.findById(req.params.id, (error, data) => {

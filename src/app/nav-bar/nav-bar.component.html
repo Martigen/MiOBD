@@ -1,0 +1,49 @@
+<div class="navbar navbar-expand-xl navbar-light bg-primary">
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav" style="float: left">
+        <li class="nav-item active">
+          <a class="nav-link font-weight-bold" routerLink="/home">HotelsAndHostels <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link"  routerLink="/search">Search</a>
+        </li>
+      </ul>
+    </div>
+      <ul class="navbar-nav" *ngIf="!LoggedIn" style="float: right">
+        <li class="nav-item">
+          
+                <div class="form-row align-items-center">
+                    <div class="col-auto">
+                        <label class="sr-only" for="inlineFormInputGroup">Email</label>
+                        <div class="input-group mb-2">
+                          <div class="input-group-prepend">
+                            <div class="input-group-text">@</div>
+                          </div>
+                          <input type="text" class="form-control" id="inlineFormInputGroup" [(ngModel)]="email" placeholder="Email">
+                        </div>
+                      </div>
+                  <div class="col-auto">
+                    <label class="sr-only" for="inlineFormInput">Passowrd</label>
+                    <input type="password" class="form-control mb-2" id="inlineFormInput" [(ngModel)]="pass" placeholder="Passowrd">
+                  </div>
+                </div>
+           
+          </li>
+          <li class="nav-item ">
+            <a type="button" class="btn btn-success" *ngIf="!LoggedIn" (click)="login()">Login</a>
+          </li>
+      </ul>
+      <ul class="navbar-nav" *ngIf="LoggedIn" style="float: right">
+        <li class="nav-item">
+         
+            <a class="nav-link" >  Welcome {{user.name}} {{user.surname}} !</a>  
+         
+           </li>
+           <li class="nav-item">
+      <button type="button" class="btn btn-warning"  (click)="logOut()">Logout</button>
+      </li>
+    </ul>
+    </div>
+  
+
+  

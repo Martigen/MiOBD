@@ -31,6 +31,8 @@ export class DetailsComponent implements OnInit {
     );
 
 
+
+
   }
 
   createItem(id: string,type: string, name: string, region: string, addres: Address, avgScore: number, room: Room, extras: Array<string>,images: Array<string>) {

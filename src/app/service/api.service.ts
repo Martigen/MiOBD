@@ -97,6 +97,17 @@ export class ApiService {
     )
   }
 
+  getUserByEmailAndPassowrd(email,passowrd): Observable<any> {
+    let url = this.baseUriUser+'/EM';
+    let data = {email : email,password : passowrd};
+    return this.http.post(url,data, {headers: this.headers}).pipe(
+      map((res: Response) => {
+        return res || {}
+      }),
+      catchError(this.errorMgmt)
+    )
+  }
+
 
   // Error handling 
   errorMgmt(error: HttpErrorResponse) {

@@ -1,7 +1,7 @@
 export class User {
-    Name : string;
-    Surname: string;
-    Email: string;
-    Passowrd: string;
+    name : string;
+    surname: string;
+    email: string;
+    passowrd: string;
     role:Array<string>;
 }
