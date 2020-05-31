@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { Subject, Observable } from 'rxjs';
-
+import {  isUndefined } from 'util';
 import { Router } from '@angular/router';
 import { ApiService } from './service/api.service';
 import { User } from './model/user';
@@ -23,15 +23,17 @@ export class AuthService {
   }
 
   login(email: string, password: string) {
-    this.apiService.getUserByEmailAndPassowrd(email,password).subscribe( v => {
-   
+    this.apiService.getUserByEmailAndPassword(email,password).subscribe( v => {
+      if(!isUndefined(v[0])){
       this.isLogged.next(true);
       this.loggedin = true;
-      this.role = v[0].role
-      v[0].password = "";
+      this.role = v[0].role;
       this.loggedUserData.next(v[0]);
       this.router.navigateByUrl('/search');
- 
+    }else{
+      alert("Bad Email or Password!")
+    }
+
     })
       
   }
@@ -41,6 +43,7 @@ export class AuthService {
     this.loggedin = false;
     this.router.navigateByUrl('/home');
     this.role = "";
+    
   }
 
   getLoginStatus(): Observable<Boolean>{

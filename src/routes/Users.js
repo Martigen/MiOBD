@@ -12,7 +12,7 @@ let Users = new Schema({
     Email: {
         type: String
     },
-    Passowrd: {
+    Password: {
         type: String
     },
     role: [{
