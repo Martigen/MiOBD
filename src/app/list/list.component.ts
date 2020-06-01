@@ -5,7 +5,7 @@ import { Room } from '../model/room';
 import { element } from 'protractor';
 import { Sort } from '@angular/material/sort';
 import { Options, LabelType } from 'ng5-slider';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-list',
@@ -59,7 +59,17 @@ export class ListComponent implements OnInit {
   };
 
 
-  constructor(private apiService: ApiService,private router: Router) {
+  constructor(private apiService: ApiService,private router: Router,private activatedroute: ActivatedRoute) {
+
+    this.activatedroute.queryParams.subscribe(v =>{ 
+      if(v.city){
+      
+      this.city = v.city;
+      setTimeout( () => { this.SearchButton();}, 100 );
+      
+      }
+      });
+
     this.apiService.getHaHs().subscribe(data => {
       data as Array<Hotel>;
 

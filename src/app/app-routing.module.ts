@@ -11,7 +11,6 @@ const routes: Routes = [
   
   { path: 'search', 
   component: ListComponent,
-  canActivate:[AuthGuardService]
 },
   { path: 'detail', 
   component: DetailsComponent,
