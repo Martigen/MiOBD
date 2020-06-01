@@ -24,11 +24,11 @@ export class AuthService {
 
   login(email: string, password: string) {
     this.apiService.getUserByEmailAndPassword(email,password).subscribe( v => {
-      if(!isUndefined(v[0])){
+      if(!isUndefined(v)){
       this.isLogged.next(true);
       this.loggedin = true;
-      this.role = v[0].role;
-      this.loggedUserData.next(v[0]);
+      this.role = v.role;
+      this.loggedUserData.next(v);
       this.router.navigateByUrl('/search');
     }else{
       alert("Bad Email or Password!")

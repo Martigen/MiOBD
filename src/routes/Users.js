@@ -3,16 +3,16 @@ const Schema = mongoose.Schema;
 
 // Define collection and schema
 let Users = new Schema({
-    Name: {
+    name: {
         type: String
     },
-    Surname: {
+    surname: {
         type: String
     },
-    Email: {
+    email: {
         type: String
     },
-    Password: {
+    password: {
         type: String
     },
     role: [{
