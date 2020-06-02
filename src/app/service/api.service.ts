@@ -17,9 +17,13 @@ export class ApiService {
 
   // Create
   createHaH(data): Observable<any> {
-    let url = this.baseUriHah+'/create';;
-    return this.http.post(url, data)
+    let url = this.baseUriHah +'/create';
+    console.log(url)
+    return this.http.post(url, data,{headers: this.headers})
       .pipe(
+        map((res: Response) => {
+          return res || {}    
+        }),
         catchError(this.errorMgmt)
       )
   }

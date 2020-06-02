@@ -33,6 +33,7 @@ Hostel <input type="checkbox" [(ngModel)]="hostel" > <span class="checkmark"></s
 </nav>
 
   <article>
+    <input class="btn btn-success" *ngIf='myHaH' routerLink="/formhah" value='Register Hotel Or Hostel' type='button' />
     <table class="table  table-striped" matSort (matSortChange)="sortData($event)">
       <thead style="background:dodgerblue;" class="text-white">
         <tr>
@@ -67,7 +68,7 @@ Hostel <input type="checkbox" [(ngModel)]="hostel" > <span class="checkmark"></s
           <td>{{item.RoomPrice}}</td>
           <td>{{item.extras}}</td>
           <td> <button type="button" class="btn btn-primary " (click)="seeDetails(item.id,item.roomid)">Details</button>
-            <input class="btn btn-info" *ngIf='myHaH' (click)='editHaH()' value='Edit' type='button' />
+            <input class="btn btn-info" *ngIf='myHaH' (click)='editHaH(item.id,item.roomid)' value='Edit' type='button' />
           </td>
         </tr>
       </tbody>

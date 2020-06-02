@@ -32,7 +32,7 @@ export class ListComponent implements OnInit {
   minBeds: number = 999;
 
   optionsPrice: Options = {
-    floor: 100,
+    floor: 0,
     ceil: 1000,
     translate: (value: number, label: LabelType): string => {
       switch (label) {
@@ -85,6 +85,7 @@ export class ListComponent implements OnInit {
           this.router.navigate(['home']);
         }
         setTimeout(() => {
+          this.remenberHaH = this.remenberHaH.filter(val => val.user == v.userid);
           this.HaH = this.remenberHaH.filter(val => val.user == v.userid);
         }, 100);
 
@@ -102,7 +103,9 @@ export class ListComponent implements OnInit {
       data as Array<Hotel>;
 
       (data as Array<Hotel>).forEach(element => {
-        let tmp: number = element.Scores.reduce((a: number, b: number) => a + b) / element.Scores.length;
+        let tmp: number = null;
+        if(element.Scores.length > 0)
+         tmp = element.Scores.reduce((a: number, b: number) => a + b) / element.Scores.length;
 
         element.Rooms.forEach(item => {
           if (item.Price > this.maxPrice)
@@ -145,10 +148,8 @@ export class ListComponent implements OnInit {
   }
 
   SearchButton() {
-    if(this.myHaH){
-      this.router.navigate(['search']);
-    }
-    this.myHaH = false;
+  
+ 
     this.HaH = [];
     this.remenberHaH.forEach(element => {
       this.HaH.push(element)
@@ -212,9 +213,10 @@ export class ListComponent implements OnInit {
   seeDetails(id, roomid) {
     this.router.navigate(['detail'], { queryParams: { id: id, roomid: roomid } });
   }
-  editHaH(){
-
+  editHaH(id, roomid){
+    this.router.navigate(['formhah'], { queryParams: { id: id, roomid: roomid } });
   }
+ 
 
 }
 

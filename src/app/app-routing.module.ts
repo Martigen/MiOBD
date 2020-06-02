@@ -4,19 +4,27 @@ import { ListComponent } from './list/list.component';
 import { DetailsComponent } from './details/details.component';
 import { HomeComponent } from './home/home.component';
 import { AuthGuardService } from './auth-guard.service';
+import { FormHaHComponent } from './form-ha-h/form-hah.component';
 
 
 
 
 const routes: Routes = [
-  
-  { path: 'search', 
-  component: ListComponent,
-},
-  { path: 'detail', 
-  component: DetailsComponent,
-  canActivate:[AuthGuardService]
- },  
+
+  {
+    path: 'search',
+    component: ListComponent,
+  },
+  {
+    path: 'detail',
+    component: DetailsComponent,
+    canActivate: [AuthGuardService]
+  },
+  {
+    path: 'formhah',
+    component: FormHaHComponent,
+    canActivate: [AuthGuardService]
+  },
   {
     path: '',
     pathMatch: 'full',

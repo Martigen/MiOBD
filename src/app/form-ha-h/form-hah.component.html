@@ -1,0 +1,99 @@
+
+<div class="padd">
+<div class="border">
+    <div class="form-inline">
+    <label class="container2">
+        Hotel <input type="radio" [(ngModel)]="HaH.Type" value="Hotel"> <span class="checkmark"></span> 
+        </label>
+        <label class="container2">
+            Hostel <input type="radio" [(ngModel)]="HaH.Type" value="Hostel"> <span class="checkmark"></span> 
+            </label>
+    </div>
+    <div class="form-inline">
+
+
+        <div class="form-group mx-sm-3 mb-2">
+            <label for="inputName" class="sr-only">Hotel Name</label> Hotel Name: 
+            <input type="text" class="form-control" id="inputName" [(ngModel)]="HaH.Name" placeholder="Hotel Name" >
+          </div>
+
+          <div class="form-group mx-sm-3 mb-2">
+            <label for="inputStars" class="sr-only">Stars</label> Stars: 
+            <input type="text" class="form-control" id="inputStars" [(ngModel)]="HaH.Stars" placeholder="Stars" >
+          </div>
+          <div class="form-group mx-sm-3 mb-2">
+            <label for="inputCity" class="sr-only">City</label> City: 
+            <input type="text" class="form-control" id="inputCity" [(ngModel)]="HaH.Address.City" placeholder="City" >
+          </div>
+          <div class="form-group mx-sm-3 mb-2">
+            <label for="inputStreet" class="sr-only">Street</label>Street: 
+            <input type="text" class="form-control" id="inputStreet" [(ngModel)]="HaH.Address.Street" placeholder="Street" >
+          </div>
+          <div class="form-group mx-sm-3 mb-2">
+            <label for="inputRegion" class="sr-only">Góry,Jezioro,Morze</label> Region: 
+            <input type="text" class="form-control" id="inputRegion" [(ngModel)]="HaH.Region" placeholder="Góry,Jezioro,Morze" >
+          </div>
+
+
+
+
+
+</div>
+<input class="btn btn-success" (click)='addRoom()' value='Add Room' type='button' /><input class="btn btn-danger" (click)='deleteRoom()' value='Remove Room' type='button' /><br><br>
+<div *ngFor="let item of HaH.Rooms; let i = index;" class="form-inline">
+    {{i+1}}.
+    <div class="form-group mx-sm-3 mb-2">
+        Number:
+        <input type="number" class="form-control"  [(ngModel)]="HaH.Rooms[i].Number" placeholder="Number" >
+      </div>
+      <div class="form-group mx-sm-3 mb-2">
+       Size:
+        <input type="number" class="form-control"  [(ngModel)]="HaH.Rooms[i].Size" placeholder="Size" >
+      </div>
+
+      <div class="form-group mx-sm-3 mb-2">
+        Number Of Beds:
+        <input type="number" class="form-control"  [(ngModel)]="HaH.Rooms[i].NumberOfBeds" placeholder="Number Of Beds" >
+      </div>
+      <div class="form-group mx-sm-3 mb-2">
+       Price:
+        <input type="number" class="form-control"  [(ngModel)]="HaH.Rooms[i].Price" placeholder="Price" >
+      </div>
+ 
+    
+  
+ 
+    <label class="container2">
+        VIP <input type="checkbox" [(ngModel)]="HaH.Rooms[i].Vip" > <span class="checkmark"></span> 
+        </label>
+
+    <hr>
+</div>
+
+<br>
+<input class="btn btn-success" (click)='addExtras()' value='Add Extras' type='button' /><input class="btn btn-danger" (click)='deleteExtras()' value='Remove Extras' type='button' /><br><br>
+<div *ngFor="let item of HaH.Extras; let i = index;"  class="form-inline">
+    {{i+1}}.
+    <div class="form-group mx-sm-3 mb-2">
+        
+        <input type="text" class="form-control" [(ngModel)]="HaH.Extras[i]" placeholder="Extras" >
+      </div>
+   
+</div>
+<input class="btn btn-success" (click)='addImage()' value='Add Image' type='button' /><input class="btn btn-danger" (click)='deleteImage()' value='Remove Image' type='button' /><br><br>
+<div *ngFor="let item of HaH.Images; let i = index;"  class="form-inline">
+    {{i+1}}.
+    <div class="form-group mx-sm-3 mb-2">
+      
+        <input type="text" class="form-control"  [(ngModel)]="HaH.Images[i]" placeholder="Image Link" >
+      </div>
+   
+</div>
+
+</div><br>
+<input class="btn btn-success" (click)='create()' *ngIf='!loaded' value='Register' type='button' />
+<input class="btn btn-success" (click)='update()' *ngIf='loaded' value='Update' type='button' />
+<input class="btn btn-danger" (click)='delete()' *ngIf='loaded' value='Delete' type='button' />
+<input class="btn btn-warning" onclick='javascript:window.history.back()' value='Back' type='button' />
+</div>
+
