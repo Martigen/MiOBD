@@ -62,16 +62,16 @@ export class ListComponent implements OnInit {
   };
 
 
-  constructor(private auth: AuthService,private apiService: ApiService, private router: Router, private activatedroute: ActivatedRoute) {
+  constructor(private auth: AuthService, private apiService: ApiService, private router: Router, private activatedroute: ActivatedRoute) {
 
 
-   
+
 
   }
 
   ngOnInit(): void {
 
-    
+
     this.activatedroute.queryParams.subscribe(v => {
       this.load();
       if (v.city) {
@@ -80,8 +80,8 @@ export class ListComponent implements OnInit {
       }
       else if (v.userid) {
         this.myHaH = true;
- 
-        if(!this.auth.getLoginStatus2()){
+
+        if (!this.auth.getLoginStatus2()) {
           this.router.navigate(['home']);
         }
         setTimeout(() => {
@@ -104,8 +104,8 @@ export class ListComponent implements OnInit {
 
       (data as Array<Hotel>).forEach(element => {
         let tmp: number = null;
-        if(element.Scores.length > 0)
-         tmp = element.Scores.reduce((a: number, b: number) => a + b) / element.Scores.length;
+        if (element.Scores.length > 0)
+          tmp = element.Scores.reduce((a: number, b: number) => a + b) / element.Scores.length;
 
         element.Rooms.forEach(item => {
           if (item.Price > this.maxPrice)
@@ -119,16 +119,17 @@ export class ListComponent implements OnInit {
             this.selectedRegions.push(true);
           }
 
-          this.HaH.push(this.createItem(element._id, element.Stars, element.Type, element.Name, element.Region, element.Address.City, tmp, item, element.Extras, element.User))
+          this.HaH.push(this.createItem(element._id, element.Stars, element.Type, element.Name, element.Region, element.Address.City, tmp, item, element.Extras, element.User, element.Views))
         });
       });
-
       this.remenberHaH = this.HaH;
-
+      this.HaH.sort((a, b) => this.compare(a.views, b.views, false))
     })
+
+
   }
 
-  createItem(id: string, stars: string, type: string, name: string, region: string, city: string, avgScore: number, room: Room, extras: Array<string>, user: string) {
+  createItem(id: string, stars: string, type: string, name: string, region: string, city: string, avgScore: number, room: Room, extras: Array<string>, user: string, views: number) {
     return {
       id: id,
       roomid: room.Number,
@@ -144,12 +145,13 @@ export class ListComponent implements OnInit {
       RoomPrice: room.Price,
       RoomVip: room.Vip,
       extras: extras,
+      views: views
     };
   }
 
   SearchButton() {
-  
- 
+
+
     this.HaH = [];
     this.remenberHaH.forEach(element => {
       this.HaH.push(element)
@@ -188,6 +190,7 @@ export class ListComponent implements OnInit {
       return;
     }
 
+    console.log(this.HaH)
     this.HaH = data.sort((a, b) => {
       const isAsc = sort.direction === 'asc';
       switch (sort.active) {
@@ -201,6 +204,7 @@ export class ListComponent implements OnInit {
         case 'RoomPrice': return this.compare(a.RoomPrice, b.RoomPrice, isAsc);
         case 'extras': return this.compare(a.extras.length, b.extras.length, isAsc);
         case 'stars': return this.compare(a.stars, b.stars, isAsc);
+        case 'views': return this.compare(a.views, b.views, isAsc);
         default: return 0;
       }
     });
@@ -213,10 +217,10 @@ export class ListComponent implements OnInit {
   seeDetails(id, roomid) {
     this.router.navigate(['detail'], { queryParams: { id: id, roomid: roomid } });
   }
-  editHaH(id, roomid){
+  editHaH(id, roomid) {
     this.router.navigate(['formhah'], { queryParams: { id: id, roomid: roomid } });
   }
- 
+
 
 }
 

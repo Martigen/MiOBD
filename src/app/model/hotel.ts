@@ -13,5 +13,5 @@ export class Hotel {
     Rooms: Room[];
     Extras: string[];
     Images: string[];
-    Views:Number;
+    Views:number;
 }
