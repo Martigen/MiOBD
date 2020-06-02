@@ -16,6 +16,14 @@
                 <p id="name">{{room.name}}</p>
             </div>
         </div>
+
+        <div class="form-group row" *ngIf="room.type == 'Hotel'">
+            <label for="name" class="col-sm-2 col-form-label">Hotel Stars:</label>
+            <div >
+                <p id="name">{{room.stars}}</p>
+            </div>
+        </div>
+
         <div class="form-group row">
             <label for="score" class="col-sm-2 col-form-label">Avg Score:</label>
             <div >
@@ -74,6 +82,7 @@
     </form>
 </div>
 </div>
+<input class="btn btn-info" *ngIf='myHaH' (click)='editHaHRoom()' value='Edit' type='button' />
 <input class="btn btn-warning" onclick='javascript:window.history.back()' value='Back' type='button' />
 </div>
 

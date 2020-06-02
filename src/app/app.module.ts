@@ -15,13 +15,14 @@ import { NavBarComponent } from './nav-bar/nav-bar.component';
 
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
     ListComponent,
     DetailsComponent,
     HomeComponent,
-    NavBarComponent
+    NavBarComponent,
   ],
   imports: [
     BrowserModule,

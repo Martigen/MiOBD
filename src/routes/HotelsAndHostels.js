@@ -3,10 +3,16 @@ const Schema = mongoose.Schema;
 
 // Define collection and schema
 let HotelsAndHostels = new Schema({
+   User: {
+      type: String
+   },
    Type: {
       type: String
    },
    Name: {
+      type: String
+   },
+   Stars: {
       type: String
    },
    Region: {
@@ -20,7 +26,7 @@ let HotelsAndHostels = new Schema({
          type: String
       }
    },
-   Scoress: {
+   Scores: {
       type: [Number]
    },
    Rooms: [{
@@ -46,6 +52,9 @@ let HotelsAndHostels = new Schema({
    Images: [{
       type: String
    }],
+   Views: {
+      type: Number
+   },
 }, {
    collection: 'HotelsAndHostels'
 })

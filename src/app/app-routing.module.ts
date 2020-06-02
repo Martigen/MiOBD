@@ -7,6 +7,7 @@ import { AuthGuardService } from './auth-guard.service';
 
 
 
+
 const routes: Routes = [
   
   { path: 'search', 
@@ -15,16 +16,19 @@ const routes: Routes = [
   { path: 'detail', 
   component: DetailsComponent,
   canActivate:[AuthGuardService]
- },
+ },  
   {
     path: '',
-
+    pathMatch: 'full',
+    component: HomeComponent
+  },
+  {
+    path: '*',
     pathMatch: 'full',
     component: HomeComponent
   },
   {
     path: '**',
-  
     pathMatch: 'full',
     component: HomeComponent
   }

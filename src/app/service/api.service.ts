@@ -108,6 +108,25 @@ export class ApiService {
     )
   }
 
+  addView(id): Observable<any> {
+    let url = this.baseUriHah+'/view/'+id;
+    return this.http.get(url, {headers: this.headers}).pipe(
+      map((res: Response) => {
+        return res || {}
+      }),
+      catchError(this.errorMgmt)
+    )
+  }
+
+  getUserHotelsAndHostels(id): Observable<any> {
+    let url = this.baseUriHah+'/user/'+id;
+    return this.http.get(url, {headers: this.headers}).pipe(
+      map((res: Response) => {
+        return res || {}
+      }),
+      catchError(this.errorMgmt)
+    )
+  }
 
   // Error handling 
   errorMgmt(error: HttpErrorResponse) {

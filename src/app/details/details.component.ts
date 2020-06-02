@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { element } from 'protractor';
 import { Room } from '../model/room';
 import { Address } from '../model/address';
+import { AuthService } from '../auth.service';
 
 
 @Component({
@@ -14,33 +15,49 @@ import { Address } from '../model/address';
 })
 export class DetailsComponent implements OnInit {
 
-  hah:Hotel;
+  hah: Hotel;
   room;
   image;
+  myHaH = false;
 
-  constructor(private apiService: ApiService,private activatedroute: ActivatedRoute) {
-    this.activatedroute.queryParams.subscribe(v =>
-          this.apiService.getHaH(v.id).subscribe(data => {
-      this.hah = data as Hotel;
-      let tmp: number = data.Scores.reduce((a: number, b: number) => a + b) / data.Scores.length;
-      let tmproom = data.Rooms.filter(e => e.Number == v.roomid)
+  constructor(private apiService: ApiService, private activatedroute: ActivatedRoute, private auth: AuthService) {
+    this.activatedroute.queryParams.subscribe(v => {
+      this.apiService.getHaH(v.id).subscribe(data => {
+        this.hah = data as Hotel;
+        let tmp: number = data.Scores.reduce((a: number, b: number) => a + b) / data.Scores.length;
+        let tmproom = data.Rooms.filter(e => e.Number == v.roomid)
 
-      this.room = this.createItem(data._id,data.Type, data.Name, data.Region, data.Address, tmp, tmproom[0], data.Extras, data.Images)
-            this.image = data.Images[0];
-    })
-    );
+        this.room = this.createItem(data._id, data.Stars, data.Type, data.Name, data.Region, data.Address, tmp, tmproom[0], data.Extras, data.Images)
+        this.image = data.Images[0];
+
+        if (this.hah.User != this.auth.getUserId()) {
+          this.apiService.addView(v.id).subscribe(data => { console.log(data) })
+          this.myHaH = false;
+        }
+        else {
+          this.myHaH = true;
+        }
+
+      })
+     
+    
+
+    });
+
+
 
 
 
 
   }
 
-  createItem(id: string,type: string, name: string, region: string, addres: Address, avgScore: number, room: Room, extras: Array<string>,images: Array<string>) {
+  createItem(id: string, stars: string, type: string, name: string, region: string, addres: Address, avgScore: number, room: Room, extras: Array<string>, images: Array<string>) {
     return {
-      id:id,
+      id: id,
       roomid: room.Number,
       type: type,
       name: name,
+      stars: stars,
       region: region,
       city: addres.City,
       street: addres.Street,
@@ -55,11 +72,15 @@ export class DetailsComponent implements OnInit {
   }
 
 
-  loadImg(img){
+  loadImg(img) {
     this.image = img;
   }
 
   ngOnInit(): void {
+  }
+
+  editHaHRoom() {
+
   }
 
 }

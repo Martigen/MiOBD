@@ -19,7 +19,6 @@ export class HomeComponent implements OnInit {
   }
 
   search(){
-    console.log(this.city)
  this.router.navigate(['search'], {queryParams: {city: this.city}});
   }
 

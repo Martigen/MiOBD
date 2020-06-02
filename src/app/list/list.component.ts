@@ -6,6 +6,7 @@ import { element } from 'protractor';
 import { Sort } from '@angular/material/sort';
 import { Options, LabelType } from 'ng5-slider';
 import { Router, ActivatedRoute } from '@angular/router';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-list',
@@ -22,6 +23,8 @@ export class ListComponent implements OnInit {
   hostel: boolean = true;
   regions: Array<string> = Array<string>();
   selectedRegions: Array<boolean> = Array<boolean>()
+  myHaH = false;
+
   maxPrice: number = 0;
   minPrice: number = 99999;
 
@@ -59,17 +62,42 @@ export class ListComponent implements OnInit {
   };
 
 
-  constructor(private apiService: ApiService,private router: Router,private activatedroute: ActivatedRoute) {
+  constructor(private auth: AuthService,private apiService: ApiService, private router: Router, private activatedroute: ActivatedRoute) {
 
-    this.activatedroute.queryParams.subscribe(v =>{ 
-      if(v.city){
-      
-      this.city = v.city;
-      setTimeout( () => { this.SearchButton();}, 100 );
-      
+
+   
+
+  }
+
+  ngOnInit(): void {
+
+    
+    this.activatedroute.queryParams.subscribe(v => {
+      this.load();
+      if (v.city) {
+        this.city = v.city;
+        setTimeout(() => { this.SearchButton(); }, 100);
       }
-      });
+      else if (v.userid) {
+        this.myHaH = true;
+ 
+        if(!this.auth.getLoginStatus2()){
+          this.router.navigate(['home']);
+        }
+        setTimeout(() => {
+          this.HaH = this.remenberHaH.filter(val => val.user == v.userid);
+        }, 100);
 
+      }
+    });
+
+
+
+  }
+
+  load() {
+    this.myHaH = false;
+    this.HaH = [];
     this.apiService.getHaHs().subscribe(data => {
       data as Array<Hotel>;
 
@@ -87,27 +115,24 @@ export class ListComponent implements OnInit {
             this.regions.push(element.Region);
             this.selectedRegions.push(true);
           }
-          
-          this.HaH.push(this.createItem(element._id,element.Type, element.Name, element.Region, element.Address.City, tmp, item, element.Extras))
+
+          this.HaH.push(this.createItem(element._id, element.Stars, element.Type, element.Name, element.Region, element.Address.City, tmp, item, element.Extras, element.User))
         });
       });
 
       this.remenberHaH = this.HaH;
-    
+
     })
-
-
   }
 
-  ngOnInit(): void {
-  }
-
-  createItem(id: string,type: string, name: string, region: string, city: string, avgScore: number, room: Room, extras: Array<string>) {
+  createItem(id: string, stars: string, type: string, name: string, region: string, city: string, avgScore: number, room: Room, extras: Array<string>, user: string) {
     return {
-      id:id,
+      id: id,
       roomid: room.Number,
+      user: user,
       type: type,
       name: name,
+      stars: stars,
       region: region,
       city: city,
       avgScore: avgScore,
@@ -120,7 +145,10 @@ export class ListComponent implements OnInit {
   }
 
   SearchButton() {
-
+    if(this.myHaH){
+      this.router.navigate(['search']);
+    }
+    this.myHaH = false;
     this.HaH = [];
     this.remenberHaH.forEach(element => {
       this.HaH.push(element)
@@ -135,14 +163,14 @@ export class ListComponent implements OnInit {
       if (this.hostel)
         this.HaH = this.HaH.filter(element => element.type == "Hostel")
     }
-  
+
     for (let index = 0; index < this.regions.length; index++) {
-     if(!this.selectedRegions[index])
-      this.HaH = this.HaH.filter(element => element.region != this.regions[index])
+      if (!this.selectedRegions[index])
+        this.HaH = this.HaH.filter(element => element.region != this.regions[index])
     }
-     
-    
-   
+
+
+
 
     this.HaH = this.HaH.filter(element => element.RoomPrice >= this.minPrice && element.RoomPrice <= this.maxPrice)
     this.HaH = this.HaH.filter(element => element.RoomBeds >= this.minBeds && element.RoomBeds <= this.maxBeds)
@@ -171,6 +199,7 @@ export class ListComponent implements OnInit {
         case 'RoomVip': return this.compare(a.RoomVip, b.RoomVip, isAsc);
         case 'RoomPrice': return this.compare(a.RoomPrice, b.RoomPrice, isAsc);
         case 'extras': return this.compare(a.extras.length, b.extras.length, isAsc);
+        case 'stars': return this.compare(a.stars, b.stars, isAsc);
         default: return 0;
       }
     });
@@ -180,10 +209,12 @@ export class ListComponent implements OnInit {
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
   }
 
-  seeDetails(id,roomid) {
-    this.router.navigate(['detail'], {queryParams: {id: id,roomid: roomid}});
+  seeDetails(id, roomid) {
+    this.router.navigate(['detail'], { queryParams: { id: id, roomid: roomid } });
   }
-  
+  editHaH(){
+
+  }
 
 }
 

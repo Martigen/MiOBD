@@ -12,7 +12,7 @@ import { User } from './model/user';
 })
 export class AuthService {
 
- 
+  private id;
   private isLogged = new Subject<boolean>();
   private loggedin = false;
   private role = "";
@@ -28,6 +28,7 @@ export class AuthService {
       this.isLogged.next(true);
       this.loggedin = true;
       this.role = v.role;
+      this.id = v._id;
       this.loggedUserData.next(v);
       this.router.navigateByUrl('/search');
     }else{
@@ -62,6 +63,11 @@ export class AuthService {
    
     return this.loggedUserData;
   }
+
+  getUserId(){
+    return this.id;
+  }
+
 
   isAdmin() {
 

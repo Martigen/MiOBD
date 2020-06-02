@@ -54,6 +54,34 @@ HaHRoute.route('/update/:id').put((req, res, next) => {
   })
 })
 
+// Add Views HaH
+HaHRoute.route('/view/:id').get((req, res, next) => {
+
+  HaH.findById(req.params.id, (error, data) => {
+    if (error) {
+      return next(error)
+    } else {
+     data.Views +=1
+     data.save();
+     res.json(true)
+    }
+  })
+})
+
+// Get user Hotels And Hostels
+HaHRoute.route('/user/:id').get((req, res, next) => {
+
+  HaH.find({ User: req.params.id }, (error, data) => {
+    if (error) {
+      return next(error)
+    } else {
+      res.json(data)
+    }
+  })
+})
+
+
+
 // Delete HaH
 HaHRoute.route('/delete/:id').delete((req, res, next) => {
   HaH.findOneAndRemove(req.params.id, (error, data) => {

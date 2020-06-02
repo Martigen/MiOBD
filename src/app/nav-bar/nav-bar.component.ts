@@ -32,5 +32,10 @@ export class NavBarComponent implements OnInit {
 
   logOut() {
     this.auth.logout();
+    this.router.navigateByUrl('/home');
+  }
+
+  SeeMyHaH(){
+    this.router.navigate(['search'], {queryParams: {userid: this.auth.getUserId()}});
   }
 }
