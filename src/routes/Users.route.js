@@ -42,6 +42,7 @@ UsersRoute.route('/EM').post((req, res) => {
 
 // Get single Users
 UsersRoute.route('/read/:id').get((req, res) => {
+
   Users.findById(req.params.id, (error, data) => {
     if (error) {
       return next(error)

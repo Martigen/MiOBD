@@ -42,4 +42,13 @@ export class NavBarComponent implements OnInit {
   NavigateToAdminPanel(){
     this.router.navigate(['administrationPanel']);
   }
+
+  NavigateToRegistration(){
+    this.router.navigate(['registration']);
+  }
+
+  EditUser(){
+    this.router.navigate(['editAccount'], {queryParams: {userid: this.auth.getUserId()}});
+  }
+
 }

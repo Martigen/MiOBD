@@ -27,11 +27,18 @@
                     <input type="password" class="form-control mb-2" id="inlineFormInput" [(ngModel)]="pass" placeholder="Passowrd">
                   </div>
                 </div>
+
            
           </li>
+
           <li class="nav-item ">
             <a type="button" class="btn btn-success" *ngIf="!LoggedIn" (click)="login()">Login</a>
           </li>
+
+        <li class="nav-item">
+          <a class="nav-link" *ngIf="!LoggedIn"  (click)="NavigateToRegistration()">Register now</a>
+        </li>
+
       </ul>
       <ul class="navbar-nav" *ngIf="LoggedIn" style="float: right">
 
@@ -42,6 +49,11 @@
         <li class="nav-item">
           <a class="nav-link"   (click)="SeeMyHaH()">Hotelier Panel</a>
         </li>
+
+        <li class="nav-item">
+          <a class="nav-link"   (click)="EditUser()">Edit My Profile</a>
+        </li>
+
 
         <li class="nav-item">
          

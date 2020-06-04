@@ -18,7 +18,6 @@ export class ApiService {
   // Create
   createHaH(data): Observable<any> {
     let url = this.baseUriHah +'/create';
-    console.log(url)
     return this.http.post(url, data,{headers: this.headers})
       .pipe(
         map((res: Response) => {
@@ -76,8 +75,10 @@ export class ApiService {
 
   // Get HaH
   getUser(id): Observable<any> {
+
     let url = this.baseUriUser+'/read/'+id;
-    return this.http.get(url, {headers: this.headers}).pipe(
+
+    return this.http.get(url,{headers: this.headers}).pipe(
       map((res: Response) => {
         return res || {}
       }),

@@ -6,6 +6,8 @@ import { HomeComponent } from './home/home.component';
 import { AuthGuardService } from './auth-guard.service';
 import { FormHaHComponent } from './form-ha-h/form-hah.component';
 import {AdministrationPanelComponent} from "./administration-panel/administration-panel.component";
+import {UserRegistrationPanelComponent} from "./user-registration-panel/user-registration-panel.component";
+import {UserEditPanelComponent} from "./user-edit-panel/user-edit-panel.component";
 
 
 
@@ -19,6 +21,14 @@ const routes: Routes = [
   {
     path: 'administrationPanel',
     component: AdministrationPanelComponent,
+  },
+  {
+    path: 'registration',
+    component: UserRegistrationPanelComponent,
+  },
+  {
+    path: 'editAccount',
+    component: UserEditPanelComponent,
   },
   {
     path: 'detail',

@@ -31,9 +31,7 @@ export class FormHaHComponent implements OnInit {
     loaded = false;
     id;
 
-
   constructor(private auth: AuthService,private apiService: ApiService, private router: Router, private activatedroute: ActivatedRoute) {
-
 
     this.activatedroute.queryParams.subscribe(v => {
       
@@ -43,7 +41,7 @@ export class FormHaHComponent implements OnInit {
         this.apiService.getHaH(v.id).subscribe(data => {
 
           if(this.auth.getUserId() != data.User)
-          this.router.navigate(['search']);
+            this.router.navigate(['search']);
           this.HaH = data;
           this.id = data._id;
           this.loaded = true;

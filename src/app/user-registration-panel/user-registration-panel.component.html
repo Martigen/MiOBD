@@ -1,1 +1,39 @@
-<p>user-registration-panel works!</p>
+<div class="container">
+  <h1>Register</h1>
+
+  <div class="form-group">
+  <label for="name">Name</label>
+  <input type="text" class="form-control" id="name"
+         required
+         [(ngModel)]="user.name" name="name">
+  </div>
+
+  <div class="form-group">
+    <label for="name">Surname</label>
+    <input type="text" class="form-control" id="surname"
+           required minlength="4"
+           [(ngModel)]="user.surname" name="surname">
+  </div>
+
+  <div class="form-group">
+    <label for="name">Email</label>
+    <input type="email" class="form-control" id="email"
+           required
+           [(ngModel)]="user.email" name="email">
+  </div>
+
+  <div class="form-group">
+    <label for="name">Password</label>
+    <input type="password" class="form-control" id="password"
+           required
+           [(ngModel)]="user.password" name="password">
+  </div>
+
+  <div class="form-group" >
+    I am a hotelier
+    <input type="checkbox" [(ngModel)]="isHotelier"/>
+  </div>
+
+
+  <button type="button" class="btn btn-success" (click)="Save()">Success</button>
+</div>
