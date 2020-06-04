@@ -13,7 +13,8 @@ import { DetailsComponent } from './details/details.component';
 import { HomeComponent } from './home/home.component';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { FormHaHComponent } from './form-ha-h/form-hah.component';
-
+import { AdministrationPanelComponent } from './administration-panel/administration-panel.component';
+import { UserRegistrationPanelComponent } from './user-registration-panel/user-registration-panel.component';
 
 
 
@@ -25,6 +26,8 @@ import { FormHaHComponent } from './form-ha-h/form-hah.component';
     HomeComponent,
     NavBarComponent,
     FormHaHComponent,
+    AdministrationPanelComponent,
+    UserRegistrationPanelComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,29 @@
+<table class="table">
+  <thead>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>City</th>
+    <th>Street</th>
+    <th>Accepted</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr mdbTableCol *ngFor="let el of HaH">
+    <td>{{el.Name}}</td>
+    <td>{{el.Type}}</td>
+    <td>{{el.Address.City}}</td>
+    <td>{{el.Address.Street}}</td>
+
+    <td *ngIf="el.Accepted">
+      Accepted!
+    </td>
+    <td *ngIf="!el.Accepted">
+      <a class="btn btn-success" (click)="AcceptHotel(el._id)" role="button">Accept</a>
+    </td>
+
+  </tr>
+  </tbody>
+</table>
+
+

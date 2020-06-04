@@ -38,4 +38,8 @@ export class NavBarComponent implements OnInit {
   SeeMyHaH(){
     this.router.navigate(['search'], {queryParams: {userid: this.auth.getUserId()}});
   }
+
+  NavigateToAdminPanel(){
+    this.router.navigate(['administrationPanel']);
+  }
 }

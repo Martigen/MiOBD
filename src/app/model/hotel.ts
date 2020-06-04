@@ -8,6 +8,7 @@ export class Hotel {
     Name: string;
     Stars: string;
     Region: string;
+    Accepted: boolean;
     Address: Address;
     Scores: number[];
     Rooms: Room[];

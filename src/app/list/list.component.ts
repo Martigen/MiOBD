@@ -119,7 +119,9 @@ export class ListComponent implements OnInit {
             this.selectedRegions.push(true);
           }
 
-          this.HaH.push(this.createItem(element._id, element.Stars, element.Type, element.Name, element.Region, element.Address.City, tmp, item, element.Extras, element.User, element.Views))
+          if(element.Accepted){
+            this.HaH.push(this.createItem(element._id, element.Stars, element.Type, element.Name, element.Region, element.Address.City, tmp, item, element.Extras, element.User, element.Views))
+          }
         });
       });
       this.remenberHaH = this.HaH;

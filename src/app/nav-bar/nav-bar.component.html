@@ -34,9 +34,15 @@
           </li>
       </ul>
       <ul class="navbar-nav" *ngIf="LoggedIn" style="float: right">
+
+        <li class="nav-item">
+          <a class="nav-link" (click)="NavigateToAdminPanel()">Administration Panel</a>
+        </li>
+
         <li class="nav-item">
           <a class="nav-link"   (click)="SeeMyHaH()">Hotelier Panel</a>
         </li>
+
         <li class="nav-item">
          
             <a class="nav-link" >  Welcome {{user.name}} {{user.surname}} !</a>  
@@ -49,4 +55,3 @@
     </div>
   
 
-  

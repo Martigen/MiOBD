@@ -5,6 +5,7 @@ import { DetailsComponent } from './details/details.component';
 import { HomeComponent } from './home/home.component';
 import { AuthGuardService } from './auth-guard.service';
 import { FormHaHComponent } from './form-ha-h/form-hah.component';
+import {AdministrationPanelComponent} from "./administration-panel/administration-panel.component";
 
 
 
@@ -14,6 +15,10 @@ const routes: Routes = [
   {
     path: 'search',
     component: ListComponent,
+  },
+  {
+    path: 'administrationPanel',
+    component: AdministrationPanelComponent,
   },
   {
     path: 'detail',

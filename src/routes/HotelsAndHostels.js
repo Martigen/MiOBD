@@ -18,6 +18,9 @@ let HotelsAndHostels = new Schema({
    Region: {
       type: String
    },
+  Accepted: {
+     type: Boolean
+  },
    Address: {
       City: {
          type: String

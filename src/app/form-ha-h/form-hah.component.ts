@@ -20,6 +20,7 @@ export class FormHaHComponent implements OnInit {
       Name: '',
       Stars: '',
       Region: '',
+      Accepted: false,
       Address: { City: '', Street: '' },
       Scores: [],
       Rooms: Array<Room>(),
@@ -95,7 +96,6 @@ export class FormHaHComponent implements OnInit {
   }
 
   create() {
-
    if(!this.chechHaH()){
      this.apiService.createHaH(this.HaH).subscribe(data => console.log(data))
      this.router.navigate(['search'], {queryParams: {userid: this.auth.getUserId()}});
