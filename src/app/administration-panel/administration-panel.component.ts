@@ -41,9 +41,7 @@ export class AdministrationPanelComponent implements OnInit {
 
       (data as Array<Hotel>).forEach(element => {
         let tmp: number = null;
-        if (element.Scores.length > 0)
-          tmp = element.Scores.reduce((a: number, b: number) => a + b) / element.Scores.length;
-      });
+    });
       this.HaH = data as Array<Hotel>;
     })
   }

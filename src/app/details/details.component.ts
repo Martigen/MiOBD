@@ -25,8 +25,12 @@ export class DetailsComponent implements OnInit {
       this.apiService.getHaH(v.id).subscribe(data => {
         this.hah = data as Hotel;
         let tmp: number = null;
-        if(data.Scores.length > 0)
-         tmp = data.Scores.reduce((a: number, b: number) => a + b) / data.Scores.length;
+        if(data.Scores.length > 0){
+          const sum = data.Scores.map(a => a.Score).reduce(function (a,b) {
+            return a + b;
+          });
+          tmp = sum / data.Scores.length;
+        }
         let tmproom = data.Rooms.filter(e => e.Number == v.roomid)
 
         this.room = this.createItem(data._id, data.Stars, data.Type, data.Name, data.Region, data.Address, tmp, tmproom[0], data.Extras, data.Images)

@@ -104,8 +104,12 @@ export class ListComponent implements OnInit {
 
       (data as Array<Hotel>).forEach(element => {
         let tmp: number = null;
-        if (element.Scores.length > 0)
-          tmp = element.Scores.reduce((a: number, b: number) => a + b) / element.Scores.length;
+        if (element.Scores.length > 0){
+          const sum = element.Scores.map(a => a.Score).reduce(function (a,b) {
+            return a + b;
+          });
+          tmp = sum / element.Scores.length;
+        }
 
         element.Rooms.forEach(item => {
           if (item.Price > this.maxPrice)

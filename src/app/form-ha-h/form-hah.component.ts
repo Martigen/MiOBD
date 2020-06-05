@@ -5,6 +5,7 @@ import { Room } from '../model/room';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from '../service/api.service';
 import { AuthService } from '../auth.service';
+import {Score} from "../model/score";
 
 @Component({
   selector: 'app-form-hah',
@@ -22,7 +23,7 @@ export class FormHaHComponent implements OnInit {
       Region: '',
       Accepted: false,
       Address: { City: '', Street: '' },
-      Scores: [],
+      Scores: Array<Score>(),
       Rooms: Array<Room>(),
       Extras: Array<string>(),
       Images: Array<string>(),

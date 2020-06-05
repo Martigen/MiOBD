@@ -30,7 +30,23 @@ let HotelsAndHostels = new Schema({
       }
    },
    Scores: {
-      type: [Number]
+      type: [{
+        Score: {
+          type: Number
+        },
+        Name: {
+          type: String
+        },
+        Surname: {
+          type: String
+        },
+        Description: {
+          type: String
+        },
+        Date: {
+          type: String
+        }
+      }]
    },
    Rooms: [{
       Number: {

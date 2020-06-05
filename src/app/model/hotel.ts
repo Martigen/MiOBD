@@ -1,5 +1,6 @@
 import { Address } from './address';
 import { Room } from './room';
+import {Score} from "./score";
 
 export class Hotel {
     _id: string;
@@ -10,7 +11,7 @@ export class Hotel {
     Region: string;
     Accepted: boolean;
     Address: Address;
-    Scores: number[];
+    Scores: Score[];
     Rooms: Room[];
     Extras: string[];
     Images: string[];
