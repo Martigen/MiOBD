@@ -22,7 +22,7 @@ export class ListComponent implements OnInit {
   hotel: boolean = true;
   hostel: boolean = true;
   regions: Array<string> = Array<string>();
-  selectedRegions: Array<boolean> = Array<boolean>()
+  selectedRegions: Array<boolean> = Array<boolean>();
   myHaH = false;
 
   maxPrice: number = 0;
@@ -30,6 +30,18 @@ export class ListComponent implements OnInit {
 
   maxBeds: number = 0;
   minBeds: number = 999;
+
+  maxScore: number = 0;
+  minScore: number = 5;
+
+  maxStars: number = 0;
+  minStars: number = 100;
+
+  maxComments: number = 0;
+  minComments: number = 20;
+
+  maxSize: number = 0;
+  minSize: number = 50;
 
   optionsPrice: Options = {
     floor: 0,
@@ -46,6 +58,7 @@ export class ListComponent implements OnInit {
     }
   };
 
+
   optionsBeds: Options = {
     floor: 1,
     ceil: 10,
@@ -60,6 +73,67 @@ export class ListComponent implements OnInit {
       }
     }
   };
+
+  optionsScore: Options = {
+    floor: 1,
+    ceil: 5,
+    translate: (value: number, label: LabelType): string => {
+      switch (label) {
+        case LabelType.Low:
+          return '<b>Min score:</b>' + value;
+        case LabelType.High:
+          return '<b>Max score:</b>' + value;
+        default:
+          return  value.toString();
+      }
+    }
+  };
+
+  optionsStars: Options = {
+    floor: 1,
+    ceil: 5,
+    translate: (value: number, label: LabelType): string => {
+      switch (label) {
+        case LabelType.Low:
+          return '<b>Min:</b>' + value + '★';
+        case LabelType.High:
+          return '<b>Max:</b>' + value+ '★';
+        default:
+          return  value.toString();
+      }
+    }
+  };
+
+  optionsComments: Options = {
+    floor: 1,
+    ceil: 20,
+    translate: (value: number, label: LabelType): string => {
+      switch (label) {
+        case LabelType.Low:
+          return '<b>Min Comments:</b>' + value;
+        case LabelType.High:
+          return '<b>Max Comments:</b>' + value;
+        default:
+          return  value.toString();
+      }
+    }
+  };
+
+  optionsSizes: Options = {
+    floor: 1,
+    ceil: 50,
+    translate: (value: number, label: LabelType): string => {
+      switch (label) {
+        case LabelType.Low:
+          return '<b>Min Size:</b>' + value;
+        case LabelType.High:
+          return '<b>Max Size:</b>' + value;
+        default:
+          return  value.toString();
+      }
+    }
+  };
+
 
 
   constructor(private auth: AuthService, private apiService: ApiService, private router: Router, private activatedroute: ActivatedRoute) {
@@ -184,6 +258,10 @@ export class ListComponent implements OnInit {
 
     this.HaH = this.HaH.filter(element => element.RoomPrice >= this.minPrice && element.RoomPrice <= this.maxPrice)
     this.HaH = this.HaH.filter(element => element.RoomBeds >= this.minBeds && element.RoomBeds <= this.maxBeds)
+    this.HaH = this.HaH.filter(element => element.RoomSize >= this.minSize && element.RoomSize <= this.maxSize);
+    this.HaH = this.HaH.filter(element => element.stars >= this.minStars && element.stars <= this.maxStars);
+    this.HaH = this.HaH.filter(element => element.avgScore >= this.minScore && element.avgScore <= this.maxScore);
+    this.HaH = this.HaH.filter(element => element.commentCount >= this.minComments && element.commentCount <= this.maxComments);
     if (this.vip)
       this.HaH = this.HaH.filter(element => element.RoomVip);
 

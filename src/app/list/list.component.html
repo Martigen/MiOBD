@@ -28,7 +28,19 @@ Hostel <input type="checkbox" [(ngModel)]="hostel" > <span class="checkmark"></s
   VIP <input type="checkbox" [(ngModel)]="vip" > <span class="checkmark"></span> 
   </label>
 
+
 <ng5-slider [(value)]="minBeds" [(highValue)]="maxBeds" [options]="optionsBeds"></ng5-slider>  <br><br>
+
+  <ng5-slider [(value)]="minSize" [(highValue)]="maxSize" [options]="optionsSizes"></ng5-slider>  <br><br>
+
+  <ng5-slider [(value)]="minStars" [(highValue)]="maxStars" [options]="optionsStars"></ng5-slider>  <br><br>
+
+  <ng5-slider [(value)]="minScore" [(highValue)]="maxScore" [options]="optionsScore"></ng5-slider>  <br><br>
+
+  <ng5-slider [(value)]="minComments" [(highValue)]="maxComments" [options]="optionsComments"></ng5-slider>  <br><br>
+
+
+
 <button (click)="SearchButton()" class="btn btn-primary btn-block" >Search</button><br><br>
 </nav>
 

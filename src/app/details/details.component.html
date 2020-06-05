@@ -1,127 +1,210 @@
-<div class="container-fluid" *ngIf="room" >
-    <div class="row">
-        <div >
-        <img [src]=image width="600" height="444"><br>
-<div *ngFor="let img of room.images" class="inline">
-    <img [src]=img width="120" height="88" (click)="loadImg(img)">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <style>
+    /* Remove the navbar's default margin-bottom and rounded borders */
+    .navbar {
+      margin-bottom: 0;
+      border-radius: 0;
+    }
 
-</div>
-</div>
-<div style="width:30%;">
+    /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
+    .row.content {height: 450px}
 
-    <form class="border">
-        <div class="form-group row" >
-            <label for="name" class="col-sm-2 col-form-label">Hotel Name:</label>
-            <div >
-                <p id="name">{{room.name}}</p>
+    /* Set gray background color and 100% height */
+    .sidenav {
+      padding-top: 20px;
+      background-color: #f1f1f1;
+      height: 100%;
+    }
+
+    /* Set black background color, white text and some padding */
+    footer {
+      background-color: #555;
+      color: white;
+      padding: 15px;
+    }
+
+    /* On small screens, set height to 'auto' for sidenav and grid */
+    @media screen and (max-width: 767px) {
+      .sidenav {
+        height: auto;
+        padding: 15px;
+      }
+      .row.content {height:auto;}
+    }
+  </style>
+</head>
+<body>
+
+<div class="container-fluid text-center">
+  <div class="row content">
+    <div class="col-sm-3 sidenav">
+      <form class="form">
+
+        <div class="form-control">
+          <div class="form-group row" >
+            <div>
+              <strong class="control" id="name">Hotel Name: {{room.name}}</strong>
             </div>
+          </div>
         </div>
 
-        <div class="form-group row" *ngIf="room.type == 'Hotel'">
-            <label for="name" class="col-sm-2 col-form-label">Hotel Stars:</label>
-            <div >
-                <p id="name">{{room.stars}}</p>
+        <div class="form-control">
+          <div class="form-group row" >
+            <div>
+              <strong class="control" id="stars">Hotel Stars: {{room.stars}}</strong>
             </div>
+          </div>
         </div>
 
-        <div class="form-group row">
-            <label for="score" class="col-sm-2 col-form-label">Avg Score:</label>
-            <div >
-                <p id="score">{{room.avgScore}}</p>
+        <div class="form-control">
+          <div class="form-group row" >
+            <div>
+              <strong class="control" id="score">Avg Score: {{room.avgScore}}</strong>
             </div>
+          </div>
         </div>
-        <div class="form-group row">
-            <label for="region" class="col-sm-2 col-form-label">Region:</label>
-            <div >
-                <p id="region">{{room.region}}</p>
+
+        <div class="form-control">
+          <div class="form-group row" >
+            <div>
+              <strong class="control" id="region">Region: {{room.region}}</strong>
             </div>
+          </div>
         </div>
-        <div class="form-group row">
-            <label for="city" class="col-sm-2 col-form-label">City:</label>
-            <div >
-                <p id="city">{{room.city}}</p>
+
+        <div class="form-control">
+          <div class="form-group row" >
+            <div>
+              <strong class="control" id="city">City: {{room.city}}</strong>
             </div>
+          </div>
         </div>
-        <div class="form-group row">
-            <label for="street" class="col-sm-2 col-form-label">Street:</label>
-            <div >
-                <p id="street">{{room.street}}</p>
+
+        <div class="form-control">
+          <div class="form-group row" >
+            <div>
+              <strong class="control" id="street">Street: {{room.street}}</strong>
             </div>
+          </div>
         </div>
-        <div class="form-group row">
-            <label for="RoomSize" class="col-sm-2 col-form-label">Room Size:</label>
-            <div >
-                <p id="RoomSize">{{room.RoomSize}}</p>
+
+
+        <div class="form-control">
+          <div class="form-group row" >
+            <div>
+              <strong class="control" id="RoomSize">Room Size: {{room.RoomSize}}</strong>
             </div>
+          </div>
         </div>
-        <div class="form-group row">
-            <label for="RoomBeds" class="col-sm-2 col-form-label">Room Beds:</label>
-            <div >
-                <p id="RoomBeds">{{room.RoomBeds}}</p>
+
+        <div class="form-control">
+          <div class="form-group row" >
+            <div>
+              <strong class="control" id="RoomBeds">Room Beds: {{room.RoomBeds}}</strong>
             </div>
+          </div>
         </div>
-        <div class="form-group row">
-            <label for="RoomPrice" class="col-sm-2 col-form-label">Room Price:</label>
-            <div >
-                <p id="RoomPrice">{{room.RoomPrice}}</p>
+
+        <div class="form-control">
+          <div class="form-group row" >
+            <div>
+              <strong class="control" id="RoomPrice">Room Price: {{room.RoomPrice}}</strong>
             </div>
+          </div>
         </div>
-        <div class="form-group row">
-            <label for="RoomVip" class="col-sm-2 col-form-label">Room Vip:</label>
-            <div >
+
+        <div class="form-control">
+          <div class="form-group row" >
+            <div>
+              <strong class="control"> Vip Room:
                 <input id="RoomVip" type="checkbox" [(ngModel)]="room.RoomVip" [ngModelOptions]="{standalone: true}" onclick="return false;"> <span class="checkmark"></span>
+              </strong>
             </div>
+          </div>
         </div>
-        <div class="form-group row">
-            <label for="extras" class="col-sm-2 col-form-label">Extras:</label>
+
+
+        <div class="form-control">
+          <div class="form-group row" >
+            <div>
+              <strong class="control" id="extras">Extras: {{room.extras}}</strong>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div class="col-sm-6 text-left">
+
+      <div style="padding-left: 35px">
+        <img [src]=image width="800" height="360"><br>
+
+        <div *ngFor="let img of room.images" class="inline">
+          <img [src]=img width="160" height="88" (click)="loadImg(img)">
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-3 sidenav">
+
             <div >
-                <p id="extras">{{room.extras}}</p>
+
+              <h2>Rate the hotel and leave a comment!</h2>
+              <br>
+
+              <div class="form-group row">
+                <div style="padding-left: 190px">
+                    <label for="rateScore">Rate:</label>
+                    <input type="number" id="rateScore"
+                         min="1"
+                         max="5"
+                         [(ngModel)]="rate" name="rateScore">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="description">Comment:</label>
+                <br>
+                <textarea type="text"  id="description"
+                          [(ngModel)]="description" cols="50" rows="6" name="description">
+                </textarea>
+              </div>
+
+              <button type="button" style="width: 200px; height: 50px" class="btn btn-success" (click)="Rate()">Rate</button>
             </div>
-        </div>
-
-    </form>
-</div>
-      <div class="details">
-        <h3>Rate the hotel and leave a comment!</h3>
-
-        <div class="form-group" style="width: 80px">
-          <label for="rateScore">Rate:</label>
-          <input type="number" class="form-control" id="rateScore"
-                 min="1"
-                 max="5"
-                 [(ngModel)]="score.Score" name="rateScore">
-        </div>
-
-        <div class="form-group">
-          <label for="description">Comment:</label>
-          <br>
-          <textarea type="text"  id="description"
-                    [(ngModel)]="score.Description" cols="70" rows="5" name="description">
-          </textarea>
-        </div>
-
-        <button type="button" class="btn btn-success" (click)="Rate()">Rate</button>
-      </div>
-</div>
-
-  <input class="btn btn-info" *ngIf='myHaH' (click)='editHaH(room.id,room.roomid)' value='Edit' type='button' />
-  <input class="btn btn-warning" onclick='javascript:window.history.back()' value='Back' type='button' />
-
-  <div>
-    <hr>
-    <h3>Comments section</h3>
-    <div mdbTableCol *ngFor="let el of hah.Scores">
-        <div class="comment">
-          <div style="float: right"> {{"Date: " + el.Date}}</div>
-          <div> {{'Score: ' + el.Score }}</div>
-          <div> {{el.Name + ' ' + el.Surname}}</div>
-          <div>{{el.Description}}</div>
-        </div>
-      <br>
-      </div>
+    </div>
   </div>
 </div>
 
+<div style="padding-left: 50px">
+  <input class="btn btn-info" style="width: 200px; height: 50px" *ngIf='myHaH' (click)='editHaH(room.id,room.roomid)' value='Edit' type='button' />
+  <input class="btn btn-warning" style="width: 200px; height: 50px;" onclick='javascript:window.history.back()' value='Back' type='button' />
+</div>
+<br>
 
+<footer class="container-fluid text-center">
 
+  <h1>Comments section</h1>
+  <div mdbTableCol *ngFor="let el of hah.Scores">
+    <div class="comment">
+      <div style="float: right"> {{"Date: " + el.Date}}</div>
+      <div style="float: left"> {{'Score: ' + el.Score }}</div>
+      <br>
+      <div style="float: left">Added by: {{el.Name + ' ' + el.Surname}}</div>
+      <br>
+      <div style="float: left">Comment: {{el.Description}}</div>
+      <br>
+    </div>
+    <br>
+  </div>
 
+</footer >
+
+</body>
+</html>

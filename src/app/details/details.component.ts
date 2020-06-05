@@ -23,9 +23,13 @@ export class DetailsComponent implements OnInit {
   myHaH = false;
   score: Score;
   user: User;
+  rate: number;
+  description: string;
 
 
   constructor(private apiService: ApiService, private activatedroute: ActivatedRoute, private auth: AuthService, private router: Router) {
+    this.rate = 5;
+    this.description = '';
     this.activatedroute.queryParams.subscribe(v => {
       this.apiService.getHaH(v.id).subscribe(data => {
         this.hah = data as Hotel;
@@ -101,23 +105,35 @@ export class DetailsComponent implements OnInit {
   Rate(){
     let arrayToRevert: Array<Score> = new Array<Score>();
     let date: Date;
+    this.score = new Score();
+
 
     date = new Date();
-    this.score.Date = date.getHours().toString() + ':' + date.getMinutes() + '  ' +
-      date.getDay().toString() +'-' + date.getMonth().toString() + '-' + date.getFullYear();
+    this.score.Date = date.getHours().toString().length === 1 ? '0' + date.getHours().toString() : + date.getHours().toString() +
+      ':' +
+      (date.getMinutes().toString().length === 1 ?  '0' + date.getMinutes().toString() :  date.getMinutes().toString())
+      + '  ' +
+      (date.getDay().toString().length === 1 ? '0' + date.getDay().toString() : date.getDay().toString())
+      +'-' +
+      (date.getMonth().toString().length === 1 ? '0' + date.getMonth().toString() : date.getMonth().toString()) +
+      '-' + date.getFullYear();
 
-    
+
     this.score.Name = this.user.name;
     this.score.Surname = this.user.surname;
 
+    arrayToRevert = [];
     arrayToRevert.push(this.score);
     arrayToRevert = arrayToRevert.concat(this.hah.Scores);
 
-
+    this.score.Score = this.rate;
+    this.score.Description = this.description;
     this.hah.Scores.push(this.score);
     this.apiService.updateHaH(this.hah._id, this.hah).subscribe(data => console.log(data));
 
     this.hah.Scores = arrayToRevert;
+
+
 }
 
 }

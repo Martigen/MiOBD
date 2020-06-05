@@ -7,7 +7,7 @@
 }
 
 .details{
-  padding-top: 10%;
+  padding-top: 30%;
   padding-left: 5%;
 }
 
@@ -16,3 +16,21 @@
   border: 2px solid red;
   border-radius: 12px;
 }
+
+.image{
+  position: absolute;
+  right: 10px;
+}
+
+.control{
+   padding-left: 50px;
+}
+
+
+.label{
+  text-align: right;
+  clear: both;
+  float:left;
+  margin-right:15px;
+}
+
