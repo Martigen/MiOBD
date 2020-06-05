@@ -124,7 +124,7 @@ export class ListComponent implements OnInit {
           }
 
           if(element.Accepted){
-            this.HaH.push(this.createItem(element._id, element.Stars, element.Type, element.Name, element.Region, element.Address.City, tmp, item, element.Extras, element.User, element.Views))
+            this.HaH.push(this.createItem(element._id, element.Stars, element.Type, element.Name, element.Region, element.Address.City, tmp, item, element.Extras, element.User, element.Views, element.Scores.length))
           }
         });
       });
@@ -135,7 +135,7 @@ export class ListComponent implements OnInit {
 
   }
 
-  createItem(id: string, stars: string, type: string, name: string, region: string, city: string, avgScore: number, room: Room, extras: Array<string>, user: string, views: number) {
+  createItem(id: string, stars: string, type: string, name: string, region: string, city: string, avgScore: number, room: Room, extras: Array<string>, user: string, views: number, commentCount) {
     return {
       id: id,
       roomid: room.Number,
@@ -145,13 +145,14 @@ export class ListComponent implements OnInit {
       stars: stars,
       region: region,
       city: city,
-      avgScore: avgScore,
+      avgScore: avgScore === null ? avgScore : avgScore.toFixed(2),
       RoomSize: room.Size,
       RoomBeds: room.NumberOfBeds,
       RoomPrice: room.Price,
       RoomVip: room.Vip,
       extras: extras,
-      views: views
+      views: views,
+      commentCount: commentCount
     };
   }
 
@@ -196,7 +197,6 @@ export class ListComponent implements OnInit {
       return;
     }
 
-    console.log(this.HaH)
     this.HaH = data.sort((a, b) => {
       const isAsc = sort.direction === 'asc';
       switch (sort.active) {
@@ -205,6 +205,7 @@ export class ListComponent implements OnInit {
         case 'region': return this.compare(a.region, b.region, isAsc);
         case 'avgScore': return this.compare(a.avgScore, b.avgScore, isAsc);
         case 'RoomBeeds': return this.compare(a.RoomBeeds, b.RoomBeeds, isAsc);
+        case 'commentCount': return this.compare(a.commentCount, b.commentCount, isAsc);
         case 'RoomSize': return this.compare(a.RoomSize, b.RoomSize, isAsc);
         case 'RoomVip': return this.compare(a.RoomVip, b.RoomVip, isAsc);
         case 'RoomPrice': return this.compare(a.RoomPrice, b.RoomPrice, isAsc);

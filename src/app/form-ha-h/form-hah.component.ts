@@ -117,7 +117,8 @@ export class FormHaHComponent implements OnInit {
   delete(){
     if (!confirm('Do you want to delete this Hotel or Hostel Permanently? '))
     return;
-    this.apiService.deleteHaH(this.id)
+    this.apiService.deleteHaH(this.id).subscribe(data => console.log(data));
+    this.router.navigate(['search'], {queryParams: {userid: this.auth.getUserId()}});
   }
 
   chechHaH(){

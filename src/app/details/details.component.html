@@ -1,13 +1,13 @@
-<div class="container-fluid" *ngIf="room">
+<div class="container-fluid" *ngIf="room" >
     <div class="row">
         <div >
         <img [src]=image width="600" height="444"><br>
 <div *ngFor="let img of room.images" class="inline">
     <img [src]=img width="120" height="88" (click)="loadImg(img)">
-    
+
 </div>
 </div>
-<div  style="width:60%;">
+<div style="width:30%;">
 
     <form class="border">
         <div class="form-group row" >
@@ -69,7 +69,7 @@
         <div class="form-group row">
             <label for="RoomVip" class="col-sm-2 col-form-label">Room Vip:</label>
             <div >
-                <input id="RoomVip" type="checkbox" [(ngModel)]="room.RoomVip" [ngModelOptions]="{standalone: true}" onclick="return false;"> <span class="checkmark"></span> 
+                <input id="RoomVip" type="checkbox" [(ngModel)]="room.RoomVip" [ngModelOptions]="{standalone: true}" onclick="return false;"> <span class="checkmark"></span>
             </div>
         </div>
         <div class="form-group row">
@@ -78,11 +78,50 @@
                 <p id="extras">{{room.extras}}</p>
             </div>
         </div>
-        
+
     </form>
 </div>
+      <div class="details">
+        <h3>Rate the hotel and leave a comment!</h3>
+
+        <div class="form-group" style="width: 80px">
+          <label for="rateScore">Rate:</label>
+          <input type="number" class="form-control" id="rateScore"
+                 min="1"
+                 max="5"
+                 [(ngModel)]="score.Score" name="rateScore">
+        </div>
+
+        <div class="form-group">
+          <label for="description">Comment:</label>
+          <br>
+          <textarea type="text"  id="description"
+                    [(ngModel)]="score.Description" cols="70" rows="5" name="description">
+          </textarea>
+        </div>
+
+        <button type="button" class="btn btn-success" (click)="Rate()">Rate</button>
+      </div>
 </div>
-<input class="btn btn-info" *ngIf='myHaH' (click)='editHaH(room.id,room.roomid)' value='Edit' type='button' />
-<input class="btn btn-warning" onclick='javascript:window.history.back()' value='Back' type='button' />
+
+  <input class="btn btn-info" *ngIf='myHaH' (click)='editHaH(room.id,room.roomid)' value='Edit' type='button' />
+  <input class="btn btn-warning" onclick='javascript:window.history.back()' value='Back' type='button' />
+
+  <div>
+    <hr>
+    <h3>Comments section</h3>
+    <div mdbTableCol *ngFor="let el of hah.Scores">
+        <div class="comment">
+          <div style="float: right"> {{"Date: " + el.Date}}</div>
+          <div> {{'Score: ' + el.Score }}</div>
+          <div> {{el.Name + ' ' + el.Surname}}</div>
+          <div>{{el.Description}}</div>
+        </div>
+      <br>
+      </div>
+  </div>
 </div>
+
+
+
 

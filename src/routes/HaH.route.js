@@ -84,7 +84,7 @@ HaHRoute.route('/user/:id').get((req, res, next) => {
 
 // Delete HaH
 HaHRoute.route('/delete/:id').delete((req, res, next) => {
-  HaH.findOneAndRemove(req.params.id, (error, data) => {
+  HaH.findByIdAndRemove(req.params.id, (error, data) => {
     if (error) {
       return next(error);
     } else {

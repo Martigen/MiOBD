@@ -1,7 +1,18 @@
 .container-fluid {
     padding: 50px;
-    
+  float:left;
 }
 .inline {
     display: inline-block
+}
+
+.details{
+  padding-top: 10%;
+  padding-left: 5%;
+}
+
+.comment{
+  padding: 20px;
+  border: 2px solid red;
+  border-radius: 12px;
 }

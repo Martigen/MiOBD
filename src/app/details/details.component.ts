@@ -6,6 +6,8 @@ import { element } from 'protractor';
 import { Room } from '../model/room';
 import { Address } from '../model/address';
 import { AuthService } from '../auth.service';
+import {Score} from "../model/score";
+import {User} from "../model/user";
 
 
 @Component({
@@ -19,6 +21,9 @@ export class DetailsComponent implements OnInit {
   room;
   image;
   myHaH = false;
+  score: Score;
+  user: User;
+
 
   constructor(private apiService: ApiService, private activatedroute: ActivatedRoute, private auth: AuthService, private router: Router) {
     this.activatedroute.queryParams.subscribe(v => {
@@ -43,17 +48,18 @@ export class DetailsComponent implements OnInit {
         else {
           this.myHaH = true;
         }
-
+        this.hah.Scores.reverse();
       })
-     
-    
+
+      let userId: string;
+      this.user = new User();
+      userId = this.auth.getUserId();
+      this.apiService.getUser(userId).subscribe(data => {
+        this.user.name = data.name;
+        this.user.surname = data.surname;
+      });
 
     });
-
-
-
-
-
 
   }
 
@@ -67,7 +73,7 @@ export class DetailsComponent implements OnInit {
       region: region,
       city: addres.City,
       street: addres.Street,
-      avgScore: avgScore,
+      avgScore: avgScore === null ? avgScore : avgScore.toFixed(2),
       RoomSize: room.Size,
       RoomBeds: room.NumberOfBeds,
       RoomPrice: room.Price,
@@ -83,10 +89,35 @@ export class DetailsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.score = new  Score();
+    this.score.Score = 5;
+    this.score.Description = '';
   }
 
   editHaH(id, roomid){
     this.router.navigate(['formhah'], { queryParams: { id: id, roomid: roomid } });
   }
+
+  Rate(){
+    let arrayToRevert: Array<Score> = new Array<Score>();
+    let date: Date;
+
+    date = new Date();
+    this.score.Date = date.getHours().toString() + ':' + date.getMinutes() + '  ' +
+      date.getDay().toString() +'-' + date.getMonth().toString() + '-' + date.getFullYear();
+
+    
+    this.score.Name = this.user.name;
+    this.score.Surname = this.user.surname;
+
+    arrayToRevert.push(this.score);
+    arrayToRevert = arrayToRevert.concat(this.hah.Scores);
+
+
+    this.hah.Scores.push(this.score);
+    this.apiService.updateHaH(this.hah._id, this.hah).subscribe(data => console.log(data));
+
+    this.hah.Scores = arrayToRevert;
+}
 
 }
