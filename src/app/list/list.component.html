@@ -56,7 +56,7 @@ Hostel <input type="checkbox" [(ngModel)]="hostel" > <span class="checkmark"></s
           <th scope="col" mat-sort-header="region" >Region</th>
           <th scope="col" mat-sort-header="avgScore">Score</th>
           <th scope="col" mat-sort-header="commentCount">Comments</th>
-          <th scope="col">Room Number</th>
+          <th scope="col" *ngIf='myHaH'>Room Number</th>
           <th scope="col" mat-sort-header="RoomBeeds" >Room Beeds</th>
           <th scope="col" mat-sort-header="RoomSize">Room Size</th>
           <th scope="col" mat-sort-header="RoomVip">Room Vip</th>
@@ -75,7 +75,7 @@ Hostel <input type="checkbox" [(ngModel)]="hostel" > <span class="checkmark"></s
           <td>{{item.region}}</td>
           <td>{{item.avgScore}}</td>
           <td>{{item.commentCount}}</td>
-          <td>{{item.roomid}}</td>
+          <td *ngIf='myHaH'>{{item.roomid}}</td>
           <td>{{item.RoomBeds}}</td>
           <td>{{item.RoomSize}}</td>
           <td>{{item.RoomVip}}</td>

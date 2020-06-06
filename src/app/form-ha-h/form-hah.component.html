@@ -1,12 +1,12 @@
 
 <div class="padd">
 <div class="border">
-    <div class="form-inline">
-    <label class="container2">
-        Hotel <input type="radio" [(ngModel)]="HaH.Type" value="Hotel"> <span class="checkmark"></span> 
+    <div class="form-inline" >
+    <label class="container2" >
+        Hotel <input type="radio" [(ngModel)]="HaH.Type" value="Hotel" (click)="starsHotel()"> <span class="checkmark"></span> 
         </label>
         <label class="container2">
-            Hostel <input type="radio" [(ngModel)]="HaH.Type" value="Hostel"> <span class="checkmark"></span> 
+            Hostel <input type="radio" [(ngModel)]="HaH.Type" value="Hostel" (click)="starsHostel()"> <span class="checkmark"></span> 
             </label>
     </div>
     <div class="form-inline">
@@ -15,11 +15,6 @@
         <div class="form-group mx-sm-3 mb-2">
             <label for="inputName" class="sr-only">Hotel Name</label> Hotel Name: 
             <input type="text" class="form-control" id="inputName" [(ngModel)]="HaH.Name" placeholder="Hotel Name" >
-          </div>
-
-          <div class="form-group mx-sm-3 mb-2">
-            <label for="inputStars" class="sr-only">Stars</label> Stars: 
-            <input type="text" class="form-control" id="inputStars" [(ngModel)]="HaH.Stars" placeholder="Stars" >
           </div>
           <div class="form-group mx-sm-3 mb-2">
             <label for="inputCity" class="sr-only">City</label> City: 
@@ -33,7 +28,10 @@
             <label for="inputRegion" class="sr-only">Góry,Jezioro,Morze</label> Region: 
             <input type="text" class="form-control" id="inputRegion" [(ngModel)]="HaH.Region" placeholder="Góry,Jezioro,Morze" >
           </div>
-
+          <div class="form-group mx-sm-3 mb-2" id="stars">
+            <label for="inputStars" class="sr-only">Stars</label> Stars: 
+            <input  type="text" class="form-control" id="inputStars" [(ngModel)]="HaH.Stars" placeholder="Stars" >
+          </div>
 
 
 

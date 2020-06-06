@@ -154,4 +154,16 @@ export class FormHaHComponent implements OnInit {
    
     }
 
+
+
+    starsHotel(){
+        this.HaH.Stars = ""
+        document.getElementById("stars").hidden = false;
+    }
+
+    starsHostel(){
+      this.HaH.Stars = "-"
+      document.getElementById("stars").hidden = true;
+    }
+
 }

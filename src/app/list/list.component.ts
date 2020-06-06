@@ -38,10 +38,10 @@ export class ListComponent implements OnInit {
   minStars: number = 100;
 
   maxComments: number = 0;
-  minComments: number = 20;
+  minComments: number = 0;
 
   maxSize: number = 0;
-  minSize: number = 50;
+  minSize: number = 0;
 
   optionsPrice: Options = {
     floor: 0,
@@ -75,7 +75,7 @@ export class ListComponent implements OnInit {
   };
 
   optionsScore: Options = {
-    floor: 1,
+    floor: 0,
     ceil: 5,
     translate: (value: number, label: LabelType): string => {
       switch (label) {
@@ -90,7 +90,7 @@ export class ListComponent implements OnInit {
   };
 
   optionsStars: Options = {
-    floor: 1,
+    floor: 0,
     ceil: 5,
     translate: (value: number, label: LabelType): string => {
       switch (label) {
@@ -105,7 +105,7 @@ export class ListComponent implements OnInit {
   };
 
   optionsComments: Options = {
-    floor: 1,
+    floor: 0,
     ceil: 20,
     translate: (value: number, label: LabelType): string => {
       switch (label) {
@@ -165,10 +165,14 @@ export class ListComponent implements OnInit {
 
       }
     });
-
-
-
   }
+
+  setNewCeil(options:Options,newCeil: number): Options {
+    const newOptions: Options = Object.assign({}, options);
+    newOptions.ceil = newCeil;
+    return newOptions;
+  }
+
 
   load() {
     this.myHaH = false;
@@ -196,14 +200,23 @@ export class ListComponent implements OnInit {
             this.regions.push(element.Region);
             this.selectedRegions.push(true);
           }
+          if(item.Size > this.maxSize)
+          this.maxSize = item.Size;
+          if(element.Scores.length> this.maxComments)
+          this.maxComments = element.Scores.length;
 
           if(element.Accepted){
             this.HaH.push(this.createItem(element._id, element.Stars, element.Type, element.Name, element.Region, element.Address.City, tmp, item, element.Extras, element.User, element.Views, element.Scores.length))
           }
+         
         });
       });
       this.remenberHaH = this.HaH;
       this.HaH.sort((a, b) => this.compare(a.views, b.views, false))
+      this.optionsPrice = this.setNewCeil(this.optionsPrice,this.maxPrice)
+      this.optionsBeds = this.setNewCeil(this.optionsBeds,this.maxBeds)
+      this.optionsSizes = this.setNewCeil(this.optionsSizes,this.maxSize)
+      this.optionsComments = this.setNewCeil(this.optionsComments,this.maxComments)
     })
 
 
@@ -254,12 +267,12 @@ export class ListComponent implements OnInit {
     }
 
 
-
+console.log(this.HaH)
 
     this.HaH = this.HaH.filter(element => element.RoomPrice >= this.minPrice && element.RoomPrice <= this.maxPrice)
     this.HaH = this.HaH.filter(element => element.RoomBeds >= this.minBeds && element.RoomBeds <= this.maxBeds)
     this.HaH = this.HaH.filter(element => element.RoomSize >= this.minSize && element.RoomSize <= this.maxSize);
-    this.HaH = this.HaH.filter(element => element.stars >= this.minStars && element.stars <= this.maxStars);
+    this.HaH = this.HaH.filter(element => element.stars >= this.minStars && element.stars <= this.maxStars || this.minStars == 0 && element.stars == '-');
     this.HaH = this.HaH.filter(element => element.avgScore >= this.minScore && element.avgScore <= this.maxScore);
     this.HaH = this.HaH.filter(element => element.commentCount >= this.minComments && element.commentCount <= this.maxComments);
     if (this.vip)
