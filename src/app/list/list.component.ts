@@ -7,6 +7,7 @@ import { Sort } from '@angular/material/sort';
 import { Options, LabelType } from 'ng5-slider';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../auth.service';
+import {User} from "../model/user";
 
 @Component({
   selector: 'app-list',
@@ -42,6 +43,9 @@ export class ListComponent implements OnInit {
 
   maxSize: number = 0;
   minSize: number = 0;
+
+  hasUserRole: boolean;
+  hasHotelierRole: boolean;
 
   optionsPrice: Options = {
     floor: 0,
@@ -148,6 +152,7 @@ export class ListComponent implements OnInit {
 
     this.activatedroute.queryParams.subscribe(v => {
       this.load();
+
       if (v.city) {
         this.city = v.city;
         setTimeout(() => { this.SearchButton(); }, 100);
@@ -205,7 +210,9 @@ export class ListComponent implements OnInit {
           if(element.Scores.length> this.maxComments)
           this.maxComments = element.Scores.length;
 
-          if(element.Accepted){
+          if(element.Accepted && this.hasUserRole){
+            this.HaH.push(this.createItem(element._id, element.Stars, element.Type, element.Name, element.Region, element.Address.City, tmp, item, element.Extras, element.User, element.Views, element.Scores.length))
+          } else{
             this.HaH.push(this.createItem(element._id, element.Stars, element.Type, element.Name, element.Region, element.Address.City, tmp, item, element.Extras, element.User, element.Views, element.Scores.length))
           }
          
@@ -219,6 +226,12 @@ export class ListComponent implements OnInit {
       this.optionsComments = this.setNewCeil(this.optionsComments,this.maxComments)
     })
 
+    this.auth.getLoggedUser().subscribe((ele) => {
+      let user: User;
+      user =ele;
+      this.hasUserRole = user.role.includes('ROLE_User');
+      this.hasHotelierRole = user.role.includes('ROLE_Hotelier');
+    })
 
   }
 

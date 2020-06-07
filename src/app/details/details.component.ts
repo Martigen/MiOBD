@@ -26,6 +26,8 @@ export class DetailsComponent implements OnInit {
   rate: number;
   description: string;
 
+  hasAdminRole: boolean;
+  hasUserRole: boolean;
 
   constructor(private apiService: ApiService, private activatedroute: ActivatedRoute, private auth: AuthService, private router: Router) {
     this.rate = 5;
@@ -52,8 +54,7 @@ export class DetailsComponent implements OnInit {
         else {
           this.myHaH = true;
         }
-        this.hah.Scores.reverse();
-      })
+      });
 
       let userId: string;
       this.user = new User();
@@ -61,9 +62,12 @@ export class DetailsComponent implements OnInit {
       this.apiService.getUser(userId).subscribe(data => {
         this.user.name = data.name;
         this.user.surname = data.surname;
+        this.hasAdminRole = data.role.includes('ROLE_Admin');
+        this.hasUserRole = data.role.includes('ROLE_User');
       });
 
     });
+    
 
   }
 
@@ -113,7 +117,7 @@ export class DetailsComponent implements OnInit {
       ':' +
       (date.getMinutes().toString().length === 1 ?  '0' + date.getMinutes().toString() :  date.getMinutes().toString())
       + '  ' +
-      (date.getDay().toString().length === 1 ? '0' + date.getDay().toString() : date.getDay().toString())
+      (date.getDate().toString().length === 1 ? '0' + date.getDate().toString() : date.getDate().toString())
       +'-' +
       (date.getMonth().toString().length === 1 ? '0' + date.getMonth().toString() : date.getMonth().toString()) +
       '-' + date.getFullYear();
@@ -129,11 +133,20 @@ export class DetailsComponent implements OnInit {
     this.score.Score = this.rate;
     this.score.Description = this.description;
     this.hah.Scores.push(this.score);
-    this.apiService.updateHaH(this.hah._id, this.hah).subscribe(data => console.log(data));
 
     this.hah.Scores = arrayToRevert;
 
+    this.apiService.updateHaH(this.hah._id, this.hah).subscribe(data => console.log(data));
 
 }
+
+  DeleteComment(comment){
+    let indexToRemove: number;
+    indexToRemove = this.hah.Scores.indexOf(comment);
+
+    this.hah.Scores.splice(indexToRemove, 1);
+
+    this.apiService.updateHaH(this.hah._id, this.hah).subscribe(data => console.log(data));
+  }
 
 }

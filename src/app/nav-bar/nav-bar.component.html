@@ -42,11 +42,11 @@
       <ul class="navbar-nav"  *ngIf="LoggedIn" style="float: right; cursor:pointer;">
 
         <li class="nav-item">
-          <a class="nav-link" *ngIf="hasRoleAdmin" (click)="NavigateToAdminPanel()">Administration Panel</a>
+          <a class="nav-link" *ngIf="hasAdminRole" (click)="NavigateToAdminPanel()">Administration Panel</a>
         </li>
 
         <li class="nav-item">
-          <a class="nav-link" *ngIf="hasRoleHotelier"  (click)="SeeMyHaH()">Hotelier Panel</a>
+          <a class="nav-link" *ngIf="hasHotelierRole || hasAdminRole"  (click)="SeeMyHaH()">Hotelier Panel</a>
         </li>
 
         <li class="nav-item">
