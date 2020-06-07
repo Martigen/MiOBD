@@ -49,7 +49,7 @@
         <div class="form-control">
           <div class="form-group row" >
             <div>
-              <strong class="control" id="name">Hotel Name: {{room.name}}</strong>
+              <strong class="control" id="name">Hotel Name: {{hotel.Name}}</strong>
             </div>
           </div>
         </div>
@@ -57,7 +57,7 @@
         <div class="form-control">
           <div class="form-group row" >
             <div>
-              <strong class="control" id="stars">Hotel Stars: {{room.stars}}</strong>
+              <strong class="control" id="owner">Owner: {{owner}}</strong>
             </div>
           </div>
         </div>
@@ -65,7 +65,7 @@
         <div class="form-control">
           <div class="form-group row" >
             <div>
-              <strong class="control" id="score">Avg Score: {{room.avgScore}}</strong>
+              <strong class="control" id="type">Type: {{hotel.Type}}</strong>
             </div>
           </div>
         </div>
@@ -73,7 +73,7 @@
         <div class="form-control">
           <div class="form-group row" >
             <div>
-              <strong class="control" id="region">Region: {{room.region}}</strong>
+              <strong class="control" id="stars">Hotel Stars: {{hotel.Stars}}</strong>
             </div>
           </div>
         </div>
@@ -81,7 +81,7 @@
         <div class="form-control">
           <div class="form-group row" >
             <div>
-              <strong class="control" id="city">City: {{room.city}}</strong>
+              <strong class="control" id="rooms">Hotel Rooms: {{rooms}}</strong>
             </div>
           </div>
         </div>
@@ -89,16 +89,7 @@
         <div class="form-control">
           <div class="form-group row" >
             <div>
-              <strong class="control" id="street">Street: {{room.street}}</strong>
-            </div>
-          </div>
-        </div>
-
-
-        <div class="form-control">
-          <div class="form-group row" >
-            <div>
-              <strong class="control" id="RoomSize">Room Size: {{room.RoomSize}}</strong>
+              <strong class="control" id="avg">Avg Score: {{avg}}</strong>
             </div>
           </div>
         </div>
@@ -106,7 +97,7 @@
         <div class="form-control">
           <div class="form-group row" >
             <div>
-              <strong class="control" id="RoomBeds">Room Beds: {{room.RoomBeds}}</strong>
+              <strong class="control" id="region">Region: {{hotel.Region}}</strong>
             </div>
           </div>
         </div>
@@ -114,7 +105,7 @@
         <div class="form-control">
           <div class="form-group row" >
             <div>
-              <strong class="control" id="RoomPrice">Room Price: {{room.RoomPrice}}</strong>
+              <strong class="control" id="city">City: {{hotel.Address.City}}</strong>
             </div>
           </div>
         </div>
@@ -122,10 +113,7 @@
         <div class="form-control">
           <div class="form-group row" >
             <div>
-              <strong class="control"> Vip Room:
-                <span class="glyphicon glyphicon-ok" *ngIf="room.RoomVip === true"></span>
-                <span class="glyphicon glyphicon-remove" *ngIf="room.RoomVip === false"></span>
-              </strong>
+              <strong class="control" id="street">Street: {{hotel.Address.Street}}</strong>
             </div>
           </div>
         </div>
@@ -134,57 +122,28 @@
         <div class="form-control">
           <div class="form-group row" >
             <div>
-              <strong class="control" id="extras">Extras: {{room.extras}}</strong>
+              <strong class="control" id="extras">Extras: {{hotel.Extras}}</strong>
             </div>
           </div>
         </div>
+
       </form>
     </div>
 
-    <div class="col-sm-6 text-left">
+    <div class="col-sm-9 text-left">
 
-      <div style="padding-left: 35px">
-        <img [src]=image width="800" height="360"><br>
+      <div style="padding-left: 200px">
+        <img [src]= image width="1000" height="360"><br>
 
-        <div *ngFor="let img of room.images" class="inline">
-          <img [src]=img width="160" style="cursor:pointer;" height="88" (click)="loadImg(img)">
+        <div *ngFor="let img of hotel.Images" class="inline">
+          <img [src]=img width="200" style="cursor:pointer;" height="88" (click)="loadImg(img)">
         </div>
       </div>
-    </div>
-
-    <div class="col-sm-3 sidenav">
-
-            <div >
-
-              <h2>Rate the hotel and leave a comment!</h2>
-              <br>
-
-              <div class="form-group row">
-                <div style="padding-left: 190px">
-                    <label for="rateScore">Rate:</label>
-                    <input type="number" id="rateScore"
-                         min="1"
-                         max="5"
-                         [(ngModel)]="rate" name="rateScore">
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label for="description">Comment:</label>
-                <br>
-                <textarea type="text"  id="description"
-                          [(ngModel)]="description" cols="50" rows="6" name="description">
-                </textarea>
-              </div>
-
-              <button type="button" style="width: 200px; height: 50px" class="btn btn-success" (click)="Rate()">Rate</button>
-            </div>
     </div>
   </div>
 </div>
 
 <div style="padding-left: 50px">
-  <input class="btn btn-info" style="width: 200px; height: 50px" *ngIf='myHaH' (click)='editHaH(room.id,room.roomid)' value='Edit' type='button' />
   <input class="btn btn-warning" style="width: 200px; height: 50px;" onclick='javascript:window.history.back()' value='Back' type='button' />
 </div>
 <br>
@@ -192,7 +151,7 @@
 <footer class="container-fluid text-center">
 
   <h1>Comments section</h1>
-  <div mdbTableCol *ngFor="let el of hah.Scores">
+  <div mdbTableCol *ngFor="let el of hotel.Scores">
     <div class="comment">
       <div style="float: right"> {{"Date: " + el.Date}}</div>
       <div style="float: left"> {{'Score: ' + el.Score }}</div>

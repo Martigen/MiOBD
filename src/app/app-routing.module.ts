@@ -8,6 +8,7 @@ import { FormHaHComponent } from './form-ha-h/form-hah.component';
 import {AdministrationPanelComponent} from "./administration-panel/administration-panel.component";
 import {UserRegistrationPanelComponent} from "./user-registration-panel/user-registration-panel.component";
 import {UserEditPanelComponent} from "./user-edit-panel/user-edit-panel.component";
+import {HahDetailsComponent} from "./hah-details/hah-details.component";
 
 
 
@@ -34,6 +35,10 @@ const routes: Routes = [
     path: 'detail',
     component: DetailsComponent,
     canActivate: [AuthGuardService]
+  },
+  {
+    path: 'hahDetails',
+    component: HahDetailsComponent,
   },
   {
     path: 'formhah',

@@ -16,6 +16,8 @@ export class NavBarComponent implements OnInit {
   email='a@a.a';
   pass='a';
   user: User;
+  hasRoleHotelier: boolean;
+  hasRoleAdmin: boolean;
 
   constructor(private auth: AuthService,private router: Router) {
     this.auth.getLoginStatus().subscribe((status : boolean) =>this.LoggedIn=status);
@@ -26,8 +28,12 @@ export class NavBarComponent implements OnInit {
 
   login() {
     this.auth.login(this.email, this.pass);
-    this.auth.getLoggedUser().subscribe((ele) =>this.user=ele);
-    
+    this.auth.getLoggedUser().subscribe((ele) => {
+      this.user=ele;
+      this.hasRoleAdmin = this.user.role.includes('ROLE_Admin');
+      this.hasRoleHotelier = this.user.role.includes('ROLE_Hotelier');
+    })
+
   }
 
   logOut() {
@@ -49,6 +55,10 @@ export class NavBarComponent implements OnInit {
 
   EditUser(){
     this.router.navigate(['editAccount'], {queryParams: {userid: this.auth.getUserId()}});
+  }
+  getRoles(){
+    console.log(this.user);
+      console.log(this.hasRoleAdmin);
   }
 
 }

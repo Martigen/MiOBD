@@ -1,9 +1,9 @@
 .container-fluid {
-    padding: 50px;
+  padding: 50px;
   float:left;
 }
 .inline {
-    display: inline-block
+  display: inline-block
 }
 
 .details{
@@ -24,7 +24,7 @@
 }
 
 .control{
-   padding-left: 50px;
+  padding-left: 50px;
 }
 
 

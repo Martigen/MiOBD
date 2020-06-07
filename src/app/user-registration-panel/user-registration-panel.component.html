@@ -29,11 +29,18 @@
            [(ngModel)]="user.password" name="password">
   </div>
 
+  <div class="form-group">
+    <label for="confirmPassword">Confirm Password</label>
+    <input type="password" class="form-control" id="confirmPassword"
+           required
+           [(ngModel)]="confirmPassword" name="confirmPassword">
+  </div>
+
   <div class="form-group" >
     I am a hotelier
-    <input type="checkbox" [(ngModel)]="isHotelier"/>
+    <input type="checkbox"  [(ngModel)]="isHotelier"/>
   </div>
 
 
-  <button type="button" class="btn btn-success" (click)="Save()">Success</button>
+  <button type="button" class="btn btn-success" (click)="Save()">Save</button>
 </div>

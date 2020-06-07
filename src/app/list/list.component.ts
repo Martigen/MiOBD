@@ -267,7 +267,6 @@ export class ListComponent implements OnInit {
     }
 
 
-console.log(this.HaH)
 
     this.HaH = this.HaH.filter(element => element.RoomPrice >= this.minPrice && element.RoomPrice <= this.maxPrice)
     this.HaH = this.HaH.filter(element => element.RoomBeds >= this.minBeds && element.RoomBeds <= this.maxBeds)
@@ -318,7 +317,6 @@ console.log(this.HaH)
   editHaH(id, roomid) {
     this.router.navigate(['formhah'], { queryParams: { id: id, roomid: roomid } });
   }
-
 
 }
 

@@ -6,6 +6,7 @@
     <th>City</th>
     <th>Street</th>
     <th>Accepted</th>
+    <th>Details</th>
   </tr>
   </thead>
   <tbody>
@@ -14,12 +15,16 @@
     <td>{{el.Type}}</td>
     <td>{{el.Address.City}}</td>
     <td>{{el.Address.Street}}</td>
-
     <td *ngIf="el.Accepted">
       Accepted!
     </td>
+
     <td *ngIf="!el.Accepted">
       <a class="btn btn-success" (click)="AcceptHotel(el._id)" role="button">Accept</a>
+    </td>
+
+    <td>
+      <button class="btn btn-info" (click)="Details(el._id)"> Details</button>
     </td>
 
   </tr>

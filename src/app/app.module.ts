@@ -16,6 +16,7 @@ import { FormHaHComponent } from './form-ha-h/form-hah.component';
 import { AdministrationPanelComponent } from './administration-panel/administration-panel.component';
 import { UserRegistrationPanelComponent } from './user-registration-panel/user-registration-panel.component';
 import { UserEditPanelComponent } from './user-edit-panel/user-edit-panel.component';
+import { HahDetailsComponent } from './hah-details/hah-details.component';
 
 
 
@@ -30,6 +31,7 @@ import { UserEditPanelComponent } from './user-edit-panel/user-edit-panel.compon
     AdministrationPanelComponent,
     UserRegistrationPanelComponent,
     UserEditPanelComponent,
+    HahDetailsComponent,
   ],
   imports: [
     BrowserModule,
