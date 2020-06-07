@@ -12,39 +12,57 @@ export class UserRegistrationPanelComponent implements OnInit {
   user: User = new User();
   isHotelier: boolean;
   confirmPassword: string;
-
+  users = Array<User>();
+  emails;
   constructor(private apiService: ApiService, private router: Router) { }
 
   ngOnInit(): void {
 
+    this.users = [];
+    this.apiService.getUsers().subscribe(data => {
+        this.users = data as Array<User>;
+        this.emails = this.users.map(({email}) => email);
+
+      }
+    );
   }
 
   Save() {
     let regexp = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
+    let isExist: boolean;
 
-    if (regexp.test(this.user.email)) {
-      if (this.user.password.length === 0) {
-        if (this.confirmPassword === this.user.password) {
 
-          const role = Array<string>();
-          if (this.isHotelier) {
-            role.push('ROLE_Hotelier')
+    isExist = this.emails.includes(this.user.email);
+    if (!isExist) {
+      if (regexp.test(this.user.email)) {
+        if (this.user.password.length != 0) {
+          if (this.confirmPassword === this.user.password) {
+
+            const role = Array<string>();
+            if (this.isHotelier) {
+              role.push('ROLE_Hotelier')
+            }
+            role.push('ROLE_User');
+            this.user.role = role;
+
+            this.apiService.createUser(this.user).subscribe(data => console.log(data));
+            this.router.navigate(['#']);
+
+          } else {
+            alert('Passwords do not match');
+
           }
-          role.push('ROLE_User');
-          this.user.role = role;
-
-          this.apiService.createUser(this.user).subscribe(data => console.log(data));
-          this.router.navigate(['#']);
-
         } else {
           alert('Password cannot be blank ');
         }
       } else {
-        alert('Passwords do not match');
+        alert('Set correct email');
       }
     } else{
-      alert('Set correct email');
+      alert('This email already exist');
     }
-  }
+    }
+
+
 
 }

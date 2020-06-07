@@ -46,6 +46,7 @@ Hostel <input type="checkbox" [(ngModel)]="hostel" > <span class="checkmark"></s
 
   <article>
     <input class="btn btn-success" *ngIf='myHaH' routerLink="/formhah" value='Register Hotel Or Hostel' type='button' />
+    <h2 *ngIf='myHaH'>My Hotel and hostel rooms:</h2>
     <table class="table  table-striped" matSort (matSortChange)="sortData($event)">
       <thead style="background:dodgerblue;" class="text-white">
         <tr>

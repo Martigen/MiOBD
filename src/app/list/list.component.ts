@@ -210,11 +210,10 @@ export class ListComponent implements OnInit {
           if(element.Scores.length> this.maxComments)
           this.maxComments = element.Scores.length;
 
-          if(element.Accepted && this.hasUserRole){
-            this.HaH.push(this.createItem(element._id, element.Stars, element.Type, element.Name, element.Region, element.Address.City, tmp, item, element.Extras, element.User, element.Views, element.Scores.length))
-          } else{
-            this.HaH.push(this.createItem(element._id, element.Stars, element.Type, element.Name, element.Region, element.Address.City, tmp, item, element.Extras, element.User, element.Views, element.Scores.length))
-          }
+            if (element.Accepted) {
+              this.HaH.push(this.createItem(element._id, element.Stars, element.Type, element.Name, element.Region, element.Address.City, tmp, item, element.Extras, element.User, element.Views, element.Scores.length))
+            }
+
          
         });
       });
