@@ -15,7 +15,8 @@ export class HahDetailsComponent implements OnInit {
   owner: string;
   avg: string = '-';
   rooms: string = '-';
-
+  hah:Hotel;
+  HaH: Array<Hotel> = Array<Hotel>();
   constructor(private apiService: ApiService, private activatedroute: ActivatedRoute) {
     this.activatedroute.queryParams.subscribe(h => {
       this.apiService.getHaH(h.id).subscribe(data => {
@@ -34,6 +35,17 @@ export class HahDetailsComponent implements OnInit {
         });
       })
     })
+
+    this.HaH = [];
+    this.apiService.getHaHs().subscribe(data => {
+      data as Array<Hotel>;
+
+      (data as Array<Hotel>).forEach(element => {
+        let tmp: number = null;
+      });
+      this.HaH = data as Array<Hotel>;
+    })
+
   }
 
   ngOnInit(): void {
@@ -42,6 +54,14 @@ export class HahDetailsComponent implements OnInit {
 
   loadImg(img) {
     this.image = img;
+  }
+
+  DeleteComment(comment){
+    let indexToRemove: number;
+    indexToRemove = this.hotel.Scores.indexOf(comment);
+
+    this.hotel.Scores.splice(indexToRemove, 1);
+    this.apiService.updateHaH(this.hotel._id, this.hotel).subscribe(data => console.log(data));
   }
 
 }
