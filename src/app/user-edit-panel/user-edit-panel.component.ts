@@ -35,24 +35,39 @@ export class UserEditPanelComponent implements OnInit {
 
     let regexp = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
 
-    if (regexp.test(this.user.email)) {
-      if (this.user.password.length === 0) {
+    if(this.user.name.length > 0) {
+      if (this.user.surname.length > 0) {
+        if (regexp.test(this.user.email)) {
+          if (this.changePassword) {
+
+            if (this.newPassword.length > 0) {
+              this.user.password = this.newPassword;
+
+              this.apiService.updateUser(this.user._id, this.user).subscribe(data => console.log(data));
+              window.history.back();
+              alert('Saved changes!');
+
+            } else {
+              alert('Password cannot be empty');
+            }
+
+          } else {
+            this.user.password = this.oldPassword;
+
+            this.apiService.updateUser(this.user._id, this.user).subscribe(data => console.log(data));
+            window.history.back();
+            alert('Saved changes!');
+          }
 
 
-        if (this.changePassword) {
-          this.user.password = this.newPassword;
         } else {
-          this.user.password = this.oldPassword;
+          alert('Set correct email');
         }
-
-        this.apiService.updateUser(this.user._id, this.user).subscribe(data => console.log(data));
-        window.history.back();
-
       } else {
-        alert('Password cannot be blank ');
+        alert('Surname cannot be empty');
       }
-    } else{
-      alert('Set correct email');
+    } else {
+      alert('Name cannot be empty');
     }
   }
 }

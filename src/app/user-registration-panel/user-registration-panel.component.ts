@@ -34,7 +34,6 @@ export class UserRegistrationPanelComponent implements OnInit {
     let regexp = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
     let isExist: boolean;
 
-    console.log(this.user.name);
     if(this.user.name.length > 0) {
       if (this.user.surname.length > 0) {
         isExist = this.emails.includes(this.user.email);
