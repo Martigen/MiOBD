@@ -17,7 +17,7 @@ export class HahDetailsComponent implements OnInit {
   rooms: string = '-';
   hah:Hotel;
   HaH: Array<Hotel> = Array<Hotel>();
-  constructor(private apiService: ApiService, private activatedroute: ActivatedRoute) {
+  constructor(private apiService: ApiService, private activatedroute: ActivatedRoute, private router: Router) {
     this.activatedroute.queryParams.subscribe(h => {
       this.apiService.getHaH(h.id).subscribe(data => {
         this.hotel = data as Hotel;
@@ -63,5 +63,10 @@ export class HahDetailsComponent implements OnInit {
     this.hotel.Scores.splice(indexToRemove, 1);
     this.apiService.updateHaH(this.hotel._id, this.hotel).subscribe(data => console.log(data));
   }
+
+  editHaH(id){
+    this.router.navigate(['formhah'], { queryParams: { id: id } });
+  }
+
 
 }
