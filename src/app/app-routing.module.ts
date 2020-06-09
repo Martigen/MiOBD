@@ -22,6 +22,7 @@ const routes: Routes = [
   {
     path: 'administrationPanel',
     component: AdministrationPanelComponent,
+    canActivate: [AuthGuardService]
   },
   {
     path: 'registration',
@@ -30,6 +31,7 @@ const routes: Routes = [
   {
     path: 'editAccount',
     component: UserEditPanelComponent,
+    canActivate: [AuthGuardService]
   },
   {
     path: 'detail',
@@ -39,6 +41,7 @@ const routes: Routes = [
   {
     path: 'hahDetails',
     component: HahDetailsComponent,
+    canActivate: [AuthGuardService]
   },
   {
     path: 'formhah',
