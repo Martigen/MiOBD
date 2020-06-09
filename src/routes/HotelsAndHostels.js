@@ -63,6 +63,9 @@ let HotelsAndHostels = new Schema({
       },
       Vip: {
          type: Boolean
+      },
+      Visible: {
+         type: Boolean
       }
    }],
    Extras: [{

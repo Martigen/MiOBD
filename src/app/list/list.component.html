@@ -63,26 +63,28 @@ Hostel <input type="checkbox" [(ngModel)]="hostel" > <span class="checkmark"></s
           <th scope="col" mat-sort-header="RoomVip">Room Vip</th>
           <th scope="col" mat-sort-header="RoomPrice">Room Price</th>
           <th scope="col" mat-sort-header="extras" >Extras</th>
+          <th scope="col" *ngIf='myHaH' >Visible</th>
           <th scope="col" mat-sort-header="views" >Popularity</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let item of HaH">
-   
-          <td>{{item.type}}</td>
-          <td>{{item.name}}</td>
-          <td>{{item.stars}}</td>
-          <td>{{item.city}}</td>
-          <td>{{item.region}}</td>
-          <td>{{item.avgScore}}</td>
-          <td>{{item.commentCount}}</td>
+ 
+          <td *ngIf='myHaH || item.RoomVisible'>{{item.type}}</td>
+          <td *ngIf='myHaH || item.RoomVisible'>{{item.name}}</td>
+          <td *ngIf='myHaH || item.RoomVisible'>{{item.stars}}</td>
+          <td *ngIf='myHaH || item.RoomVisible'>{{item.city}}</td>
+          <td *ngIf='myHaH || item.RoomVisible'>{{item.region}}</td>
+          <td *ngIf='myHaH || item.RoomVisible'>{{item.avgScore}}</td>
+          <td *ngIf='myHaH || item.RoomVisible'>{{item.commentCount}}</td>
           <td *ngIf='myHaH'>{{item.roomid}}</td>
-          <td>{{item.RoomBeds}}</td>
-          <td>{{item.RoomSize}}</td>
-          <td>{{item.RoomVip}}</td>
-          <td>{{item.RoomPrice}}</td>
-          <td>{{item.extras}}</td>
-          <td> <button type="button" class="btn btn-primary " (click)="seeDetails(item.id,item.roomid)">Details</button>
+          <td *ngIf='myHaH || item.RoomVisible'>{{item.RoomBeds}}</td>
+          <td *ngIf='myHaH || item.RoomVisible'>{{item.RoomSize}}</td>
+          <td *ngIf='myHaH || item.RoomVisible'>{{item.RoomVip}}</td>
+          <td *ngIf='myHaH || item.RoomVisible'>{{item.RoomPrice}}</td>
+          <td *ngIf='myHaH || item.RoomVisible'>{{item.extras}}</td>
+          <td *ngIf='myHaH'>{{item.RoomVisible}}</td>
+          <td *ngIf='myHaH || item.RoomVisible'> <button type="button" class="btn btn-primary " (click)="seeDetails(item.id,item.roomid)">Details</button>
             <input class="btn btn-info" *ngIf='myHaH' (click)='editHaH(item.id,item.roomid)' value='Edit' type='button' />
           </td>
         </tr>

@@ -6,6 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from '../service/api.service';
 import { AuthService } from '../auth.service';
 import {Score} from "../model/score";
+import { element } from 'protractor';
 
 @Component({
   selector: 'app-form-hah',
@@ -71,7 +72,8 @@ export class FormHaHComponent implements OnInit {
       Size: null,
       NumberOfBeds: null,
       Price: null,
-      Vip: false
+      Vip: false,
+      Visible : true,
     })
   }
 
@@ -98,7 +100,7 @@ export class FormHaHComponent implements OnInit {
    if(!this.chechHaH()){
      this.apiService.createHaH(this.HaH).subscribe(data => console.log(data))
      this.router.navigate(['search'], {queryParams: {userid: this.auth.getUserId()}});
-   
+     alert("Created!")
     }else{
       alert("error");
      }
@@ -108,6 +110,7 @@ export class FormHaHComponent implements OnInit {
 
     if(!this.chechHaH()){
     this.apiService.updateHaH(this.id,this.HaH).subscribe(data => console.log(data))
+    alert("Updated!")
     window.history.back()
   }else{
     alert("error");
@@ -119,6 +122,7 @@ export class FormHaHComponent implements OnInit {
     return;
     this.apiService.deleteHaH(this.id).subscribe(data => console.log(data));
     this.router.navigate(['search'], {queryParams: {userid: this.auth.getUserId()}});
+    alert("Deleted!")
   }
 
   chechHaH(){
@@ -128,6 +132,13 @@ export class FormHaHComponent implements OnInit {
       error = true;
       return error;
     }
+  
+if(parseInt(this.HaH.Stars) < 1 || parseInt(this.HaH.Stars) > 5){
+   error = true;
+    return error;
+    }
+
+   
       this.HaH.Rooms.forEach(element => {
         if (element.Number == null || element.NumberOfBeds == null || element.Price == null || element.Size == null) { 
           error = true;
@@ -149,9 +160,11 @@ export class FormHaHComponent implements OnInit {
         }
       });
 
+      this.HaH.Stars = this.HaH.Stars.toString();
     return error;
 
    
+
     }
 
 
