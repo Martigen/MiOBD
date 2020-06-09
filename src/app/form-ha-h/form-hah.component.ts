@@ -100,7 +100,7 @@ export class FormHaHComponent implements OnInit {
    if(!this.chechHaH()){
      this.apiService.createHaH(this.HaH).subscribe(data => console.log(data))
      this.router.navigate(['search'], {queryParams: {userid: this.auth.getUserId()}});
-   
+     alert("Created!")
     }else{
       alert("error");
      }
@@ -110,6 +110,7 @@ export class FormHaHComponent implements OnInit {
 
     if(!this.chechHaH()){
     this.apiService.updateHaH(this.id,this.HaH).subscribe(data => console.log(data))
+    alert("Updated!")
     window.history.back()
   }else{
     alert("error");
@@ -121,6 +122,7 @@ export class FormHaHComponent implements OnInit {
     return;
     this.apiService.deleteHaH(this.id).subscribe(data => console.log(data));
     this.router.navigate(['search'], {queryParams: {userid: this.auth.getUserId()}});
+    alert("Deleted!")
   }
 
   chechHaH(){
