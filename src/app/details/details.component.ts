@@ -86,6 +86,7 @@ export class DetailsComponent implements OnInit {
       RoomBeds: room.NumberOfBeds,
       RoomPrice: room.Price,
       RoomVip: room.Vip,
+      RoomVisible: room.Visible,
       extras: extras,
       images: images,
     };

@@ -250,6 +250,7 @@ export class ListComponent implements OnInit {
       RoomBeds: room.NumberOfBeds,
       RoomPrice: room.Price,
       RoomVip: room.Vip,
+      RoomVisible: room.Visible,
       extras: extras,
       views: views,
       commentCount: commentCount

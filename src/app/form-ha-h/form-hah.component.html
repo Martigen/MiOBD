@@ -30,7 +30,7 @@
           </div>
           <div class="form-group mx-sm-3 mb-2" id="stars">
             <label for="inputStars" class="sr-only">Stars</label> Stars: 
-            <input  type="text" class="form-control" id="inputStars" [(ngModel)]="HaH.Stars" placeholder="Stars" >
+            <input  type="number" class="form-control" id="inputStars" [(ngModel)]="HaH.Stars" placeholder="Stars" >
           </div>
 
 
@@ -65,6 +65,9 @@
         VIP <input type="checkbox" [(ngModel)]="HaH.Rooms[i].Vip" > <span class="checkmark"></span> 
         </label>
 
+        <label class="container2" *ngIf='loaded'>
+          Visible <input type="checkbox" [(ngModel)]="HaH.Rooms[i].Visible" > <span class="checkmark"></span> 
+          </label>
     <hr>
 </div>
 

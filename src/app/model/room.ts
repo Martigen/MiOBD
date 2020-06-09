@@ -4,4 +4,5 @@ export class Room {
     NumberOfBeds:number;
     Price:number;
     Vip:boolean;
+    Visible:boolean;
 }
