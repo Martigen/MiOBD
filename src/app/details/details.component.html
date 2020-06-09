@@ -5,39 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-  <style>
-    /* Remove the navbar's default margin-bottom and rounded borders */
-    .navbar {
-      margin-bottom: 0;
-      border-radius: 0;
-    }
 
-    /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
-    .row.content {height: 450px}
-
-    /* Set gray background color and 100% height */
-    .sidenav {
-      padding-top: 20px;
-      background-color: #f1f1f1;
-      height: 100%;
-    }
-
-    /* Set black background color, white text and some padding */
-    footer {
-      background-color: #555;
-      color: black;
-      padding: 15px;
-    }
-
-    /* On small screens, set height to 'auto' for sidenav and grid */
-    @media screen and (max-width: 767px) {
-      .sidenav {
-        height: auto;
-        padding: 15px;
-      }
-      .row.content {height:auto;}
-    }
-  </style>
 </head>
 <body>
 
@@ -49,7 +17,7 @@
         <div class="form-control">
           <div class="form-group row" >
             <div>
-              <strong class="control" id="name">Hotel Name: {{room.name}}</strong>
+              <strong class="control" >{{room.type}}</strong>
             </div>
           </div>
         </div>
@@ -57,7 +25,15 @@
         <div class="form-control">
           <div class="form-group row" >
             <div>
-              <strong class="control" id="stars">Hotel Stars: {{room.stars}}</strong>
+              <strong class="control" id="name">{{room.type}} Name: {{room.name}}</strong>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-control">
+          <div class="form-group row" >
+            <div>
+              <strong class="control" id="stars">{{room.type}} Stars: {{room.stars}}</strong>
             </div>
           </div>
         </div>
@@ -150,6 +126,9 @@
           <img [src]=img width="160" style="cursor:pointer;" height="88" (click)="loadImg(img)">
         </div>
       </div>
+      <br>
+      <hr>
+      <button type="button" class="btn btn-success btn-block">Go to {{room.type}} page</button>
     </div>
 
     <div class="col-sm-3 sidenav">
@@ -188,6 +167,62 @@
   <input class="btn btn-warning" style="width: 200px; height: 50px;" onclick='javascript:window.history.back()' value='Back' type='button' />
 </div>
 <br>
+<hr>
+<h1 style="padding-left: 50px;"> All Rooms</h1>
+
+<div class="form-inline">
+<div *ngFor="let item of hah.Rooms; let i = index;"  >
+  
+  <div class="container-fluid text-center">
+    <div class="row content2">
+      <div class="sidenav" style="width: 400px;">
+        <form class="form">
+  
+         
+  
+          <div class="form-control ">
+            <div class="form-group row otherRooms" >
+              <div>
+                <strong class="control" >Room Size: {{hah.Rooms[i].Size}}</strong>
+              </div>
+            </div>
+          </div>
+  <br>
+          <div class="form-control">
+            <div class="form-group row otherRooms" >
+              <div>
+                <strong class="control" >Room Beds: {{hah.Rooms[i].NumberOfBeds}}</strong>
+              </div>
+            </div>
+          </div>
+          <br>
+          <div class="form-control">
+            <div class="form-group row otherRooms" >
+              <div>
+                <strong class="control" >Room Price: {{hah.Rooms[i].Price}}</strong>
+              </div>
+            </div>
+          </div>
+          <br>
+          <div class="form-control">
+            <div class="form-group row otherRooms" >
+              <div>
+                <strong class="control"> Vip Room:
+                  <span class="glyphicon glyphicon-ok" *ngIf="hah.Rooms[i].Vip === true"></span>
+                  <span class="glyphicon glyphicon-remove" *ngIf="hah.Rooms[i].Vip === false"></span>
+                </strong>
+              </div>
+            </div>
+          </div>
+          <br>
+          <button type="button" class="btn btn-primary" style="width: 375px;" (click)="seeDetails(hah._id,hah.Rooms[i].Number)">Details</button>
+  
+        </form>
+      </div>
+  </div>
+  </div>
+  </div>
+</div>
 
 <footer class="container-fluid text-center">
 

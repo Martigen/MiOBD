@@ -130,7 +130,7 @@ export class DetailsComponent implements OnInit {
     arrayToRevert.push(this.score);
     arrayToRevert = arrayToRevert.concat(this.hah.Scores);
 
-    this.score.Score = this.rate;
+    this.score.Score = this.rate; 
     this.score.Description = this.description;
     this.hah.Scores.push(this.score);
 
@@ -138,6 +138,7 @@ export class DetailsComponent implements OnInit {
 
     this.apiService.updateHaH(this.hah._id, this.hah).subscribe(data => console.log(data));
 
+    alert("Score Added!")
 }
 
   DeleteComment(comment){
@@ -147,6 +148,12 @@ export class DetailsComponent implements OnInit {
     this.hah.Scores.splice(indexToRemove, 1);
 
     this.apiService.updateHaH(this.hah._id, this.hah).subscribe(data => console.log(data));
+
+    alert("Score Deleted!")
+  }
+
+  seeDetails(id, roomid) {
+    this.router.navigate(['detail'], { queryParams: { id: id, roomid: roomid } });
   }
 
 }
