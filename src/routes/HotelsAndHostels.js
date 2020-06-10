@@ -66,7 +66,15 @@ let HotelsAndHostels = new Schema({
       },
       Visible: {
          type: Boolean
-      }
+      },
+      Reservations: [{
+         From: {
+            type: String
+         },
+         To: {
+            type: String
+         }
+      }]
    }],
    Extras: [{
       type: String

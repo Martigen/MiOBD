@@ -77,6 +77,7 @@ export class FormHaHComponent implements OnInit {
       Price: null,
       Vip: false,
       Visible : true,
+      Reservations : []
     })
     this.notifier.notify("info", "Added Room");
   }

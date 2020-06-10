@@ -26,6 +26,8 @@ export class DetailsComponent implements OnInit {
   user: User;
   rate: number;
   description: string;
+  from:string;
+  to:string;
 
   hasAdminRole: boolean;
   hasUserRole: boolean;
@@ -159,6 +161,14 @@ export class DetailsComponent implements OnInit {
   seeDetails(id, roomid) {
     this.router.navigate(['detail'], { queryParams: { id: id, roomid: roomid } });
     this.notifier.notify("info", "Details Loaded");
+  }
+
+  reserve(){
+
+    this.apiService.reserve(this.room.id,this.room.roomid,this.from,this.to).subscribe(data => { console.log(data) })
+
+    console.log(this.from)
+    console.log(this.to)
   }
 
 }

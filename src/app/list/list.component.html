@@ -6,7 +6,16 @@
     HotelsAndHostels
   </h1>
   <hr><br>
-<input type="text" [(ngModel)]="city" placeholder="City" class="form-control"><br>
+  <input class="btn btn-success" (click)='add()' value='Add' type='button' />
+  <div *ngFor="let item of city; let i = index">
+<input type="text" [(ngModel)]="city[i]" placeholder="City" class="form-control"><br>
+From:
+<input type="date" [(ngModel)]="from[i]" style="width: 250px;" class="form-control ">
+To:
+<input type="date" [(ngModel)]="to[i]" style="width: 250px;" class="form-control ">
+
+<hr>
+</div>
 <label class="container d-inline" >
   Hotel <input type="checkbox" [(ngModel)]="hotel" > <span class="checkmark"></span> 
   </label>
@@ -50,6 +59,7 @@ Hostel <input type="checkbox" [(ngModel)]="hostel" > <span class="checkmark"></s
     <table class="table  table-striped" matSort (matSortChange)="sortData($event)">
       <thead style="background:dodgerblue;" class="text-white">
         <tr>
+          <th scope="col"> </th>
           <th scope="col">Type</th>
           <th scope="col" mat-sort-header="name" >Name</th>
           <th scope="col" mat-sort-header="stars" >Stars</th>
@@ -69,7 +79,7 @@ Hostel <input type="checkbox" [(ngModel)]="hostel" > <span class="checkmark"></s
       </thead>
       <tbody>
         <tr *ngFor="let item of HaH">
- 
+          <td *ngIf='myHaH || item.RoomVisible'> <img [src]= item.image width="150" height="75"></td>
           <td *ngIf='myHaH || item.RoomVisible'>{{item.type}}</td>
           <td *ngIf='myHaH || item.RoomVisible'>{{item.name}}</td>
           <td *ngIf='myHaH || item.RoomVisible'>{{item.stars}}</td>

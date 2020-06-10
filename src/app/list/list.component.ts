@@ -7,17 +7,21 @@ import { Sort } from '@angular/material/sort';
 import { Options, LabelType } from 'ng5-slider';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../auth.service';
-import {User} from "../model/user";
+import { User } from "../model/user";
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-list',
   templateUrl: './list.component.html',
-  styleUrls: ['./list.component.css']
+  styleUrls: ['./list.component.css'],
+  providers: [DatePipe]
 })
 export class ListComponent implements OnInit {
 
   HaH: Array<any> = Array<any>();
-  city: string = "";
+  city: Array<any> = Array<any>();
+  from: Array<any> = Array<any>();
+  to: Array<any> = Array<any>();
   remenberHaH: Array<any> = Array<any>();
   vip: boolean = false;
   hotel: boolean = true;
@@ -88,7 +92,7 @@ export class ListComponent implements OnInit {
         case LabelType.High:
           return '<b>Max score:</b>' + value;
         default:
-          return  value.toString();
+          return value.toString();
       }
     }
   };
@@ -101,9 +105,9 @@ export class ListComponent implements OnInit {
         case LabelType.Low:
           return '<b>Min:</b>' + value + '★';
         case LabelType.High:
-          return '<b>Max:</b>' + value+ '★';
+          return '<b>Max:</b>' + value + '★';
         default:
-          return  value.toString();
+          return value.toString();
       }
     }
   };
@@ -118,7 +122,7 @@ export class ListComponent implements OnInit {
         case LabelType.High:
           return '<b>Max Comments:</b>' + value;
         default:
-          return  value.toString();
+          return value.toString();
       }
     }
   };
@@ -133,14 +137,14 @@ export class ListComponent implements OnInit {
         case LabelType.High:
           return '<b>Max Size:</b>' + value;
         default:
-          return  value.toString();
+          return value.toString();
       }
     }
   };
 
 
 
-  constructor(private auth: AuthService, private apiService: ApiService, private router: Router, private activatedroute: ActivatedRoute) {
+  constructor(private auth: AuthService, private apiService: ApiService, private router: Router, private activatedroute: ActivatedRoute, private datePipe: DatePipe) {
 
 
 
@@ -148,6 +152,10 @@ export class ListComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+    this.city[0] = "";
+    this.from[0] = this.datePipe.transform(new Date(), 'yyyy-MM-dd')
+    this.to[0] = this.datePipe.transform(new Date().setDate(new Date().getDate() + 1), 'yyyy-MM-dd')
 
 
     this.activatedroute.queryParams.subscribe(v => {
@@ -172,7 +180,7 @@ export class ListComponent implements OnInit {
     });
   }
 
-  setNewCeil(options:Options,newCeil: number): Options {
+  setNewCeil(options: Options, newCeil: number): Options {
     const newOptions: Options = Object.assign({}, options);
     newOptions.ceil = newCeil;
     return newOptions;
@@ -187,8 +195,8 @@ export class ListComponent implements OnInit {
 
       (data as Array<Hotel>).forEach(element => {
         let tmp: number = null;
-        if (element.Scores.length > 0){
-          const sum = element.Scores.map(a => a.Score).reduce(function (a,b) {
+        if (element.Scores.length > 0) {
+          const sum = element.Scores.map(a => a.Score).reduce(function (a, b) {
             return a + b;
           });
           tmp = sum / element.Scores.length;
@@ -205,36 +213,36 @@ export class ListComponent implements OnInit {
             this.regions.push(element.Region);
             this.selectedRegions.push(true);
           }
-          if(item.Size > this.maxSize)
-          this.maxSize = item.Size;
-          if(element.Scores.length> this.maxComments)
-          this.maxComments = element.Scores.length;
+          if (item.Size > this.maxSize)
+            this.maxSize = item.Size;
+          if (element.Scores.length > this.maxComments)
+            this.maxComments = element.Scores.length;
 
-            if (element.Accepted) {
-              this.HaH.push(this.createItem(element._id, element.Stars, element.Type, element.Name, element.Region, element.Address.City, tmp, item, element.Extras, element.User, element.Views, element.Scores.length))
-            }
+          if (element.Accepted) {
+            this.HaH.push(this.createItem(element._id, element.Stars, element.Type, element.Name, element.Region, element.Address.City, tmp, item, element.Extras, element.User, element.Views, element.Scores.length, element.Images[0]))
+          }
 
-         
+
         });
       });
       this.remenberHaH = this.HaH;
       this.HaH.sort((a, b) => this.compare(a.views, b.views, false))
-      this.optionsPrice = this.setNewCeil(this.optionsPrice,this.maxPrice)
-      this.optionsBeds = this.setNewCeil(this.optionsBeds,this.maxBeds)
-      this.optionsSizes = this.setNewCeil(this.optionsSizes,this.maxSize)
-      this.optionsComments = this.setNewCeil(this.optionsComments,this.maxComments)
+      this.optionsPrice = this.setNewCeil(this.optionsPrice, this.maxPrice)
+      this.optionsBeds = this.setNewCeil(this.optionsBeds, this.maxBeds)
+      this.optionsSizes = this.setNewCeil(this.optionsSizes, this.maxSize)
+      this.optionsComments = this.setNewCeil(this.optionsComments, this.maxComments)
     })
 
     this.auth.getLoggedUser().subscribe((ele) => {
       let user: User;
-      user =ele;
+      user = ele;
       this.hasUserRole = user.role.includes('ROLE_User');
       this.hasHotelierRole = user.role.includes('ROLE_Hotelier');
     })
 
   }
 
-  createItem(id: string, stars: string, type: string, name: string, region: string, city: string, avgScore: number, room: Room, extras: Array<string>, user: string, views: number, commentCount) {
+  createItem(id: string, stars: string, type: string, name: string, region: string, city: string, avgScore: number, room: Room, extras: Array<string>, user: string, views: number, commentCount, img) {
     return {
       id: id,
       roomid: room.Number,
@@ -252,21 +260,55 @@ export class ListComponent implements OnInit {
       RoomVisible: room.Visible,
       extras: extras,
       views: views,
-      commentCount: commentCount
+      commentCount: commentCount,
+      image: img,
+      reservations: room.Reservations
     };
   }
 
   SearchButton() {
 
+    for (let i = 0; i < this.to.length; i++) {
+      if (this.to[i] < this.from[i]) {
+        alert("date To cannot be greater than date From!")
+        return
+      }
 
-    this.HaH = [];
-    this.remenberHaH.forEach(element => {
-      this.HaH.push(element)
-    });
-
-    if (this.city != "") {
-      this.HaH = this.remenberHaH.filter(val => val.city == this.city);
     }
+    this.HaH = []
+
+    if (this.city[0] != "") {
+      this.city.forEach(element => {
+        this.remenberHaH.filter(val => val.city == element).forEach(e => this.HaH.push(e))
+      });
+
+    } else {
+      this.remenberHaH.forEach(element => {
+        this.HaH.push(element)
+      });
+    }
+    for (let i = 0; i < this.to.length; i++) {
+      for (let index = 0; index < this.HaH.length; index++) {
+        for (let j = 0; j < this.HaH[index].reservations.length; j++) {
+          
+          if(this.HaH[index].city == this.city[i]){
+            console.log(this.HaH[index].reservations[j])
+            if(this.HaH[index].reservations[j].To >= this.from[i] && this.HaH[index].reservations[j].To <= this.to[i]){
+              this.HaH.splice(index,1)
+              break;
+            }else if(this.HaH[index].reservations[j].From >= this.from[i] && this.HaH[index].reservations[j].From <= this.to[i]){
+              this.HaH.splice(index,1)
+              break;
+            }
+          }
+
+        }
+       
+     
+      
+    }
+    }
+
     if (!this.hotel || !this.hostel) {
       if (this.hotel)
         this.HaH = this.HaH.filter(element => element.type == "Hotel")
@@ -329,6 +371,13 @@ export class ListComponent implements OnInit {
   }
   editHaH(id, roomid) {
     this.router.navigate(['formhah'], { queryParams: { id: id, roomid: roomid } });
+  }
+
+  add() {
+    this.city.push("")
+    this.from.push(this.to[this.to.length - 1]);
+    console.log(new Date(this.from[this.from.length - 1]))
+    this.to.push(this.datePipe.transform(new Date().setDate(new Date(this.from[this.from.length - 1]).getDate() + 1), 'yyyy-MM-dd'))
   }
 
 }

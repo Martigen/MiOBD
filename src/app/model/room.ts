@@ -1,3 +1,5 @@
+import { reservation } from './reservation';
+
 export class Room {
     Number : number;
     Size:number;
@@ -5,4 +7,5 @@ export class Room {
     Price:number;
     Vip:boolean;
     Visible:boolean;
+    Reservations:reservation[];
 }

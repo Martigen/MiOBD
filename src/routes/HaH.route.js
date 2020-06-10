@@ -96,6 +96,38 @@ HaHRoute.route('/delete/:id').delete((req, res, next) => {
 })
 
 
+HaHRoute.route('/reserve').post((req, res, next) => {
+  HaH.findById(req.body.id, (error, data) => {
+    if (error) {
+      return next(error)
+    } else {
+      data.Rooms.forEach(element => {
+        if(element.Number == req.body.roomid){
+          element.Reservations.push({From: req.body.from,To:req.body.to})
+        }
+      });
+      data.save();
+      res.json(data)
+    }
+  })
+ 
+});
 
+HaHRoute.route('/reservations').post((req, res, next) => {
+  HaH.findById(req.body.id, (error, data) => {
+    if (error) {
+      return next(error)
+    } else {
+      data.Rooms.forEach(element => {
+        if(element.Number == req.body.roomid){
+          res.json(element.Reservations)
+        }
+      });
+ 
+      
+    }
+  })
+ 
+});
 
 module.exports = HaHRoute;

@@ -123,6 +123,17 @@ export class ApiService {
     )
   }
 
+  reserve(id,roomid,from,to): Observable<any> {
+    let url = this.baseUriHah+'/reserve';
+    let data = {id : id,roomid : roomid,from: from,to:to};
+    return this.http.post(url,data, {headers: this.headers}).pipe(
+      map((res: Response) => {
+        return res || {}
+      }),
+      catchError(this.errorMgmt)
+    )
+  }
+
   getUserHotelsAndHostels(id): Observable<any> {
     let url = this.baseUriHah+'/user/'+id;
     return this.http.get(url, {headers: this.headers}).pipe(
