@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { User } from '../model/user';
 import { delay } from 'rxjs/operators';
 import { NotifierService } from 'angular-notifier';
+import { SearchRememberService } from '../search-remember.service';
 
 @Component({
   selector: 'app-nav-bar',
@@ -21,7 +22,7 @@ export class NavBarComponent implements OnInit {
   hasHotelierRole: boolean;
   hasAdminRole: boolean;
 
-  constructor(private auth: AuthService,private router: Router,notifierService: NotifierService) {
+  constructor(private auth: AuthService,private router: Router,notifierService: NotifierService,private rememberSearch : SearchRememberService) {
     this.notifier = notifierService;
     this.auth.getLoginStatus().subscribe((status : boolean) =>this.LoggedIn=status);
    }
@@ -41,16 +42,19 @@ export class NavBarComponent implements OnInit {
   }
 
   logOut() {
+    this.rememberSearch.close()
     this.auth.logout();
     this.notifier.notify("success", "LogedOut Succesfully");
     this.router.navigateByUrl('/home');
   }
 
   SeeMyHaH(){
+    this.rememberSearch.close()
     this.router.navigate(['search'], {queryParams: {userid: this.auth.getUserId()}});
   }
 
   NavigateToAdminPanel(){
+    this.rememberSearch.close()
     this.router.navigate(['administrationPanel']);
   }
 
@@ -59,11 +63,21 @@ export class NavBarComponent implements OnInit {
   }
 
   EditUser(){
+    this.rememberSearch.close()
     this.router.navigate(['editAccount'], {queryParams: {userid: this.auth.getUserId()}});
   }
   getRoles(){
     console.log(this.user);
       console.log(this.hasAdminRole);
   }
+
+ NavigateToSearch(){
+  this.rememberSearch.close()
+  this.router.navigate(['search']);
+ }
+ NavigateToHome(){
+  this.rememberSearch.close()
+  this.router.navigate(['home']);
+}
 
 }

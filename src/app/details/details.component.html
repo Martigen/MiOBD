@@ -129,10 +129,10 @@
       <br>
       <hr>
     
-      From:
-<input type="date" [(ngModel)]="from" style="width: 350px;" class="form-control d-inline">
-To:
-<input type="date" [(ngModel)]="to" style="width: 350px;" class="form-control d-inline">
+      From: {{from}}
+
+To: {{to}}
+
 <button type="button" class="btn btn-success btn-block" (click)='reserve()'>Reserve {{room.type}}</button>
     </div>
 

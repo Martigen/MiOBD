@@ -9,6 +9,7 @@ import { AuthService } from '../auth.service';
 import {Score} from "../model/score";
 import {User} from "../model/user";
 import { NotifierService } from 'angular-notifier';
+import { SearchRememberService } from '../search-remember.service';
 
 
 @Component({
@@ -33,13 +34,19 @@ export class DetailsComponent implements OnInit {
   hasUserRole: boolean;
   private readonly notifier: NotifierService;
 
-  constructor(private apiService: ApiService, private activatedroute: ActivatedRoute, private auth: AuthService, private router: Router,notifierService: NotifierService) {
+  constructor(private apiService: ApiService, private activatedroute: ActivatedRoute, private auth: AuthService, private router: Router,notifierService: NotifierService,private rememberSearch : SearchRememberService) {
     this.notifier = notifierService;
     this.rate = 5;
     this.description = '';
     this.activatedroute.queryParams.subscribe(v => {
       this.apiService.getHaH(v.id).subscribe(data => {
         this.hah = data as Hotel;
+
+
+   
+
+        
+
         let tmp: number = null;
         if(data.Scores.length > 0){
           const sum = data.Scores.map(a => a.Score).reduce(function (a,b) {
@@ -51,6 +58,42 @@ export class DetailsComponent implements OnInit {
 
         this.room = this.createItem(data._id, data.Stars, data.Type, data.Name, data.Region, data.Address, tmp, tmproom[0], data.Extras, data.Images)
         this.image = data.Images[0];
+
+        
+        if(this.rememberSearch.check()){
+         let tmpCity = this.rememberSearch.getCity();
+         let tmpFrom = this.rememberSearch.getFrom();
+         let tmpTo = this.rememberSearch.getTo();
+
+     
+          if(tmpCity[0] == ""){
+            this.to = tmpTo[0];
+            this.from = tmpFrom[0];
+          }else
+
+         for (let i = 0; i < tmpCity.length; i++) {
+           if(tmpCity[i] == data.Address.City){
+             this.to = tmpTo[i];
+             this.from = tmpFrom[i];
+           }         
+         }
+
+         for (let index = 0; index < this.hah.Rooms.length; index++) {
+          for (let j = 0; j < this.hah.Rooms[index].Reservations.length; j++) {
+            if (this.hah.Rooms[index].Reservations[j].To >= this.from && this.hah.Rooms[index].Reservations[j].To <= this.to) {
+              this.hah.Rooms.splice(index, 1)
+              index--;
+              break;
+            } else if (this.hah.Rooms[index].Reservations[j].From >= this.from && this.hah.Rooms[index].Reservations[j].From <= this.to) {
+              this.hah.Rooms.splice(index, 1)
+              index--;
+              break;
+            }
+          }
+        }
+
+
+        }
 
         if (this.hah.User != this.auth.getUserId()) {
           this.apiService.addView(v.id).subscribe(data => { console.log(data) })
@@ -73,6 +116,7 @@ export class DetailsComponent implements OnInit {
 
     });
     
+   
 
   }
 

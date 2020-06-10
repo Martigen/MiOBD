@@ -1,12 +1,12 @@
 
 <section >
-<nav>
+<nav >
 
   <h1>
     HotelsAndHostels
   </h1>
   <hr><br>
-  <input class="btn btn-success" (click)='add()' value='Add' type='button' />
+  <input class="btn btn-success" (click)='add()' value='Add' type='button' /> <input class="btn btn-danger" (click)='remove()' value='Remove' type='button' />
   <div *ngFor="let item of city; let i = index">
 <input type="text" [(ngModel)]="city[i]" placeholder="City" class="form-control"><br>
 From:

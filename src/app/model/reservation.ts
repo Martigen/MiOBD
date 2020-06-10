@@ -1,5 +1,5 @@
 export class reservation {
-    from : string;
-    to : string;
+    From : string;
+    To : string;
 }
    

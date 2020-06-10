@@ -18,6 +18,7 @@ import { UserRegistrationPanelComponent } from './user-registration-panel/user-r
 import { UserEditPanelComponent } from './user-edit-panel/user-edit-panel.component';
 import { HahDetailsComponent } from './hah-details/hah-details.component';
 import { NotifierModule, NotifierOptions } from "angular-notifier";
+import { SearchRememberService } from './search-remember.service';
 
 const customNotifierOptions: NotifierOptions = {
   position: {
@@ -51,7 +52,7 @@ const customNotifierOptions: NotifierOptions = {
     NotifierModule.withConfig(customNotifierOptions)
  
   ],
-  providers: [ApiService],
+  providers: [ApiService,SearchRememberService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -9,6 +9,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../auth.service';
 import { User } from "../model/user";
 import { DatePipe } from '@angular/common';
+import { SearchRememberService } from '../search-remember.service';
 
 @Component({
   selector: 'app-list',
@@ -144,7 +145,7 @@ export class ListComponent implements OnInit {
 
 
 
-  constructor(private auth: AuthService, private apiService: ApiService, private router: Router, private activatedroute: ActivatedRoute, private datePipe: DatePipe) {
+  constructor(private auth: AuthService, private apiService: ApiService, private router: Router, private activatedroute: ActivatedRoute, private datePipe: DatePipe, private rememberSearch: SearchRememberService) {
 
 
 
@@ -160,6 +161,7 @@ export class ListComponent implements OnInit {
 
     this.activatedroute.queryParams.subscribe(v => {
       this.load();
+
 
       if (v.city) {
         this.city = v.city;
@@ -188,57 +190,95 @@ export class ListComponent implements OnInit {
 
 
   load() {
-    this.myHaH = false;
-    this.HaH = [];
-    this.apiService.getHaHs().subscribe(data => {
-      data as Array<Hotel>;
 
-      (data as Array<Hotel>).forEach(element => {
-        let tmp: number = null;
-        if (element.Scores.length > 0) {
-          const sum = element.Scores.map(a => a.Score).reduce(function (a, b) {
-            return a + b;
+
+
+      this.myHaH = false;
+      this.HaH = [];
+      this.apiService.getHaHs().subscribe(data => {
+        data as Array<Hotel>;
+
+        (data as Array<Hotel>).forEach(element => {
+          let tmp: number = null;
+          if (element.Scores.length > 0) {
+            const sum = element.Scores.map(a => a.Score).reduce(function (a, b) {
+              return a + b;
+            });
+            tmp = sum / element.Scores.length;
+          }
+
+          element.Rooms.forEach(item => {
+            if (item.Price > this.maxPrice)
+              this.maxPrice = item.Price;
+            else if (item.Price < this.minPrice)
+              this.minPrice = item.Price;
+            if (item.NumberOfBeds > this.maxBeds)
+              this.maxBeds = item.NumberOfBeds;
+            if (!this.regions.includes(element.Region)) {
+              this.regions.push(element.Region);
+              this.selectedRegions.push(true);
+            }
+            if (item.Size > this.maxSize)
+              this.maxSize = item.Size;
+            if (element.Scores.length > this.maxComments)
+              this.maxComments = element.Scores.length;
+
+            if (element.Accepted) {
+              this.HaH.push(this.createItem(element._id, element.Stars, element.Type, element.Name, element.Region, element.Address.City, tmp, item, element.Extras, element.User, element.Views, element.Scores.length, element.Images[0]))
+            }
+
+
           });
-          tmp = sum / element.Scores.length;
+        });
+        this.HaH.forEach(element => {
+          this.remenberHaH.push(element)
+        });
+    
+        this.HaH.sort((a, b) => this.compare(a.views, b.views, false))
+        this.optionsPrice = this.setNewCeil(this.optionsPrice, this.maxPrice)
+        this.optionsBeds = this.setNewCeil(this.optionsBeds, this.maxBeds)
+        this.optionsSizes = this.setNewCeil(this.optionsSizes, this.maxSize)
+        this.optionsComments = this.setNewCeil(this.optionsComments, this.maxComments)
+
+
+        for (let i = 0; i < this.to.length; i++) {
+          for (let index = 0; index < this.HaH.length; index++) {
+            for (let j = 0; j < this.HaH[index].reservations.length; j++) {
+              if (this.HaH[index].reservations[j].To >= this.from[i] && this.HaH[index].reservations[j].To <= this.to[i]) {
+                this.HaH.splice(index, 1)
+                index--;
+                break;
+              } else if (this.HaH[index].reservations[j].From >= this.from[i] && this.HaH[index].reservations[j].From <= this.to[i]) {
+                this.HaH.splice(index, 1)
+                index--;
+                break;
+              }
+            }
+          }
         }
 
-        element.Rooms.forEach(item => {
-          if (item.Price > this.maxPrice)
-            this.maxPrice = item.Price;
-          else if (item.Price < this.minPrice)
-            this.minPrice = item.Price;
-          if (item.NumberOfBeds > this.maxBeds)
-            this.maxBeds = item.NumberOfBeds;
-          if (!this.regions.includes(element.Region)) {
-            this.regions.push(element.Region);
-            this.selectedRegions.push(true);
-          }
-          if (item.Size > this.maxSize)
-            this.maxSize = item.Size;
-          if (element.Scores.length > this.maxComments)
-            this.maxComments = element.Scores.length;
+        if (this.rememberSearch.check()) {
+          this.HaH = this.rememberSearch.get();
+          this.city = this.rememberSearch.getCity();
+          this.from = this.rememberSearch.getFrom();
+          this.to = this.rememberSearch.getTo();
+          
+        } else{
 
-          if (element.Accepted) {
-            this.HaH.push(this.createItem(element._id, element.Stars, element.Type, element.Name, element.Region, element.Address.City, tmp, item, element.Extras, element.User, element.Views, element.Scores.length, element.Images[0]))
-          }
+        this.rememberSearch.set(this.HaH)
+        this.rememberSearch.setCFT(this.city,this.from,this.to)
+        }
+      })
 
-
-        });
-      });
-      this.remenberHaH = this.HaH;
-      this.HaH.sort((a, b) => this.compare(a.views, b.views, false))
-      this.optionsPrice = this.setNewCeil(this.optionsPrice, this.maxPrice)
-      this.optionsBeds = this.setNewCeil(this.optionsBeds, this.maxBeds)
-      this.optionsSizes = this.setNewCeil(this.optionsSizes, this.maxSize)
-      this.optionsComments = this.setNewCeil(this.optionsComments, this.maxComments)
-    })
-
+    
     this.auth.getLoggedUser().subscribe((ele) => {
       let user: User;
       user = ele;
       this.hasUserRole = user.role.includes('ROLE_User');
       this.hasHotelierRole = user.role.includes('ROLE_Hotelier');
     })
+
+ 
 
   }
 
@@ -281,32 +321,26 @@ export class ListComponent implements OnInit {
       this.city.forEach(element => {
         this.remenberHaH.filter(val => val.city == element).forEach(e => this.HaH.push(e))
       });
-
     } else {
       this.remenberHaH.forEach(element => {
         this.HaH.push(element)
       });
     }
+
     for (let i = 0; i < this.to.length; i++) {
       for (let index = 0; index < this.HaH.length; index++) {
         for (let j = 0; j < this.HaH[index].reservations.length; j++) {
-          
-          if(this.HaH[index].city == this.city[i]){
-            console.log(this.HaH[index].reservations[j])
-            if(this.HaH[index].reservations[j].To >= this.from[i] && this.HaH[index].reservations[j].To <= this.to[i]){
-              this.HaH.splice(index,1)
-              break;
-            }else if(this.HaH[index].reservations[j].From >= this.from[i] && this.HaH[index].reservations[j].From <= this.to[i]){
-              this.HaH.splice(index,1)
-              break;
-            }
+          if (this.HaH[index].reservations[j].To >= this.from[i] && this.HaH[index].reservations[j].To <= this.to[i]) {
+            this.HaH.splice(index, 1)
+            index--;
+            break;
+          } else if (this.HaH[index].reservations[j].From >= this.from[i] && this.HaH[index].reservations[j].From <= this.to[i]) {
+            this.HaH.splice(index, 1)
+            index--;
+            break;
           }
-
         }
-       
-     
-      
-    }
+      }
     }
 
     if (!this.hotel || !this.hostel) {
@@ -332,6 +366,10 @@ export class ListComponent implements OnInit {
     if (this.vip)
       this.HaH = this.HaH.filter(element => element.RoomVip);
 
+    if (!this.myHaH) {
+      this.rememberSearch.set(this.HaH)
+      this.rememberSearch.setCFT(this.city, this.from, this.to)
+    }
 
   }
 
@@ -376,8 +414,15 @@ export class ListComponent implements OnInit {
   add() {
     this.city.push("")
     this.from.push(this.to[this.to.length - 1]);
-    console.log(new Date(this.from[this.from.length - 1]))
     this.to.push(this.datePipe.transform(new Date().setDate(new Date(this.from[this.from.length - 1]).getDate() + 1), 'yyyy-MM-dd'))
+  }
+
+  remove() {
+    if (this.city.length > 1) {
+      this.city.pop()
+      this.from.pop()
+      this.to.pop()
+    }
   }
 
 }
