@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {User} from "../model/user";
 import {ApiService} from "../service/api.service";
 import { ActivatedRoute, Router } from '@angular/router';
+import { NotifierService } from 'angular-notifier';
 
 @Component({
   selector: 'app-user-registration-panel',
@@ -14,7 +15,9 @@ export class UserRegistrationPanelComponent implements OnInit {
   confirmPassword: string;
   users = Array<User>();
   emails;
-  constructor(private apiService: ApiService, private router: Router) { }
+  private readonly notifier: NotifierService;
+
+  constructor(private apiService: ApiService, private router: Router,notifierService: NotifierService) { this.notifier = notifierService; }
 
   ngOnInit(): void {
     this.user  = new User();
@@ -50,26 +53,27 @@ export class UserRegistrationPanelComponent implements OnInit {
                 this.user.role = role;
 
                 this.apiService.createUser(this.user).subscribe(data => console.log(data));
+                this.notifier.notify("success", "Registered Succesfully");
                 this.router.navigate(['#']);
 
               } else {
-                alert('Passwords do not match');
+                this.notifier.notify("error", "Passwords do not match");
 
               }
             } else {
-              alert('Password cannot be blank ');
+              this.notifier.notify("error", "Password cannot be blank");
             }
           } else {
-            alert('Set correct email');
+           this.notifier.notify("error", "Set correct email");
           }
         } else {
-          alert('This email already exist');
+           this.notifier.notify("error", "This email already exist");
         }
       } else {
-        alert('Surname cannot be blank ');
+        this.notifier.notify("error", "Surname cannot be blank");
       }
     }else {
-      alert('Name cannot be blank ');
+      this.notifier.notify("error", "Name cannot be blank ");
     }
     }
 

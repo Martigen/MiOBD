@@ -8,6 +8,7 @@ import { Address } from '../model/address';
 import { AuthService } from '../auth.service';
 import {Score} from "../model/score";
 import {User} from "../model/user";
+import { NotifierService } from 'angular-notifier';
 
 
 @Component({
@@ -28,8 +29,10 @@ export class DetailsComponent implements OnInit {
 
   hasAdminRole: boolean;
   hasUserRole: boolean;
+  private readonly notifier: NotifierService;
 
-  constructor(private apiService: ApiService, private activatedroute: ActivatedRoute, private auth: AuthService, private router: Router) {
+  constructor(private apiService: ApiService, private activatedroute: ActivatedRoute, private auth: AuthService, private router: Router,notifierService: NotifierService) {
+    this.notifier = notifierService;
     this.rate = 5;
     this.description = '';
     this.activatedroute.queryParams.subscribe(v => {
@@ -139,7 +142,7 @@ export class DetailsComponent implements OnInit {
 
     this.apiService.updateHaH(this.hah._id, this.hah).subscribe(data => console.log(data));
 
-    alert("Score Added!")
+    this.notifier.notify("success", "Score Added!");
 }
 
   DeleteComment(comment){
@@ -150,11 +153,12 @@ export class DetailsComponent implements OnInit {
 
     this.apiService.updateHaH(this.hah._id, this.hah).subscribe(data => console.log(data));
 
-    alert("Score Deleted!")
+     this.notifier.notify("success", "Score Deleted!");
   }
 
   seeDetails(id, roomid) {
     this.router.navigate(['detail'], { queryParams: { id: id, roomid: roomid } });
+    this.notifier.notify("info", "Details Loaded");
   }
 
 }

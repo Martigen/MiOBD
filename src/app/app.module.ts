@@ -17,8 +17,15 @@ import { AdministrationPanelComponent } from './administration-panel/administrat
 import { UserRegistrationPanelComponent } from './user-registration-panel/user-registration-panel.component';
 import { UserEditPanelComponent } from './user-edit-panel/user-edit-panel.component';
 import { HahDetailsComponent } from './hah-details/hah-details.component';
+import { NotifierModule, NotifierOptions } from "angular-notifier";
 
-
+const customNotifierOptions: NotifierOptions = {
+  position: {
+		horizontal: {
+			position: 'right',
+		},
+	},
+};
 
 @NgModule({
   declarations: [
@@ -41,6 +48,7 @@ import { HahDetailsComponent } from './hah-details/hah-details.component';
     MatSortModule,
     BrowserAnimationsModule,
     Ng5SliderModule,
+    NotifierModule.withConfig(customNotifierOptions)
  
   ],
   providers: [ApiService],

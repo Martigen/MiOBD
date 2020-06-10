@@ -7,6 +7,7 @@ import { ApiService } from '../service/api.service';
 import { AuthService } from '../auth.service';
 import {Score} from "../model/score";
 import { element } from 'protractor';
+import { NotifierService } from 'angular-notifier';
 
 @Component({
   selector: 'app-form-hah',
@@ -32,9 +33,11 @@ export class FormHaHComponent implements OnInit {
     }
     loaded = false;
     id;
+    private readonly notifier: NotifierService;
 
-  constructor(private auth: AuthService,private apiService: ApiService, private router: Router, private activatedroute: ActivatedRoute) {
+  constructor(private auth: AuthService,private apiService: ApiService, private router: Router, private activatedroute: ActivatedRoute,notifierService: NotifierService) {
 
+    this.notifier = notifierService;
     this.activatedroute.queryParams.subscribe(v => {
       
      
@@ -75,46 +78,48 @@ export class FormHaHComponent implements OnInit {
       Vip: false,
       Visible : true,
     })
+    this.notifier.notify("info", "Added Room");
   }
 
-  deleteRoom() {
-    this.HaH.Rooms.pop();
+  deleteRoom(nr : number) {
+    this.HaH.Rooms.splice(nr,1);
+    this.notifier.notify("warning", "Deleted Room");
   }
 
   addExtras() {
     this.HaH.Extras.push('');
+    this.notifier.notify("info", "Added Extra");
   }
 
-  deleteExtras() {
-    this.HaH.Extras.pop();
+  deleteExtras(nr:number) {
+    this.HaH.Extras.splice(nr,1);
+    this.notifier.notify("warning", "Deleted Extra");
   }
 
   addImage() {
     this.HaH.Images.push('');
+    this.notifier.notify("info", "Added Image");
   }
-  deleteImage() {
-    this.HaH.Images.pop();
+  deleteImage(nr:number) {
+    this.HaH.Images.splice(nr,1);
+    this.notifier.notify("warning", "Deleted Image");
   }
 
   create() {
    if(!this.chechHaH()){
      this.apiService.createHaH(this.HaH).subscribe(data => console.log(data))
      this.router.navigate(['search'], {queryParams: {userid: this.auth.getUserId()}});
-     alert("Created!")
-    }else{
-      alert("error");
-     }
+     this.notifier.notify("success", "Created Succesfully");
+    }
 
   }
   update(){
 
     if(!this.chechHaH()){
     this.apiService.updateHaH(this.id,this.HaH).subscribe(data => console.log(data))
-    alert("Updated!")
+    this.notifier.notify("success", "Updated Succesfully");
     window.history.back()
-  }else{
-    alert("error");
-   }
+  }
   }
 
   delete(){
@@ -122,18 +127,20 @@ export class FormHaHComponent implements OnInit {
     return;
     this.apiService.deleteHaH(this.id).subscribe(data => console.log(data));
     this.router.navigate(['search'], {queryParams: {userid: this.auth.getUserId()}});
-    alert("Deleted!")
+    this.notifier.notify("success", "Deleted Succesfully");
   }
 
   chechHaH(){
     let error = false;
     if (this.HaH.Name == "" || this.HaH.Stars == "" || this.HaH.Address.City == "" || this.HaH.Address.Street == "" || this.HaH.Region == "" 
     || this.HaH.Region == "" || this.HaH.Rooms.length == 0 || this.HaH.Extras.length == 0 || this.HaH.Images.length == 0 || this.HaH.Type == "") {
+      this.notifier.notify("error", "Fill all empty spaces!");
       error = true;
       return error;
     }
   
 if(parseInt(this.HaH.Stars) < 1 || parseInt(this.HaH.Stars) > 5){
+  this.notifier.notify("error", "Stars mus be between 1 and 5");
    error = true;
     return error;
     }
@@ -141,12 +148,14 @@ if(parseInt(this.HaH.Stars) < 1 || parseInt(this.HaH.Stars) > 5){
    
       this.HaH.Rooms.forEach(element => {
         if (element.Number == null || element.NumberOfBeds == null || element.Price == null || element.Size == null) { 
+          this.notifier.notify("error", "Fill empty spaces in Rooms!");
           error = true;
           return
         }
       });
       this.HaH.Extras.forEach(element => {
         if (element == "") {
+          this.notifier.notify("error", "Fill empty spaces in Extras!");
           error = true;
           return error;
         }
@@ -155,6 +164,7 @@ if(parseInt(this.HaH.Stars) < 1 || parseInt(this.HaH.Stars) > 5){
 
       this.HaH.Images.forEach(element => {
         if (element == "") {
+          this.notifier.notify("error", "Fill empty spaces in Images!");
           error = true;
           return error;
         }

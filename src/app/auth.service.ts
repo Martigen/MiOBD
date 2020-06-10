@@ -31,12 +31,11 @@ export class AuthService {
       this.id = v._id;
       this.loggedUserData.next(v);
       this.router.navigateByUrl('/search');
-    }else{
-      alert("Bad Email or Password!")
+    
     }
+    }
+    )
 
-    })
-      
   }
 
   logout(){

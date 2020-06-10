@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import {User} from "../model/user";
 import {ApiService} from "../service/api.service";
+import { NotifierService } from 'angular-notifier';
 
 @Component({
   selector: 'app-user-edit-panel',
@@ -13,8 +14,9 @@ export class UserEditPanelComponent implements OnInit {
   oldPassword: string;
   changePassword: boolean;
   newPassword: string;
+  private readonly notifier: NotifierService;
 
-  constructor(private activatedroute: ActivatedRoute, private apiService: ApiService, private router: Router) { }
+  constructor(private activatedroute: ActivatedRoute, private apiService: ApiService, private router: Router,notifierService: NotifierService) {  this.notifier = notifierService; }
 
   ngOnInit(): void {
     this.newPassword = '';
@@ -45,10 +47,10 @@ export class UserEditPanelComponent implements OnInit {
 
               this.apiService.updateUser(this.user._id, this.user).subscribe(data => console.log(data));
               window.history.back();
-              alert('Saved changes!');
+              this.notifier.notify("success", "Saved changes!");
 
             } else {
-              alert('Password cannot be empty');
+             this.notifier.notify("error", "Password cannot be empty");
             }
 
           } else {
@@ -56,18 +58,18 @@ export class UserEditPanelComponent implements OnInit {
 
             this.apiService.updateUser(this.user._id, this.user).subscribe(data => console.log(data));
             window.history.back();
-            alert('Saved changes!');
+            this.notifier.notify("success", "Saved changes!");
           }
 
 
         } else {
-          alert('Set correct email');
+           this.notifier.notify("error", "Set correct email");
         }
       } else {
-        alert('Surname cannot be empty');
+        this.notifier.notify("error", "Surname cannot be empty");
       }
     } else {
-      alert('Name cannot be empty');
+     this.notifier.notify("error", "Name cannot be empty");
     }
   }
 }

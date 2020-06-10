@@ -4,6 +4,7 @@ import {AuthService} from "../auth.service";
 import {ApiService} from "../service/api.service";
 import {Room} from "../model/room";
 import { Router, ActivatedRoute } from '@angular/router';
+import { NotifierService } from 'angular-notifier';
 
 @Component({
   selector: 'app-administration-panel',
@@ -27,8 +28,9 @@ export class AdministrationPanelComponent implements OnInit {
 
   maxBeds: number = 0;
   minBeds: number = 999;
+  private readonly notifier: NotifierService;
 
-  constructor(private auth: AuthService, private apiService: ApiService,private router: Router) { }
+  constructor(private auth: AuthService, private apiService: ApiService,private router: Router,notifierService: NotifierService) {  this.notifier = notifierService;}
 
   ngOnInit(): void {
     this.load();
@@ -77,7 +79,9 @@ export class AdministrationPanelComponent implements OnInit {
 
     hotelToAccept = this.HaH.find(x => x._id == id);
     hotelToAccept.Accepted = true;
+    this.notifier.notify("success", "Accepted");
     this.apiService.updateHaH(id,hotelToAccept).subscribe(data => console.log(data))
+    
   }
 
   Details(id: string){

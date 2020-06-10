@@ -37,8 +37,9 @@
 
 
 </div>
-<input class="btn btn-success" (click)='addRoom()' value='Add Room' type='button' /><input class="btn btn-danger" (click)='deleteRoom()' value='Remove Room' type='button' /><br><br>
+<input class="btn btn-success" (click)='addRoom()' value='Add Room' type='button' /><br><br>
 <div *ngFor="let item of HaH.Rooms; let i = index;" class="form-inline">
+  <input class="btn btn-danger" (click)='deleteRoom(i)' value='X' type='button'/>
     {{i+1}}.
     <div class="form-group mx-sm-3 mb-2">
         Number:
@@ -72,8 +73,9 @@
 </div>
 
 <br>
-<input class="btn btn-success" (click)='addExtras()' value='Add Extras' type='button' /><input class="btn btn-danger" (click)='deleteExtras()' value='Remove Extras' type='button' /><br><br>
+<input class="btn btn-success" (click)='addExtras()' value='Add Extras' type='button' /><br><br>
 <div *ngFor="let item of HaH.Extras; let i = index;"  class="form-inline">
+  <input class="btn btn-danger" (click)='deleteExtras(i)' value='X' type='button' /> 
     {{i+1}}.
     <div class="form-group mx-sm-3 mb-2">
         
@@ -81,8 +83,9 @@
       </div>
    
 </div>
-<input class="btn btn-success" (click)='addImage()' value='Add Image' type='button' /><input class="btn btn-danger" (click)='deleteImage()' value='Remove Image' type='button' /><br><br>
+<input class="btn btn-success" (click)='addImage()' value='Add Image' type='button' /><br><br>
 <div *ngFor="let item of HaH.Images; let i = index;"  class="form-inline">
+  <input class="btn btn-danger" (click)='deleteImage(i)' value='X' type='button' /> 
     {{i+1}}.
     <div class="form-group mx-sm-3 mb-2">
       
