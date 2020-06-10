@@ -45,7 +45,7 @@ export class FormHaHComponent implements OnInit {
       if(v.id ){
         this.apiService.getHaH(v.id).subscribe(data => {
 
-          if(this.auth.getUserId() != data.User)
+          if(this.auth.getUserId() != data.User && !this.auth.isAdmin)
             this.router.navigate(['search']);
           this.HaH = data;
           this.id = data._id;
