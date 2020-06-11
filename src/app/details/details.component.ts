@@ -209,10 +209,9 @@ export class DetailsComponent implements OnInit {
 
   reserve(){
 
-    this.apiService.reserve(this.room.id,this.room.roomid,this.from,this.to).subscribe(data => { console.log(data) })
+    
+    this.apiService.reserve(this.room.id,this.room.roomid,this.from,this.to).subscribe(data => alert("Reserved Succesfully!"),(error) => alert("Error!")  )
 
-    console.log(this.from)
-    console.log(this.to)
   }
 
 }
