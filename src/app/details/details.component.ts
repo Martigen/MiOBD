@@ -6,8 +6,8 @@ import { element } from 'protractor';
 import { Room } from '../model/room';
 import { Address } from '../model/address';
 import { AuthService } from '../auth.service';
-import {Score} from "../model/score";
-import {User} from "../model/user";
+import {Score} from '../model/score';
+import {User} from '../model/user';
 import { NotifierService } from 'angular-notifier';
 import { SearchRememberService } from '../search-remember.service';
 
@@ -27,14 +27,15 @@ export class DetailsComponent implements OnInit {
   user: User;
   rate: number;
   description: string;
-  from:string;
-  to:string;
+  from: string;
+  to: string;
+  userId: string;
 
   hasAdminRole: boolean;
   hasUserRole: boolean;
   private readonly notifier: NotifierService;
 
-  constructor(private apiService: ApiService, private activatedroute: ActivatedRoute, private auth: AuthService, private router: Router,notifierService: NotifierService,private rememberSearch : SearchRememberService) {
+  constructor(private apiService: ApiService, private activatedroute: ActivatedRoute, private auth: AuthService, private router: Router, notifierService: NotifierService, private rememberSearch: SearchRememberService) {
     this.notifier = notifierService;
     this.rate = 5;
     this.description = '';
@@ -43,49 +44,50 @@ export class DetailsComponent implements OnInit {
         this.hah = data as Hotel;
 
 
-   
 
-        
+
+
 
         let tmp: number = null;
-        if(data.Scores.length > 0){
-          const sum = data.Scores.map(a => a.Score).reduce(function (a,b) {
+        if (data.Scores.length > 0){
+          const sum = data.Scores.map(a => a.Score).reduce(function(a, b) {
             return a + b;
           });
           tmp = sum / data.Scores.length;
         }
-        let tmproom = data.Rooms.filter(e => e.Number == v.roomid)
+        const tmproom = data.Rooms.filter(e => e.Number == v.roomid);
 
-        this.room = this.createItem(data._id, data.Stars, data.Type, data.Name, data.Region, data.Address, tmp, tmproom[0], data.Extras, data.Images)
+        this.room = this.createItem(data._id, data.Stars, data.Type, data.Name, data.Region, data.Address, tmp, tmproom[0], data.Extras, data.Images);
         this.image = data.Images[0];
 
-        
-        if(this.rememberSearch.check()){
-         let tmpCity = this.rememberSearch.getCity();
-         let tmpFrom = this.rememberSearch.getFrom();
-         let tmpTo = this.rememberSearch.getTo();
 
-     
-          if(tmpCity[0] == ""){
+        if (this.rememberSearch.check()){
+         const tmpCity = this.rememberSearch.getCity();
+         const tmpFrom = this.rememberSearch.getFrom();
+         const tmpTo = this.rememberSearch.getTo();
+
+
+         if (tmpCity[0] == ''){
             this.to = tmpTo[0];
             this.from = tmpFrom[0];
-          }else
+          }else {
 
          for (let i = 0; i < tmpCity.length; i++) {
-           if(tmpCity[i] == data.Address.City){
+           if (tmpCity[i] == data.Address.City){
              this.to = tmpTo[i];
              this.from = tmpFrom[i];
-           }         
+           }
+         }
          }
 
          for (let index = 0; index < this.hah.Rooms.length; index++) {
           for (let j = 0; j < this.hah.Rooms[index].Reservations.length; j++) {
             if (this.hah.Rooms[index].Reservations[j].To >= this.from && this.hah.Rooms[index].Reservations[j].To <= this.to) {
-              this.hah.Rooms.splice(index, 1)
+              this.hah.Rooms.splice(index, 1);
               index--;
               break;
             } else if (this.hah.Rooms[index].Reservations[j].From >= this.from && this.hah.Rooms[index].Reservations[j].From <= this.to) {
-              this.hah.Rooms.splice(index, 1)
+              this.hah.Rooms.splice(index, 1);
               index--;
               break;
             }
@@ -96,7 +98,7 @@ export class DetailsComponent implements OnInit {
         }
 
         if (this.hah.User != this.auth.getUserId()) {
-          this.apiService.addView(v.id).subscribe(data => { console.log(data) })
+          this.apiService.addView(v.id).subscribe(data => { console.log(data); });
           this.myHaH = false;
         }
         else {
@@ -104,10 +106,10 @@ export class DetailsComponent implements OnInit {
         }
       });
 
-      let userId: string;
+
       this.user = new User();
-      userId = this.auth.getUserId();
-      this.apiService.getUser(userId).subscribe(data => {
+      this.userId = this.auth.getUserId();
+      this.apiService.getUser(this.userId).subscribe(data => {
         this.user.name = data.name;
         this.user.surname = data.surname;
         this.hasAdminRole = data.role.includes('ROLE_Admin');
@@ -115,19 +117,19 @@ export class DetailsComponent implements OnInit {
       });
 
     });
-    
-   
+
+
 
   }
 
   createItem(id: string, stars: string, type: string, name: string, region: string, addres: Address, avgScore: number, room: Room, extras: Array<string>, images: Array<string>) {
     return {
-      id: id,
+      id,
       roomid: room.Number,
-      type: type,
-      name: name,
-      stars: stars,
-      region: region,
+      type,
+      name,
+      stars,
+      region,
       city: addres.City,
       street: addres.Street,
       avgScore: avgScore === null ? avgScore : avgScore.toFixed(2),
@@ -136,8 +138,8 @@ export class DetailsComponent implements OnInit {
       RoomPrice: room.Price,
       RoomVip: room.Vip,
       RoomVisible: room.Visible,
-      extras: extras,
-      images: images,
+      extras,
+      images,
     };
   }
 
@@ -153,7 +155,7 @@ export class DetailsComponent implements OnInit {
   }
 
   editHaH(id, roomid){
-    this.router.navigate(['formhah'], { queryParams: { id: id, roomid: roomid } });
+    this.router.navigate(['formhah'], { queryParams: { id, roomid } });
   }
 
   Rate(){
@@ -168,7 +170,7 @@ export class DetailsComponent implements OnInit {
       (date.getMinutes().toString().length === 1 ?  '0' + date.getMinutes().toString() :  date.getMinutes().toString())
       + '  ' +
       (date.getDate().toString().length === 1 ? '0' + date.getDate().toString() : date.getDate().toString())
-      +'-' +
+      + '-' +
       (date.getMonth().toString().length === 1 ? '0' + date.getMonth().toString() : date.getMonth().toString()) +
       '-' + date.getFullYear();
 
@@ -180,7 +182,7 @@ export class DetailsComponent implements OnInit {
     arrayToRevert.push(this.score);
     arrayToRevert = arrayToRevert.concat(this.hah.Scores);
 
-    this.score.Score = this.rate; 
+    this.score.Score = this.rate;
     this.score.Description = this.description;
     this.hah.Scores.push(this.score);
 
@@ -188,7 +190,7 @@ export class DetailsComponent implements OnInit {
 
     this.apiService.updateHaH(this.hah._id, this.hah).subscribe(data => console.log(data));
 
-    this.notifier.notify("success", "Score Added!");
+    this.notifier.notify('success', 'Score Added!');
 }
 
   DeleteComment(comment){
@@ -199,19 +201,19 @@ export class DetailsComponent implements OnInit {
 
     this.apiService.updateHaH(this.hah._id, this.hah).subscribe(data => console.log(data));
 
-     this.notifier.notify("success", "Score Deleted!");
+    this.notifier.notify('success', 'Score Deleted!');
   }
 
   seeDetails(id, roomid) {
-    this.router.navigate(['detail'], { queryParams: { id: id, roomid: roomid } });
-    this.notifier.notify("info", "Details Loaded");
+    this.router.navigate(['detail'], { queryParams: { id, roomid } });
+    this.notifier.notify('info', 'Details Loaded');
   }
 
   reserve(){
 
-    
-    this.apiService.reserve(this.room.id,this.room.roomid,this.from,this.to).subscribe(data =>   this.notifier.notify("success", "Reserved Succesfully!")
-    ,(error) => {console.log(error); this.notifier.notify("error","This date is already reserved!")} )
+
+    this.apiService.reserve(this.room.id, this.room.roomid, this.from, this.to, this.userId).subscribe(data =>   this.notifier.notify('success', 'Reserved Succesfully!')
+    , (error) => {console.log(error); this.notifier.notify('error', 'This date is already reserved!'); } );
 
   }
 

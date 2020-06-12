@@ -115,7 +115,7 @@ HaHRoute.route('/reserve').post((req, res, next) => {
             }
           });
           if(!error2)
-          element.Reservations.push({From: req.body.from,To:req.body.to})
+          element.Reservations.push({From: req.body.from,To:req.body.to, UserId: req.body.userId})
         }
       });
       if(!error2){

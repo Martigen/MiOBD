@@ -123,9 +123,9 @@ export class ApiService {
     )
   }
 
-  reserve(id,roomid,from,to): Observable<any> {
+  reserve(id,roomid,from,to, userId): Observable<any> {
     let url = this.baseUriHah+'/reserve';
-    let data = {id : id,roomid : roomid,from: from,to:to};
+    let data = {id : id,roomid : roomid,from: from,to:to, userId: userId};
     return this.http.post(url,data, {headers: this.headers}).pipe(
       map((res: Response) => {
         return res || {}

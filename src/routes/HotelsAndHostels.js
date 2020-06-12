@@ -73,6 +73,9 @@ let HotelsAndHostels = new Schema({
          },
          To: {
             type: String
+         },
+         UserId: {
+           type: String
          }
       }]
    }],
