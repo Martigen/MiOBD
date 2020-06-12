@@ -97,17 +97,31 @@ HaHRoute.route('/delete/:id').delete((req, res, next) => {
 
 
 HaHRoute.route('/reserve').post((req, res, next) => {
+  let error2 = false;
   HaH.findById(req.body.id, (error, data) => {
     if (error) {
       return next(error)
     } else {
       data.Rooms.forEach(element => {
         if(element.Number == req.body.roomid){
+          element.Reservations.forEach(e => {
+            if(e.From >= req.body.from && e.From <= req.body.to){
+            error2 = true;
+            return next({message: "This date is already reserved!"})
+          }
+            else if(e.To >= req.body.from && e.To <= req.body.to){
+              error2 = true;
+              return next({message: "This date is already reserved!"})
+            }
+          });
+          if(!error2)
           element.Reservations.push({From: req.body.from,To:req.body.to})
         }
       });
+      if(!error2){
       data.save();
       res.json(data)
+      }
     }
   })
  
