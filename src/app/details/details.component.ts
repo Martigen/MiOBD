@@ -81,6 +81,7 @@ export class DetailsComponent implements OnInit {
 
           for (let index = 0; index < this.hah.Rooms.length; index++) {
             for (let j = 0; j < this.hah.Rooms[index].Reservations.length; j++) {
+              if(this.hah.Rooms[index].Reservations[j].Status != "Canceled")
               if (this.hah.Rooms[index].Reservations[j].To >= this.from && this.hah.Rooms[index].Reservations[j].To <= this.to) {
                 this.hah.Rooms.splice(index, 1);
                 index--;

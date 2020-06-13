@@ -245,6 +245,7 @@ export class ListComponent implements OnInit {
       for (let i = 0; i < this.to.length; i++) {
         for (let index = 0; index < this.HaH.length; index++) {
           for (let j = 0; j < this.HaH[index].reservations.length; j++) {
+            if(this.HaH[index].reservations[j].Status != "Canceled")
             if (this.HaH[index].reservations[j].To >= this.from[i] && this.HaH[index].reservations[j].To <= this.to[i]) {
               this.HaH.splice(index, 1)
               index--;
@@ -365,6 +366,7 @@ export class ListComponent implements OnInit {
     for (let i = 0; i < this.to.length; i++) {
       for (let index = 0; index < this.HaH.length; index++) {
         for (let j = 0; j < this.HaH[index].reservations.length; j++) {
+          if(this.HaH[index].reservations[j].Status != "Canceled")
           if (this.HaH[index].reservations[j].To >= this.from[i] && this.HaH[index].reservations[j].To <= this.to[i]) {
             this.HaH.splice(index, 1)
             index--;

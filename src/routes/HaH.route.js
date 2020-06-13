@@ -105,6 +105,7 @@ HaHRoute.route('/reserve').post((req, res, next) => {
       data.Rooms.forEach(element => {
         if(element.Number == req.body.roomid){
           element.Reservations.forEach(e => {
+            if(e.Status != "Canceled")
             if(e.From >= req.body.from && e.From <= req.body.to){
             error2 = true;
             return next({message: "This date is already reserved!"})
