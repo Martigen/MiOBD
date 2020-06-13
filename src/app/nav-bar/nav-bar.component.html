@@ -46,6 +46,10 @@
         </li>
 
         <li class="nav-item">
+          <a class="nav-link" (click)="NavigateToMyReservationPanel()">My Reservations</a>
+        </li>
+
+        <li class="nav-item">
           <a class="nav-link" *ngIf="hasAdminRole" (click)="NavigateToAdminPanel()">Administration Panel</a>
         </li>
 

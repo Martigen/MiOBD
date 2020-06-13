@@ -2,26 +2,31 @@
   <h1>Reservations:</h1>
   <div *ngFor="let hotel of hotels">
 
-    <hr>
+    <hr class="hotelHr">
 
     <h2 style="text-align: center">{{hotel.Type}}: {{hotel.Name}}</h2>
 
+    <hr class="hotelHr">
+
     <div *ngFor="let room of hotel.Rooms">
 
-      <strong>Room number: {{room.Number}}</strong>
-
-      <table class="table">
+      <h3 style="text-align: center">Room number: {{room.Number}}</h3>
+      <table class="table table-striped table-bordered table-hover table-condensed">
 
         <tr>
           <th>From</th>
           <th>To</th>
           <th>Status</th>
+          <th>Cancel Reservation</th>
+          <th *ngIf="hasAdminRole">Delete Reservation</th>
         </tr>
 
         <tr *ngFor="let reservation of room.Reservations">
           <td>{{reservation.From}}</td>
           <td>{{reservation.To}}</td>
           <td>{{reservation.Status}}</td>
+          <td><button class="btn btn-warning" (click)="CancelReservation(hotel, reservation)">Cancel</button></td>
+          <td *ngIf="hasAdminRole"><button class="btn btn-danger" (click)="DeleteReservation(hotel, room, reservation)">Delete</button></td>
         </tr>
 
       </table>

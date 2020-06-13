@@ -21,6 +21,7 @@ export class NavBarComponent implements OnInit {
   user: User;
   hasHotelierRole: boolean;
   hasAdminRole: boolean;
+  hasUserRole: boolean
 
   constructor(private auth: AuthService,private router: Router,notifierService: NotifierService,private rememberSearch : SearchRememberService) {
     this.notifier = notifierService;
@@ -37,6 +38,7 @@ export class NavBarComponent implements OnInit {
       this.user=ele;
       this.hasAdminRole = this.user.role.includes('ROLE_Admin');
       this.hasHotelierRole = this.user.role.includes('ROLE_Hotelier');
+      this.hasUserRole = this.user.role.includes('ROLE_User');
     })
 
   }
@@ -57,9 +59,15 @@ export class NavBarComponent implements OnInit {
     this.rememberSearch.close()
     this.router.navigate(['administrationPanel']);
   }
+
   NavigateToReservationPanel(){
     this.rememberSearch.close()
     this.router.navigate(['reservationsPanel'], {queryParams: {userid: this.auth.getUserId()}});
+  }
+
+  NavigateToMyReservationPanel(){
+    this.rememberSearch.close()
+    this.router.navigate(['reservationsPanel'], {queryParams: {userid: this.auth.getUserId(), myReservations: true}});
   }
 
   NavigateToRegistration(){
