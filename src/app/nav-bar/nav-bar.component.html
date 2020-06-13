@@ -42,6 +42,10 @@
       <ul class="navbar-nav"  *ngIf="LoggedIn" style="float: right; cursor:pointer;">
 
         <li class="nav-item">
+          <a class="nav-link" *ngIf="hasAdminRole" (click)="NavigateToReservationPanel()">Reservations Panel</a>
+        </li>
+
+        <li class="nav-item">
           <a class="nav-link" *ngIf="hasAdminRole" (click)="NavigateToAdminPanel()">Administration Panel</a>
         </li>
 

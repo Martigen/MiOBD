@@ -57,6 +57,10 @@ export class NavBarComponent implements OnInit {
     this.rememberSearch.close()
     this.router.navigate(['administrationPanel']);
   }
+  NavigateToReservationPanel(){
+    this.rememberSearch.close()
+    this.router.navigate(['reservationsPanel'], {queryParams: {userid: this.auth.getUserId()}});
+  }
 
   NavigateToRegistration(){
     this.router.navigate(['registration']);

@@ -9,6 +9,7 @@ import {AdministrationPanelComponent} from "./administration-panel/administratio
 import {UserRegistrationPanelComponent} from "./user-registration-panel/user-registration-panel.component";
 import {UserEditPanelComponent} from "./user-edit-panel/user-edit-panel.component";
 import {HahDetailsComponent} from "./hah-details/hah-details.component";
+import {ReservationsPanelComponent} from "./reservations-panel/reservations-panel.component";
 
 
 
@@ -22,6 +23,11 @@ const routes: Routes = [
   {
     path: 'administrationPanel',
     component: AdministrationPanelComponent,
+    canActivate: [AuthGuardService]
+  },
+  {
+    path: 'reservationsPanel',
+    component: ReservationsPanelComponent,
     canActivate: [AuthGuardService]
   },
   {

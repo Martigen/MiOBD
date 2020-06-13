@@ -1,0 +1,34 @@
+<div class="container">
+  <h1>Reservations:</h1>
+  <div *ngFor="let hotel of hotels">
+
+    <hr>
+
+    <h2 style="text-align: center">{{hotel.Type}}: {{hotel.Name}}</h2>
+
+    <div *ngFor="let room of hotel.Rooms">
+
+      <strong>Room number: {{room.Number}}</strong>
+
+      <table class="table">
+
+        <tr>
+          <th>From</th>
+          <th>To</th>
+          <th>Status</th>
+        </tr>
+
+        <tr *ngFor="let reservation of room.Reservations">
+          <td>{{reservation.From}}</td>
+          <td>{{reservation.To}}</td>
+          <td>{{reservation.Status}}</td>
+        </tr>
+
+      </table>
+      <br>
+
+    </div>
+
+  </div>
+
+</div>

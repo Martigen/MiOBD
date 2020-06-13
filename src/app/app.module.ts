@@ -19,6 +19,7 @@ import { UserEditPanelComponent } from './user-edit-panel/user-edit-panel.compon
 import { HahDetailsComponent } from './hah-details/hah-details.component';
 import { NotifierModule, NotifierOptions } from "angular-notifier";
 import { SearchRememberService } from './search-remember.service';
+import { ReservationsPanelComponent } from './reservations-panel/reservations-panel.component';
 
 const customNotifierOptions: NotifierOptions = {
   position: {
@@ -40,6 +41,7 @@ const customNotifierOptions: NotifierOptions = {
     UserRegistrationPanelComponent,
     UserEditPanelComponent,
     HahDetailsComponent,
+    ReservationsPanelComponent,
   ],
   imports: [
     BrowserModule,
