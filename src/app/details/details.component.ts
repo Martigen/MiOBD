@@ -30,6 +30,8 @@ export class DetailsComponent implements OnInit {
   from: string;
   to: string;
   userId: string;
+  dateFrom: string;
+  dateTo: string;
 
   hasAdminRole: boolean;
   hasUserRole: boolean;
@@ -42,8 +44,6 @@ export class DetailsComponent implements OnInit {
     this.activatedroute.queryParams.subscribe(v => {
       this.apiService.getHaH(v.id).subscribe(data => {
         this.hah = data as Hotel;
-
-
 
 
 
@@ -65,7 +65,6 @@ export class DetailsComponent implements OnInit {
          const tmpCity = this.rememberSearch.getCity();
          const tmpFrom = this.rememberSearch.getFrom();
          const tmpTo = this.rememberSearch.getTo();
-
 
          if (tmpCity[0] == ''){
             this.to = tmpTo[0];
@@ -152,6 +151,8 @@ export class DetailsComponent implements OnInit {
     this.score = new  Score();
     this.score.Score = 5;
     this.score.Description = '';
+    this.dateFrom = '';
+    this.dateTo = '';
   }
 
   editHaH(id, roomid){
@@ -210,10 +211,16 @@ export class DetailsComponent implements OnInit {
   }
 
   reserve(){
-
-
-    this.apiService.reserve(this.room.id, this.room.roomid, this.from, this.to, this.userId).subscribe(data =>   this.notifier.notify('success', 'Reserved Succesfully!')
-    , (error) => {console.log(error); this.notifier.notify('error', 'This date is already reserved!'); } );
+    console.log(this.dateFrom);
+    console.log(this.dateTo);
+    if (this.dateFrom === '' || this.dateTo === '')
+    {
+      this.notifier.notify('error', 'Set start and end date!');
+    } else {
+        this.apiService.reserve(this.room.id, this.room.roomid, this.dateFrom, this.dateTo, this.userId).subscribe(data =>
+            this.notifier.notify('success', 'Reserved Succesfully!')
+        , (error) => {console.log(error); this.notifier.notify('error', 'This date is already reserved!'); } );
+    }
 
   }
 
