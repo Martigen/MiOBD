@@ -217,7 +217,7 @@ export class DetailsComponent implements OnInit {
     {
       this.notifier.notify('error', 'Set start and end date!');
     } else {
-        this.apiService.reserve(this.room.id, this.room.roomid, this.dateFrom, this.dateTo, this.userId).subscribe(data =>
+        this.apiService.reserve(this.room.id, this.room.roomid, this.dateFrom, this.dateTo, this.userId, 'Reserved').subscribe(data =>
             this.notifier.notify('success', 'Reserved Succesfully!')
         , (error) => {console.log(error); this.notifier.notify('error', 'This date is already reserved!'); } );
     }
