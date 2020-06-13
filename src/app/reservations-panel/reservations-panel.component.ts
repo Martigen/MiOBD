@@ -52,16 +52,44 @@ export class ReservationsPanelComponent implements OnInit {
               this.hotels.push(this.hotels2[i]);
             }
             }
-
+          let idexesToRemove = [];
+          let hasReservation = false;
             for(let i = 0; i < this.hotels.length; i++) {
               for (let j = 0; j < this.hotels[i].Rooms.length; j++) {
+                hasReservation = false;
                 for (let k = 0; k < this.hotels[i].Rooms[j].Reservations.length; k++) {
                   if(this.hotels[i].Rooms[j].Reservations[k].UserId !== this.user._id){
                     this.hotels[i].Rooms[j].Reservations.splice(k, 1);
+                  } else{
+                    hasReservation = true;
                   }
                 }
+                if(hasReservation === false){
+                  idexesToRemove.push(j);
+                }
+              }
+              idexesToRemove.reverse();
+              for(let l = 0; l < idexesToRemove.length; l++ ){
+                this.hotels[i].Rooms.splice(idexesToRemove[l], 1);
               }
             }
+
+            let hotelsIndexesToRemove = [];
+            for(let i = 0; i < this.hotels.length; i++) {
+              if(this.hotels[i].Rooms.length === 0){
+
+                hotelsIndexesToRemove.push(i);
+              }
+            }
+
+            hotelsIndexesToRemove.reverse();
+
+            for(let i = 0; i < hotelsIndexesToRemove.length; i++ ){
+              console.log(hotelsIndexesToRemove[i]);
+              this.hotels.splice(hotelsIndexesToRemove[i], 1);
+            }
+
+
 
         });
 
