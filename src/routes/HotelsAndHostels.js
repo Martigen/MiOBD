@@ -79,6 +79,9 @@ let HotelsAndHostels = new Schema({
          },
         Status: {
            type: String
+        },
+        Cost: {
+           type: Number
         }
       }]
    }],

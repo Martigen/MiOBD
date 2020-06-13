@@ -1,5 +1,5 @@
 <div class="container">
-  <h1 *ngIf="hasAdminRole">Reservations:</h1>
+  <h1 *ngIf="hasAdminRole && myReservations === false">Reservations:</h1>
   <h1 *ngIf="hasHotelierRole">Reservations in my hotels and hostels:</h1>
   <h1 *ngIf="hasUserRole">My Reservations:</h1>
   <div *ngFor="let hotel of hotels">
@@ -18,6 +18,7 @@
         <tr>
           <th>From</th>
           <th>To</th>
+          <th>Cost</th>
           <th>Status</th>
           <th>Cancel Reservation</th>
           <th *ngIf="hasAdminRole">Delete Reservation</th>
@@ -26,8 +27,13 @@
         <tr *ngFor="let reservation of room.Reservations">
           <td>{{reservation.From}}</td>
           <td>{{reservation.To}}</td>
-          <td>{{reservation.Status}}</td>
-          <td *ngIf="(hasAdminRole || hasUserRole) "><button *ngIf="reservation.Status === 'Reserved'" class="btn btn-warning" (click)="CancelReservation(hotel, reservation)">Cancel</button></td>
+          <td>{{reservation.Cost}}</td>
+          <td *ngIf="reservation.Status === 'Reserved'" style="color: limegreen"> <b>{{reservation.Status}} </b></td>
+          <td *ngIf="reservation.Status !== 'Reserved'" style="color: orange"> <b>{{reservation.Status}} </b></td>
+          <td *ngIf="(hasAdminRole || hasUserRole) ">
+            <button *ngIf="reservation.Status === 'Reserved'" class="btn btn-warning" (click)="CancelReservation(hotel, reservation)">
+              Cancel
+            </button></td>
           <td *ngIf="hasHotelierRole && (reservation.Status !='Canceled by Hotelier' || reservation.Status !='Canceled')"><button *ngIf="reservation.Status === 'Reserved'" class="btn btn-warning" (click)="CancelReservationByHotelier(hotel, reservation)">Cancel</button></td>
           <td *ngIf="hasAdminRole"><button class="btn btn-danger" (click)="DeleteReservation(hotel, room, reservation)">Delete</button></td>
         </tr>

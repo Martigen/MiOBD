@@ -3,5 +3,6 @@ export class reservation {
     To : string;
     UserId: string;
     Status: string;
+    Cost: number;
 }
    

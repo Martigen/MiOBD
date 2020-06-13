@@ -212,9 +212,13 @@ export class DetailsComponent implements OnInit {
   }
 
   reserve() {
+    let cost;
+    const dateFrom = new Date(this.from);
+    const dateTo = new Date(this.to);
+    const daysCount = (dateTo.valueOf() - dateFrom.valueOf()) / 86400000;
+    cost = daysCount * this.room.RoomPrice;
 
-
-    this.apiService.reserve(this.room.id, this.room.roomid, this.from, this.to, this.userId, 'Reserved').subscribe(data =>
+    this.apiService.reserve(this.room.id, this.room.roomid, this.from, this.to, this.userId, 'Reserved', cost).subscribe(data =>
       this.notifier.notify('success', 'Reserved Succesfully!')
       , (error) => { console.log(error); this.notifier.notify('error', 'This date is already reserved!'); });
 

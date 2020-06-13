@@ -22,6 +22,7 @@ export class ReservationsPanelComponent implements OnInit {
   hasAdminRole: boolean;
   hasHotelierRole: boolean;
   hasUserRole: boolean;
+  myReservations: boolean;
   hotels: Array<Hotel>;
   hotels2: Array<Hotel>;
 
@@ -29,11 +30,13 @@ export class ReservationsPanelComponent implements OnInit {
 
     this.activatedroute.queryParams.subscribe(v => {
 
+      this.myReservations = false;
       this.hasUserRole = false;
       this.hasHotelierRole = false;
-      
+
       if (v.myReservations){
 
+        this.myReservations = true;
         this.hasUserRole = true;
 
         this.apiService.getUser(v.userid).subscribe(data => {
