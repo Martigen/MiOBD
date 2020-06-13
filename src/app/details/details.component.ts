@@ -6,8 +6,8 @@ import { element } from 'protractor';
 import { Room } from '../model/room';
 import { Address } from '../model/address';
 import { AuthService } from '../auth.service';
-import {Score} from '../model/score';
-import {User} from '../model/user';
+import { Score } from '../model/score';
+import { User } from '../model/user';
 import { NotifierService } from 'angular-notifier';
 import { SearchRememberService } from '../search-remember.service';
 
@@ -49,8 +49,8 @@ export class DetailsComponent implements OnInit {
 
 
         let tmp: number = null;
-        if (data.Scores.length > 0){
-          const sum = data.Scores.map(a => a.Score).reduce(function(a, b) {
+        if (data.Scores.length > 0) {
+          const sum = data.Scores.map(a => a.Score).reduce(function (a, b) {
             return a + b;
           });
           tmp = sum / data.Scores.length;
@@ -61,37 +61,37 @@ export class DetailsComponent implements OnInit {
         this.image = data.Images[0];
 
 
-        if (this.rememberSearch.check()){
-         const tmpCity = this.rememberSearch.getCity();
-         const tmpFrom = this.rememberSearch.getFrom();
-         const tmpTo = this.rememberSearch.getTo();
+        if (this.rememberSearch.check()) {
+          const tmpCity = this.rememberSearch.getCity();
+          const tmpFrom = this.rememberSearch.getFrom();
+          const tmpTo = this.rememberSearch.getTo();
 
-         if (tmpCity[0] == ''){
+          if (tmpCity[0] == '') {
             this.to = tmpTo[0];
             this.from = tmpFrom[0];
-          }else {
+          } else {
 
-         for (let i = 0; i < tmpCity.length; i++) {
-           if (tmpCity[i] == data.Address.City){
-             this.to = tmpTo[i];
-             this.from = tmpFrom[i];
-           }
-         }
-         }
-
-         for (let index = 0; index < this.hah.Rooms.length; index++) {
-          for (let j = 0; j < this.hah.Rooms[index].Reservations.length; j++) {
-            if (this.hah.Rooms[index].Reservations[j].To >= this.from && this.hah.Rooms[index].Reservations[j].To <= this.to) {
-              this.hah.Rooms.splice(index, 1);
-              index--;
-              break;
-            } else if (this.hah.Rooms[index].Reservations[j].From >= this.from && this.hah.Rooms[index].Reservations[j].From <= this.to) {
-              this.hah.Rooms.splice(index, 1);
-              index--;
-              break;
+            for (let i = 0; i < tmpCity.length; i++) {
+              if (tmpCity[i] == data.Address.City) {
+                this.to = tmpTo[i];
+                this.from = tmpFrom[i];
+              }
             }
           }
-        }
+
+          for (let index = 0; index < this.hah.Rooms.length; index++) {
+            for (let j = 0; j < this.hah.Rooms[index].Reservations.length; j++) {
+              if (this.hah.Rooms[index].Reservations[j].To >= this.from && this.hah.Rooms[index].Reservations[j].To <= this.to) {
+                this.hah.Rooms.splice(index, 1);
+                index--;
+                break;
+              } else if (this.hah.Rooms[index].Reservations[j].From >= this.from && this.hah.Rooms[index].Reservations[j].From <= this.to) {
+                this.hah.Rooms.splice(index, 1);
+                index--;
+                break;
+              }
+            }
+          }
 
 
         }
@@ -148,18 +148,18 @@ export class DetailsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.score = new  Score();
+    this.score = new Score();
     this.score.Score = 5;
     this.score.Description = '';
     this.dateFrom = '';
     this.dateTo = '';
   }
 
-  editHaH(id, roomid){
+  editHaH(id, roomid) {
     this.router.navigate(['formhah'], { queryParams: { id, roomid } });
   }
 
-  Rate(){
+  Rate() {
     let arrayToRevert: Array<Score> = new Array<Score>();
     let date: Date;
     this.score = new Score();
@@ -168,7 +168,7 @@ export class DetailsComponent implements OnInit {
     date = new Date();
     this.score.Date = date.getHours().toString().length === 1 ? '0' + date.getHours().toString() : + date.getHours().toString() +
       ':' +
-      (date.getMinutes().toString().length === 1 ?  '0' + date.getMinutes().toString() :  date.getMinutes().toString())
+      (date.getMinutes().toString().length === 1 ? '0' + date.getMinutes().toString() : date.getMinutes().toString())
       + '  ' +
       (date.getDate().toString().length === 1 ? '0' + date.getDate().toString() : date.getDate().toString())
       + '-' +
@@ -192,9 +192,9 @@ export class DetailsComponent implements OnInit {
     this.apiService.updateHaH(this.hah._id, this.hah).subscribe(data => console.log(data));
 
     this.notifier.notify('success', 'Score Added!');
-}
+  }
 
-  DeleteComment(comment){
+  DeleteComment(comment) {
     let indexToRemove: number;
     indexToRemove = this.hah.Scores.indexOf(comment);
 
@@ -210,17 +210,13 @@ export class DetailsComponent implements OnInit {
     this.notifier.notify('info', 'Details Loaded');
   }
 
-  reserve(){
-    console.log(this.dateFrom);
-    console.log(this.dateTo);
-    if (this.dateFrom === '' || this.dateTo === '')
-    {
-      this.notifier.notify('error', 'Set start and end date!');
-    } else {
-        this.apiService.reserve(this.room.id, this.room.roomid, this.dateFrom, this.dateTo, this.userId, 'Reserved').subscribe(data =>
-            this.notifier.notify('success', 'Reserved Succesfully!')
-        , (error) => {console.log(error); this.notifier.notify('error', 'This date is already reserved!'); } );
-    }
+  reserve() {
+
+
+    this.apiService.reserve(this.room.id, this.room.roomid, this.from, this.to, this.userId, 'Reserved').subscribe(data =>
+      this.notifier.notify('success', 'Reserved Succesfully!')
+      , (error) => { console.log(error); this.notifier.notify('error', 'This date is already reserved!'); });
+
 
   }
 
