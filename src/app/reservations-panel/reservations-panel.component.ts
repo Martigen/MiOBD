@@ -20,13 +20,22 @@ export class ReservationsPanelComponent implements OnInit {
 
   user: User;
   hasAdminRole: boolean;
+  hasHotelierRole: boolean;
+  hasUserRole: boolean;
   hotels: Array<Hotel>;
   hotels2: Array<Hotel>;
+
   ngOnInit(): void {
 
     this.activatedroute.queryParams.subscribe(v => {
 
+      this.hasUserRole = false;
+      this.hasHotelierRole = false;
+      
       if (v.myReservations){
+
+        this.hasUserRole = true;
+
         this.apiService.getUser(v.userid).subscribe(data => {
           this.user = data as User;
 
@@ -65,6 +74,18 @@ export class ReservationsPanelComponent implements OnInit {
             this.apiService.getHaHs().subscribe(hotels => {
               this.hotels = hotels as Array<Hotel>;
             });
+          } else if (this.user.role.includes('ROLE_Hotelier')) {
+            this.hotels = new Array<Hotel>();
+           this.hasHotelierRole = true;
+            this.apiService.getHaHs().subscribe(hotels => {
+              this.hotels2 = hotels as Array<Hotel>;
+
+              for(let i = 0; i < this.hotels2.length; i++) {
+                if(this.hotels2[i].User === this.user._id){
+                  this.hotels.push(this.hotels2[i]);
+                }
+              }
+            });
           }
 
 
@@ -79,6 +100,11 @@ export class ReservationsPanelComponent implements OnInit {
     r.Status = 'Canceled';
     this.apiService.updateHaH(hotel._id, hotel).subscribe(data => console.log(data));
   }
+
+  CancelReservationByHotelier(hotel: Hotel, r){
+    r.Status = 'Canceled by Hotelier';
+    this.apiService.updateHaH(hotel._id, hotel).subscribe(data => console.log(data));
+}
 
   DeleteReservation(hotel: Hotel, room, reservation){
     const index = room.Reservations.indexOf(reservation);
