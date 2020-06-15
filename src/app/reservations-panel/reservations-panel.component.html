@@ -21,7 +21,7 @@
           <th>Cost</th>
           <th>Status</th>
           <th>Cancel Reservation</th>
-          <th *ngIf="hasAdminRole">Delete Reservation</th>
+          <th *ngIf="hasAdminRole && myReservations === false">Delete Reservation</th>
         </tr>
 
         <tr *ngFor="let reservation of room.Reservations">
@@ -35,7 +35,7 @@
               Cancel
             </button></td>
           <td *ngIf="hasHotelierRole && (reservation.Status !='Canceled by Hotelier' || reservation.Status !='Canceled')"><button *ngIf="reservation.Status === 'Reserved'" class="btn btn-warning" (click)="CancelReservationByHotelier(hotel, reservation)">Cancel</button></td>
-          <td *ngIf="hasAdminRole"><button class="btn btn-danger" (click)="DeleteReservation(hotel, room, reservation)">Delete</button></td>
+          <td *ngIf="hasAdminRole && myReservations === false"><button class="btn btn-danger" (click)="DeleteReservation(hotel, room, reservation)">Delete</button></td>
         </tr>
 
       </table>

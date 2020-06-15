@@ -35,7 +35,6 @@ export class ReservationsPanelComponent implements OnInit {
       this.hasHotelierRole = false;
 
       if (v.myReservations){
-
         this.myReservations = true;
         this.hasUserRole = true;
 
@@ -46,12 +45,12 @@ export class ReservationsPanelComponent implements OnInit {
 
           this.hotels2 = hotels as Array<Hotel>;
           this.hotels = new Array<Hotel>();
-
           for(let i = 0; i < this.hotels2.length; i++){
             if(this.hotels2[i].Rooms.find(r => r.Reservations.find(reservation => reservation.UserId.includes(this.user._id)))){
               this.hotels.push(this.hotels2[i]);
             }
             }
+
           let idexesToRemove = [];
           let hasReservation = false;
             for(let i = 0; i < this.hotels.length; i++) {
@@ -68,6 +67,7 @@ export class ReservationsPanelComponent implements OnInit {
                   idexesToRemove.push(j);
                 }
               }
+
               idexesToRemove.reverse();
               for(let l = 0; l < idexesToRemove.length; l++ ){
                 this.hotels[i].Rooms.splice(idexesToRemove[l], 1);
@@ -77,7 +77,6 @@ export class ReservationsPanelComponent implements OnInit {
             let hotelsIndexesToRemove = [];
             for(let i = 0; i < this.hotels.length; i++) {
               if(this.hotels[i].Rooms.length === 0){
-
                 hotelsIndexesToRemove.push(i);
               }
             }
@@ -85,12 +84,8 @@ export class ReservationsPanelComponent implements OnInit {
             hotelsIndexesToRemove.reverse();
 
             for(let i = 0; i < hotelsIndexesToRemove.length; i++ ){
-              console.log(hotelsIndexesToRemove[i]);
               this.hotels.splice(hotelsIndexesToRemove[i], 1);
             }
-
-
-
         });
 
         });
