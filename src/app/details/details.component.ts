@@ -32,7 +32,7 @@ export class DetailsComponent implements OnInit {
   userId: string;
   dateFrom: string;
   dateTo: string;
-
+  cost: number;
   hasAdminRole: boolean;
   hasUserRole: boolean;
   private readonly notifier: NotifierService;
@@ -59,7 +59,6 @@ export class DetailsComponent implements OnInit {
 
         this.room = this.createItem(data._id, data.Stars, data.Type, data.Name, data.Region, data.Address, tmp, tmproom[0], data.Extras, data.Images);
         this.image = data.Images[0];
-
 
         if (this.rememberSearch.check()) {
           const tmpCity = this.rememberSearch.getCity();
@@ -94,6 +93,10 @@ export class DetailsComponent implements OnInit {
             }
           }
 
+          const dateFrom = new Date(this.from);
+          const dateTo = new Date(this.to);
+          const daysCount = (dateTo.valueOf() - dateFrom.valueOf()) / 86400000;
+          this.cost = daysCount * this.room.RoomPrice;
 
         }
 
@@ -119,7 +122,6 @@ export class DetailsComponent implements OnInit {
     });
 
 
-
   }
 
   createItem(id: string, stars: string, type: string, name: string, region: string, addres: Address, avgScore: number, room: Room, extras: Array<string>, images: Array<string>) {
@@ -141,6 +143,7 @@ export class DetailsComponent implements OnInit {
       extras,
       images,
     };
+
   }
 
 
@@ -212,13 +215,8 @@ export class DetailsComponent implements OnInit {
   }
 
   reserve() {
-    let cost;
-    const dateFrom = new Date(this.from);
-    const dateTo = new Date(this.to);
-    const daysCount = (dateTo.valueOf() - dateFrom.valueOf()) / 86400000;
-    cost = daysCount * this.room.RoomPrice;
 
-    this.apiService.reserve(this.room.id, this.room.roomid, this.from, this.to, this.userId, 'Reserved', cost).subscribe(data =>
+    this.apiService.reserve(this.room.id, this.room.roomid, this.from, this.to, this.userId, 'Reserved', this.cost).subscribe(data =>
       this.notifier.notify('success', 'Reserved Succesfully!')
       , (error) => { console.log(error); this.notifier.notify('error', 'This date is already reserved!'); });
 
