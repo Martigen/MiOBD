@@ -5,6 +5,7 @@ import {NotifierService} from 'angular-notifier';
 import {User} from '../model/user';
 import {Hotel} from '../model/hotel';
 import {reservation} from "../model/reservation";
+import {Room} from "../model/room";
 
 @Component({
   selector: 'app-reservations-panel',
@@ -122,14 +123,42 @@ export class ReservationsPanelComponent implements OnInit {
 
   }
 
-  CancelReservation(hotel: Hotel, r){
-    r.Status = 'Canceled';
-    this.apiService.updateHaH(hotel._id, hotel).subscribe(data => console.log(data));
+  CancelReservation(hotel: Hotel, room: Room, reservation){
+
+    let hahs;
+    this.apiService.getHaHs().subscribe(hotels => {
+      hahs = hotels as Array<Hotel>;
+      let hotelToUpdate: Hotel = new Hotel();
+      let roomToUpdate: Room = new Room();
+      let reservationToUpdate;
+      hotelToUpdate = hahs.find(x => x._id === hotel._id);
+      console.log(hotelToUpdate);
+      roomToUpdate = hotelToUpdate.Rooms.find(x => x._id === room._id);
+      reservationToUpdate = roomToUpdate.Reservations.find(x => x._id === reservation._id);
+      reservationToUpdate.Status = 'Canceled';
+      reservation.Status = 'Canceled';
+      console.log(hotelToUpdate);
+      this.apiService.updateHaH(hotelToUpdate._id, hotelToUpdate).subscribe(data => console.log(data));
+    });
+
   }
 
-  CancelReservationByHotelier(hotel: Hotel, r){
-    r.Status = 'Canceled by Hotelier';
-    this.apiService.updateHaH(hotel._id, hotel).subscribe(data => console.log(data));
+  CancelReservationByHotelier(hotel: Hotel, room: Room, reservation){
+    let hahs;
+    this.apiService.getHaHs().subscribe(hotels => {
+      hahs = hotels as Array<Hotel>;
+      let hotelToUpdate: Hotel = new Hotel();
+      let roomToUpdate: Room = new Room();
+      let reservationToUpdate;
+      hotelToUpdate = hahs.find(x => x._id === hotel._id);
+      console.log(hotelToUpdate);
+      roomToUpdate = hotelToUpdate.Rooms.find(x => x._id === room._id);
+      reservationToUpdate = roomToUpdate.Reservations.find(x => x._id === reservation._id);
+      reservationToUpdate.Status = 'Canceled by Hotelier';
+      reservation.Status = 'Canceled by Hotelier';
+      console.log(hotelToUpdate);
+      this.apiService.updateHaH(hotelToUpdate._id, hotelToUpdate).subscribe(data => console.log(data));
+    });
 }
 
   DeleteReservation(hotel: Hotel, room, reservation){

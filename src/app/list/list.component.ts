@@ -170,7 +170,6 @@ export class ListComponent implements OnInit {
       }
       else if (v.userid) {
         this.myHaH = true;
-
         if (!this.auth.getLoginStatus2()) {
           this.router.navigate(['home']);
         }

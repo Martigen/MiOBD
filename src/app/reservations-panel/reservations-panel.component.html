@@ -31,10 +31,10 @@
           <td *ngIf="reservation.Status === 'Reserved'" style="color: limegreen"> <b>{{reservation.Status}} </b></td>
           <td *ngIf="reservation.Status !== 'Reserved'" style="color: orange"> <b>{{reservation.Status}} </b></td>
           <td *ngIf="(hasAdminRole || hasUserRole) ">
-            <button *ngIf="reservation.Status === 'Reserved'" class="btn btn-warning" (click)="CancelReservation(hotel, reservation)">
+            <button *ngIf="reservation.Status === 'Reserved'" class="btn btn-warning" (click)="CancelReservation(hotel, room, reservation)">
               Cancel
             </button></td>
-          <td *ngIf="hasHotelierRole && (reservation.Status !='Canceled by Hotelier' || reservation.Status !='Canceled')"><button *ngIf="reservation.Status === 'Reserved'" class="btn btn-warning" (click)="CancelReservationByHotelier(hotel, reservation)">Cancel</button></td>
+          <td *ngIf="hasHotelierRole && (reservation.Status !='Canceled by Hotelier' || reservation.Status !='Canceled')"><button *ngIf="reservation.Status === 'Reserved'" class="btn btn-warning" (click)="CancelReservationByHotelier(hotel, room, reservation)">Cancel</button></td>
           <td *ngIf="hasAdminRole && myReservations === false"><button class="btn btn-danger" (click)="DeleteReservation(hotel, room, reservation)">Delete</button></td>
         </tr>
 
