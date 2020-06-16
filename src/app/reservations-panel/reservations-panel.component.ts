@@ -4,8 +4,7 @@ import {ApiService} from '../service/api.service';
 import {NotifierService} from 'angular-notifier';
 import {User} from '../model/user';
 import {Hotel} from '../model/hotel';
-import {reservation} from "../model/reservation";
-import {Room} from "../model/room";
+import {Room} from '../model/room';
 
 @Component({
   selector: 'app-reservations-panel',
@@ -46,47 +45,39 @@ export class ReservationsPanelComponent implements OnInit {
 
           this.hotels2 = hotels as Array<Hotel>;
           this.hotels = new Array<Hotel>();
-          for(let i = 0; i < this.hotels2.length; i++){
-            if(this.hotels2[i].Rooms.find(r => r.Reservations.find(reservation => reservation.UserId.includes(this.user._id)))){
+          for (let i = 0; i < this.hotels2.length; i++){
+            if (this.hotels2[i].Rooms.find(r => r.Reservations.find(reservation => reservation.UserId.includes(this.user._id)))){
               this.hotels.push(this.hotels2[i]);
             }
             }
 
-          let idexesToRemove = [];
-          let hasReservation = false;
-            for(let i = 0; i < this.hotels.length; i++) {
-              for (let j = 0; j < this.hotels[i].Rooms.length; j++) {
-                hasReservation = false;
-                for (let k = 0; k < this.hotels[i].Rooms[j].Reservations.length; k++) {
-                  if(this.hotels[i].Rooms[j].Reservations[k].UserId !== this.user._id){
-                    this.hotels[i].Rooms[j].Reservations.splice(k, 1);
-                  } else{
-                    hasReservation = true;
-                  }
+          let roomsToRemove = [];
+            let existReservation: boolean;
+          for (let i = 0; i < this.hotels.length; i++) {
+            for (let j = 0; j < this.hotels[i].Rooms.length; j++) {
+              existReservation = false;
+              for (let k = 0; k < this.hotels[i].Rooms[j].Reservations.length; k++) {
+                if(i === 2){
                 }
-                if(hasReservation === false){
-                  idexesToRemove.push(j);
+                if (this.hotels[i].Rooms[j].Reservations[k].UserId === this.user._id) {
+                  existReservation = true;
                 }
               }
-
-              idexesToRemove.reverse();
-              for(let l = 0; l < idexesToRemove.length; l++ ){
-                this.hotels[i].Rooms.splice(idexesToRemove[l], 1);
+              if(existReservation === false){
+                roomsToRemove.push(j);
               }
             }
-
-            let hotelsIndexesToRemove = [];
-            for(let i = 0; i < this.hotels.length; i++) {
-              if(this.hotels[i].Rooms.length === 0){
-                hotelsIndexesToRemove.push(i);
+            roomsToRemove.reverse();
+            if(roomsToRemove.length > 0) {
+              for (let j = 0; j < roomsToRemove.length; j++) {
+                this.hotels[i].Rooms.splice(roomsToRemove[j], 1);
               }
             }
+            roomsToRemove = [];
+          }
 
-            hotelsIndexesToRemove.reverse();
 
-            for(let i = 0; i < hotelsIndexesToRemove.length; i++ ){
-              this.hotels.splice(hotelsIndexesToRemove[i], 1);
-            }
+
         });
 
         });
@@ -103,12 +94,12 @@ export class ReservationsPanelComponent implements OnInit {
             });
           } else if (this.user.role.includes('ROLE_Hotelier')) {
             this.hotels = new Array<Hotel>();
-           this.hasHotelierRole = true;
+            this.hasHotelierRole = true;
             this.apiService.getHaHs().subscribe(hotels => {
               this.hotels2 = hotels as Array<Hotel>;
 
-              for(let i = 0; i < this.hotels2.length; i++) {
-                if(this.hotels2[i].User === this.user._id){
+              for (let i = 0; i < this.hotels2.length; i++) {
+                if (this.hotels2[i].User === this.user._id){
                   this.hotels.push(this.hotels2[i]);
                 }
               }
