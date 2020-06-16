@@ -1,6 +1,7 @@
 import { reservation } from './reservation';
 
 export class Room {
+    _id : string;
     Number : number;
     Size:number;
     NumberOfBeds:number;

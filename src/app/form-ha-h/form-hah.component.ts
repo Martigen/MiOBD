@@ -71,6 +71,7 @@ export class FormHaHComponent implements OnInit {
 
   addRoom() {
     this.HaH.Rooms.push({
+      _id : null,
       Number: null,
       Size: null,
       NumberOfBeds: null,
